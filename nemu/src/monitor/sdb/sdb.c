@@ -57,11 +57,11 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args){
   if(args == NULL){
-    printf("Error: si need one argument!");
+    fprintf(stderr,"Error: si need one argument!\n");
     return 0;
   }
   if(!(strspn(args, "0123456789") == strlen(args))){
-    printf("Error: argument must be a number!");
+    fprintf(stderr,"Error: argument must be a number!\n");
     return 0;
   }
   int steps = atoi(args);

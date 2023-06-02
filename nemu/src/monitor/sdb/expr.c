@@ -43,6 +43,9 @@ static struct rule {
   {"\\*", '*'},
   {"/", '/'},
   {"\\d+", TK_NUM},     // number
+  {"\\(", '('},
+  {"\\)", ')'},
+  
 };
 
 #define NR_REGEX ARRLEN(rules)

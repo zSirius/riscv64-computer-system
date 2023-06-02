@@ -156,7 +156,7 @@ bool check_parentheses(int p, int q){
   int top = -1;
 
   stack[++top] = 'a';
-  printf("stack_addr:%p\n", &stack);
+  //printf("stack_addr:%p\n", &stack);
   //printf("nr_token=%d\n",nr_token);
   while(l<=r){
     printf("l=%d, r=%d\n", l, r);

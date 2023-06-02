@@ -151,15 +151,10 @@ bool check_parentheses(int p, int q){
   int l=p, r=q;
   if(tokens[l++].type!='(' || tokens[r--].type!=')')
     return false;
-  printf("addr:%p\n", &tokens);
   static char stack[16];
   int top = -1;
 
-  printf("stack_addr:%p\n", &stack);
-  //printf("nr_token=%d\n",nr_token);
   while(l<=r){
-    printf("l=%d, r=%d\n", l, r);
-    printf("tokens type = %d", tokens[1].type);
     if(tokens[l].type=='(') stack[++top] = '(';
      else if(tokens[l].type==')') {
        if(stack[top] == ')') top--;

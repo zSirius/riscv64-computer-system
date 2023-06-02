@@ -157,7 +157,7 @@ bool check_parentheses(int p, int q){
   while(l<=r){
     if(tokens[l].type=='(') stack[++top] = '(';
      else if(tokens[l].type==')') {
-       if(stack[top] == ')') top--;
+       if(stack[top] == '(') top--;
        else return false;
      }
     l++;

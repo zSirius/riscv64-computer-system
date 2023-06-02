@@ -17,6 +17,7 @@
 #include <cpu/cpu.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <memory/vaddr.h>
 #include "sdb.h"
 
 static int is_batch_mode = false;
@@ -77,9 +78,14 @@ static int cmd_info(char *args){
 
 static int cmd_x(char *args){
   int N;
-  int EXPR_vddr;
-  sscanf(args, "%d 0x%x", &N, &EXPR_vddr);
-  printf("your N is : %d, vddr is : %x", N, EXPR_vddr);
+  vaddr_t EXPR_vddr;
+  sscanf(args, "%d 0x%lx", &N, &EXPR_vddr);
+  printf("your N is : %d, vddr is : %lx\n", N, EXPR_vddr);
+
+  for(int i=0; i<N; i++){
+    printf("%lx: %lx/n", EXPR_vddr+4*i, vaddr_read(EXPR_vddr+4*i, 4));
+  }
+
   return 0;
 }
 

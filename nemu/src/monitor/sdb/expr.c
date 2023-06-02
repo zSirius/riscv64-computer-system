@@ -149,7 +149,7 @@ word_t expr(char *e, bool *success) {
 
 void test(){
   bool success;
-  expr("1+2", &success);
+  expr("123+2", &success);
   for(int i=0; i<nr_token; i++){
     printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
   }

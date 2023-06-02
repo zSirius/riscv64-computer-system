@@ -149,7 +149,7 @@ word_t expr(char *e, bool *success) {
 
 void test(){
   bool success;
-  expr("(       12334563464565462342343434534634565475676758678967+2)", &success);
+  expr("( 1+58) /  6 + 58 * 7", &success);
   printf("cnts of tokens:%d\n", nr_token-1);
   for(int i=0; i<nr_token; i++){
     printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);

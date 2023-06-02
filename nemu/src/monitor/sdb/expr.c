@@ -48,6 +48,8 @@ static struct rule {
 
 };
 
+void test();
+
 #define NR_REGEX ARRLEN(rules)
 
 static regex_t re[NR_REGEX] = {};
@@ -67,6 +69,8 @@ void init_regex() {
       panic("regex compilation failed: %s\n%s", error_msg, rules[i].regex);
     }
   }
+
+  test();
 }
 
 typedef struct token {
@@ -138,7 +142,15 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  //TODO();
 
   return 0;
+}
+
+void test(){
+  bool success;
+  expr("1+2", &success);
+  for(int i=0; i<nr_token; i++){
+    printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
+  }
 }

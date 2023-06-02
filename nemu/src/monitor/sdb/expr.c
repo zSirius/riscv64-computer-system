@@ -45,7 +45,7 @@ static struct rule {
   {"\\d+", TK_NUM},     // number
   {"\\(", '('},
   {"\\)", ')'},
-  
+
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -62,6 +62,7 @@ void init_regex() {
 
   for (i = 0; i < NR_REGEX; i ++) {
     ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);
+    printf("this is init_regx\n");
     if (ret != 0) {
       regerror(ret, &re[i], error_msg, 128);
       panic("regex compilation failed: %s\n%s", error_msg, rules[i].regex);

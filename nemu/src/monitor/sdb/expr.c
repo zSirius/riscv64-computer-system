@@ -151,8 +151,8 @@ bool check_parentheses(int p, int q){
   int l=p, r=q;
   if(tokens[l++].type!='(' || tokens[r--].type!=')')
     return false;
-  
-  //char *stack = (char *)malloc((l-r+1)*sizeof(char));
+  printf("addr:%p\n", &tokens);
+  //har *stack = (char *)malloc((l-r+1)*sizeof(char));
   int top = -1;
 
   //stack[++top] = 'a';

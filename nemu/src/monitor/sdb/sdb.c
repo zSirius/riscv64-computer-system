@@ -56,6 +56,14 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 
 static int cmd_si(char *args){
+  if(args == NULL){
+    printf("Error: si need one argument!");
+    return 0;
+  }
+  if(!(strspn(args, "0123456789") == strlen(args))){
+    printf("Error: argument must be a number!");
+    return 0;
+  }
   int steps = atoi(args);
   cpu_exec(steps);
   return 0;

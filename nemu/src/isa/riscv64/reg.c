@@ -25,7 +25,7 @@ const char *regs[] = {
 
 void isa_reg_display() {
   int i;
-  printf("Here is the status of the register:\n");
+  printf("Here is the value of the register:\n");
   for(i=0; i<32; i++){
     printf("%s: %lu  ", regs[i], cpu.gpr[i]);
     if(i%4==3) printf("\n");

@@ -83,7 +83,7 @@ static int cmd_x(char *args){
   printf("your N is : %d, vddr is : %lx\n", N, EXPR_vddr);
 
   for(int i=0; i<N; i++){
-    printf("0x%16lx: %lx/n", EXPR_vddr+4*i, vaddr_read(EXPR_vddr+4*i, 4));
+    printf("0x%016lx: %04lx\n", EXPR_vddr+4*i, vaddr_read(EXPR_vddr+4*i, 4));
   }
 
   return 0;

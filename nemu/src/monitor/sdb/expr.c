@@ -154,16 +154,17 @@ bool check_parentheses(int p, int q){
   printf("l=%d, r=%d\n", l, r);
   char *stack = (char *)malloc((l-r+1)*sizeof(char));
   int top = -1;
-  if(tokens[l].type=='(') stack[++top] = '(';
 
-  // while(l<r){
-  //   if(tokens[l].type=='(') stack[++top] = '(';
-  //   // else if(tokens[l].type==')') {
-  //   //   if(stack[top] == ')') top--;
-  //   //   else return false;
-  //   // }
-  //   l++;
-  // }
+
+  while(l<r){
+    if(tokens[l].type=='(') stack[++top] = '(';
+    else if(tokens[l].type==')') {
+      if(stack[top] == ')') top--;
+      else return false;
+    }
+    l++;
+    printf("l=%d\n",l);
+  }
   if(top == -1) return true;
   else return false;
 }

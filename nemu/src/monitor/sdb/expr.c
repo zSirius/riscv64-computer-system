@@ -155,7 +155,7 @@ bool check_parentheses(int p, int q){
   char *stack = (char *)malloc((l-r+1)*sizeof(char));
   int top = -1;
 
-  assert(0);
+
   while(l<r){
     if(tokens[l].type=='(') stack[++top] = '(';
     else if(tokens[l].type==')') {
@@ -190,5 +190,5 @@ void test(){
   for(int i=0; i<nr_token; i++){
     printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
   }
-  printf("check_parentheses: %d\n", check_parentheses(0, nr_token-1));
+  printf("check_parentheses: %d", check_parentheses(0, nr_token-1));
 }

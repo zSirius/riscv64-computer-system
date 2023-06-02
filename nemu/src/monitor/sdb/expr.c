@@ -152,10 +152,10 @@ bool check_parentheses(int p, int q){
   if(tokens[l++].type!='(' || tokens[r--].type!=')')
     return false;
   
-  char *stack = (char *)malloc((l-r+1)*sizeof(char));
+  //char *stack = (char *)malloc((l-r+1)*sizeof(char));
   int top = -1;
 
-  stack[++top] = 'a';
+  //stack[++top] = 'a';
   printf("nr_token=%d\n",nr_token);
   while(l<=r){
     printf("l=%d, r=%d\n", l, r);

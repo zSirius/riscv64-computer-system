@@ -155,6 +155,7 @@ bool check_parentheses(int p, int q){
   char *stack = (char *)malloc((l-r+1)*sizeof(char));
   int top = -1;
 
+  assert(0);
   while(l<=r){
     if(tokens[l].type=='(') stack[++top] = '(';
     else if(tokens[l].type==')') {
@@ -185,7 +186,7 @@ void eval(int p, int q){
 void test(){
   bool success;
   expr("(( 1+58) /  6 + 58 * 7)", &success);
-  printf("cnts of tokens:%d\n", nr_token-1);
+  printf("cnts of tokens:%d\n", nr_token);
   for(int i=0; i<nr_token; i++){
     printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
   }

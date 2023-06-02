@@ -80,7 +80,6 @@ static int cmd_x(char *args){
   int N;
   vaddr_t EXPR_vddr;
   sscanf(args, "%d 0x%lx", &N, &EXPR_vddr);
-  printf("your N is : %d, vddr is : %lx\n", N, EXPR_vddr);
 
   for(int i=0; i<N; i++){
     printf("0x%016lx: %08lx\n", EXPR_vddr+4*i, vaddr_read(EXPR_vddr+4*i, 4));

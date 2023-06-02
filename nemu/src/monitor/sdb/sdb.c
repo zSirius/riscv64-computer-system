@@ -58,11 +58,11 @@ static int cmd_help(char *args);
 static int cmd_si(char *args){
   if(args == NULL){
     fprintf(stderr,"Error: si need one argument!\n");
-    return 0;
+    return -1;
   }
   if(!(strspn(args, "0123456789") == strlen(args))){
     fprintf(stderr,"Error: argument must be a number!\n");
-    return 0;
+    return -1;
   }
   int steps = atoi(args);
   cpu_exec(steps);

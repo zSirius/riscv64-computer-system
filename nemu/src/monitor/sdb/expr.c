@@ -162,6 +162,7 @@ bool check_parentheses(int p, int q){
      }
     l++;
   }
+  printf("top=%d\n", top);
   if(top == -1) return true;
   else return false;
 }

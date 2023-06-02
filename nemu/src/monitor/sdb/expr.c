@@ -151,19 +151,19 @@ bool check_parentheses(int p, int q){
   int l=p, r=q;
   if(tokens[l++].type!='(' || tokens[r--].type!=')')
     return false;
-  printf("l=%d, r=%d\n", l, r);
+  
   char *stack = (char *)malloc((l-r+1)*sizeof(char));
   int top = -1;
 
 
   while(l<r){
+    printf("l=%d, r=%d\n", l, r);
     if(tokens[l].type=='(') stack[++top] = '(';
     else if(tokens[l].type==')') {
       if(stack[top] == ')') top--;
       else return false;
     }
     l++;
-    printf("l=%d\n",l);
   }
   if(top == -1) return true;
   else return false;

@@ -159,7 +159,8 @@ bool check_parentheses(int p, int q){
   printf("nr_token=%d\n",nr_token);
   while(l<=r){
     printf("l=%d, r=%d\n", l, r);
-    if(tokens[l].type=='(') stack[++top] = '(';
+    printf("tokens type = %d", tokens[l].type);
+    //if(tokens[l].type=='(') stack[++top] = '(';
     // else if(tokens[l].type==')') {
     //   if(stack[top] == ')') top--;
     //   else return false;

@@ -155,6 +155,7 @@ bool check_parentheses(int p, int q){
   char *stack = (char *)malloc((l-r+1)*sizeof(char));
   int top = -1;
 
+  tokens[1].type = 1;
   stack[++top] = 'a';
   printf("nr_token=%d\n",nr_token);
   while(l<=r){

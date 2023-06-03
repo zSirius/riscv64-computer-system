@@ -170,6 +170,9 @@ bool check_parentheses(int p, int q){
 }
 
 bool is_lower(int p,int res){
+  printf("------is_lower------\n");
+  printf("p is %d, res is %d\n", p, res);
+  printf("p type is %c, res type is %c\n\n", tokens[p].type, tokens[res].type);
   //printf("tokens[p]: %c, tokens[res]: %c\n", tokens[p].type, tokens[res].type);
   if( (tokens[p].type=='*'||tokens[p].type=='/') && (tokens[res].type== '+' || tokens[res].type== '-') ) 
     return false;

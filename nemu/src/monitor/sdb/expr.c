@@ -201,7 +201,8 @@ int eval(int p, int q){
   static int cnt=0;
   printf("this is in %d, p=%d, q=%d\n", ++cnt, p, q);
   if( p > q){
-    return 0;
+    fprintf(stderr, "Error: Bad expression!\n");
+    assert(0);
   }
   else if(p == q){
     return atoi(tokens[p].str);

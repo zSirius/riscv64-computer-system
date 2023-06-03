@@ -147,13 +147,13 @@ word_t expr(char *e, bool *success) {
   return 0;
 }
 
-static char stack[16];
+
 bool check_parentheses(int p, int q){
   int l=p, r=q;
   if(tokens[l++].type!='(' || tokens[r--].type!=')')
     return false;
   int top = -1;
-
+  static char stack[16];
   while(l<=r){
     if(tokens[l].type=='(') stack[++top] = '(';
      else if(tokens[l].type==')') {
@@ -166,33 +166,59 @@ bool check_parentheses(int p, int q){
   else return false;
 }
 
+bool is_lower(int p,int res){
+  if((tokens[p].type=='*'||tokens[p].type=='/') 
+    && (tokens[res].type== '+' || (tokens[res].type== '-')))
+    return false;
+  else return true;
+}
 
 
-// int find_primary_operator(int p, int q){
-//   int top=-1;
-//   int l=p;
-//   while(l<q){
-//     if(top==-1 || is_lower(l)){
+int find_primary_operator(int p, int q){
+  int res=-1;
+  int l=p;
+  bool parent_flag = false; 
+  while(l<q){
+    if(parent_flag || tokens[l].type == TK_NUM){
+      l++;
+      continue;
+    }else if(tokens[l].type == '('){
+      parent_flag = true;
+    }else if(tokens[l].type == ')'){
+      parent_flag = false;
+    }else if(res==-1 || is_lower(l, res)){
+      res = l;
+      l++;
+    }
+  }
+  return res;
+}
 
-//     }
-//   }
-//   return 0;
-// }
-
-// int eval(int p, int q){
-//   if( p > q){
-//     return;
-//   }
-//   else if(p == q){
-//     return atoi(tokens[p].str);
-//   }
-//   else if( check_parentheses(p,q) == true){
-//     return eval(p+1,q-1);
-//   }
-//   else{
-//     int op = find_primary_operator(p,q);
-//   }
-// }
+int eval(int p, int q){
+  if( p > q){
+    fprintf(stderr, "Error: Bad expession");
+    assert(0);
+  }
+  else if(p == q){
+    return atoi(tokens[p].str);
+  }
+  else if( check_parentheses(p,q) == true){
+    return eval(p+1,q-1);
+  }
+  else{
+    int op = find_primary_operator(p,q);
+    int val1 = eval(p, op-1);
+    int val2 = eval(op+1, op);
+    switch (tokens[op].type)
+    {
+    case '+': return val1 + val2;
+    case '-': return val1 - val2;
+    case '*': return val1 * val2;
+    case '/': return val1 / val2;
+    default: assert(0);
+    }
+  }
+}
 
 void test(){
   bool success;

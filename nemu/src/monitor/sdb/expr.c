@@ -199,7 +199,7 @@ int find_primary_operator(int p, int q){
 
 int eval(int p, int q){
   static int cnt=0;
-  printf("this is in %d", ++cnt);
+  printf("this is in %d, p=%d, q=%d\n", ++cnt, p, q);
   if( p > q){
     return 0;
   }

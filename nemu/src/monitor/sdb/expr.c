@@ -225,7 +225,7 @@ int eval(int p, int q){
 
 void test(){
   bool success;
-  expr("((40-90)*(((40+(18)+41/22))/98))/((5))", &success);
+  expr(" 20*((((97*61))))", &success);
   // printf("cnts of tokens:%d\n", nr_token);
   // for(int i=0; i<nr_token; i++){
   //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
@@ -235,3 +235,4 @@ void test(){
   // int op = find_primary_operator(0, nr_token-1);
   // printf("primary op index is %d\n", op);
 }
+//((40-90)*(((40+(18)+41/22))/98))/((5))

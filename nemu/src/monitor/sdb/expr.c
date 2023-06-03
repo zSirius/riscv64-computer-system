@@ -170,11 +170,9 @@ bool check_parentheses(int p, int q){
 }
 
 bool is_lower(int p,int res){
-  printf("tokens[p]: %c, tokens[res]: %c\n", tokens[p].type, tokens[res].type);
-  // if((tokens[p].type=='*'||tokens[p].type=='/') 
-  //   && (tokens[res].type== '+' || tokens[res].type== '-') )
-  //   return false;
-  if( (tokens[p].type=='*'||tokens[p].type=='/') && (tokens[res].type== '+' || tokens[res].type== '-') ) return false;
+  //printf("tokens[p]: %c, tokens[res]: %c\n", tokens[p].type, tokens[res].type);
+  if( (tokens[p].type=='*'||tokens[p].type=='/') && (tokens[res].type== '+' || tokens[res].type== '-') ) 
+    return false;
   return true;
 }
 
@@ -232,8 +230,8 @@ void test(){
   for(int i=0; i<nr_token; i++){
     printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
   }
-  // int val = eval(0, nr_token-1);
-  // printf("result val = %d", val);
-  int op = find_primary_operator(0, nr_token-1);
-  printf("primary op index is %d\n", op);
+  int val = eval(0, nr_token-1);
+  printf("result val = %d", val);
+  // int op = find_primary_operator(0, nr_token-1);
+  // printf("primary op index is %d\n", op);
 }

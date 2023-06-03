@@ -237,7 +237,7 @@ int eval(int p, int q){
 
 void test(){
   bool success;
-  expr("87-(9/41)/(24)-(47)-81/43-37+10+0*40/6", &success);
+  expr("2+2+3", &success);
   // printf("cnts of tokens:%d\n", nr_token);
   // for(int i=0; i<nr_token; i++){
   //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
@@ -248,3 +248,4 @@ void test(){
   // printf("primary op index is %d\n", op);
 }
 //((40-90)*(((40+(18)+41/22))/98))/((5))
+//87-(9/41)/(24)-(47)-81/43-37+10+0*40/6

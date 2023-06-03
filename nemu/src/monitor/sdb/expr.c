@@ -193,8 +193,8 @@ int find_primary_operator(int p, int q){
       parent_flag = false;
     }else if(res==-1 || is_lower(l, res)){
       res = l;
-      l++;
     }
+    l++;
   }
   return res;
 }

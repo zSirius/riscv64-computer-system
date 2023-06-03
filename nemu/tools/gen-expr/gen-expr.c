@@ -19,15 +19,18 @@
 #include <time.h>
 #include <assert.h>
 #include <string.h>
+#include <errno.h>
 
 // this should be enough
 static char buf[65536] = {};
 static char code_buf[65536 + 128] = {}; // a little larger than `buf`
 static char *code_format =
 "#include <stdio.h>\n"
+"#include <errno.h>\n"
 "int main() { "
 "  unsigned result = %s; "
 "  printf(\"%%u\", result); "
+"  printf(\" %%d\", errno);"
 "  return 0; "
 "}";
 
@@ -51,12 +54,15 @@ static void gen_rand_op(){
 static void gen_rand_expr() {
   switch(rand()%3){
     case 0: 
-      strcat(buf, itoa(rand()));
+      char str[48];
+      sprintf(str, "%d", rand()%100);
+      strcat(buf, str);
       break;
     case 1:
       strcat(buf, "(");
       gen_rand_expr();
       strcat(buf, ")");
+      break;
     default:
       gen_rand_expr();
       gen_rand_op();
@@ -74,6 +80,7 @@ int main(int argc, char *argv[]) {
   }
   int i;
   for (i = 0; i < loop; i ++) {
+    buf[0] = '\0';
     gen_rand_expr();
 
     sprintf(code_buf, code_format, buf);
@@ -91,6 +98,7 @@ int main(int argc, char *argv[]) {
 
     int result;
     ret = fscanf(fp, "%d", &result);
+    //printf("    errno is : %d     ", errno);
     pclose(fp);
 
     printf("%u %s\n", result, buf);

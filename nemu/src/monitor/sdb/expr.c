@@ -179,12 +179,13 @@ bool is_lower(int p,int res){
 
 int find_primary_operator(int p, int q){
   printf("====find op====\n");
-  printf("p is %d, q is %d", p, q);
+  printf("p is %d, q is %d\n", p, q);
   int res=-1;
   int l=p;
   bool parent_flag = false; 
   while(l<q){
     if(parent_flag || tokens[l].type == TK_NUM){
+      printf("this is a num, is %s\n", tokens[l].str);
       l++;
       continue;
     }else if(tokens[l].type == '('){
@@ -192,6 +193,7 @@ int find_primary_operator(int p, int q){
     }else if(tokens[l].type == ')'){
       parent_flag = false;
     }else if(res==-1 || is_lower(l, res)){
+      printf("lower tokens is %c\n", tokens[l].type);
       res = l;
     }
     l++;

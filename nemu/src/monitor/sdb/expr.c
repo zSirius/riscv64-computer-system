@@ -170,8 +170,8 @@ bool check_parentheses(int p, int q){
 }
 
 bool is_lower(int p,int res){
-  if((tokens[p].type=='*'||tokens[p].type=='/') 
-    && (tokens[res].type== '+' || tokens[res].type== '-') )
+  if((tokens[p].type=='*'||tokens[p].type=='/') )
+    //&& (tokens[res].type== '+' || tokens[res].type== '-') )
     return false;
   return true;
 }

@@ -196,7 +196,7 @@ bool check_parentheses(int p, int q){
 
 void test(){
   bool success;
-  expr("( 1+58 /  6 + 58 * 7)", &success);
+  expr(" (1+58) /  6 + 58 * 7", &success);
   printf("cnts of tokens:%d\n", nr_token);
   for(int i=0; i<nr_token; i++){
     printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);

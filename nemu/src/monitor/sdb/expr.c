@@ -229,7 +229,7 @@ int eval(int p, int q){
 
 void test(){
   bool success;
-  expr("4+3*(2-1)", &success);
+  expr("(2*3+7/7+9/3)", &success);
   printf("cnts of tokens:%d\n", nr_token);
   for(int i=0; i<nr_token; i++){
     printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);

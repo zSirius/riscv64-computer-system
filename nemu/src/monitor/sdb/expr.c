@@ -226,10 +226,10 @@ int eval(int p, int q){
 void test(){
   bool success;
   expr("(2*3+7/7+9/3)", &success);
-  printf("cnts of tokens:%d\n", nr_token);
-  for(int i=0; i<nr_token; i++){
-    printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
-  }
+  // printf("cnts of tokens:%d\n", nr_token);
+  // for(int i=0; i<nr_token; i++){
+  //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
+  // }
   int val = eval(0, nr_token-1);
   printf("result val = %d", val);
   // int op = find_primary_operator(0, nr_token-1);

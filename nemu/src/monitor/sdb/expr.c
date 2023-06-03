@@ -237,7 +237,7 @@ int eval(int p, int q){
 
 void test(){
   bool success;
-  expr("1+2+3", &success);
+  expr("((97))-(11/((((0)))-17+21-(78)-(74)-((59))))", &success);
   // printf("cnts of tokens:%d\n", nr_token);
   // for(int i=0; i<nr_token; i++){
   //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
@@ -249,3 +249,4 @@ void test(){
 }
 //((40-90)*(((40+(18)+41/22))/98))/((5))
 //87-(9/41)/(24)-(47)-81/43-37+10+0*40/6
+//((97))-(11/((((0)))-17+21-(78)-(74)-((59))))

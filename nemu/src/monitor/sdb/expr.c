@@ -170,9 +170,9 @@ bool check_parentheses(int p, int q){
 }
 
 bool is_lower(int p,int res){
-  printf("------is_lower------\n");
-  printf("p is %d, res is %d\n", p, res);
-  printf("p type is %c, res type is %c\n\n", tokens[p].type, tokens[res].type);
+  //printf("------is_lower------\n");
+  //printf("p is %d, res is %d\n", p, res);
+  //printf("p type is %c, res type is %c\n\n", tokens[p].type, tokens[res].type);
   //printf("tokens[p]: %c, tokens[res]: %c\n", tokens[p].type, tokens[res].type);
   if( (tokens[p].type=='*'||tokens[p].type=='/') && (tokens[res].type== '+' || tokens[res].type== '-') ) 
     return false;
@@ -181,13 +181,13 @@ bool is_lower(int p,int res){
 
 
 int find_primary_operator(int p, int q){
-  printf("====find op====\n");
-  printf("p is %d, q is %d\n", p, q);
+  //printf("====find op====\n");
+  //printf("p is %d, q is %d\n", p, q);
   int res=-1;
   int l=p;
   bool parent_flag = false; 
   while(l<q){
-    printf("token type is %d,  res=%d, flags = %d\n", tokens[l].type, res, parent_flag);
+    //printf("token type is %d,  res=%d, flags = %d\n", tokens[l].type, res, parent_flag);
     if(tokens[l].type == '('){
       parent_flag = true;
     }else if(tokens[l].type == ')'){
@@ -197,12 +197,12 @@ int find_primary_operator(int p, int q){
       l++;
       continue;
     }else if(res==-1 || is_lower(l, res)){
-      printf("lower tokens is %c\n", tokens[l].type);
+      //printf("lower tokens is %c\n", tokens[l].type);
       res = l;
     }
     l++;
   }
-  printf("====over====\n");
+  //printf("====over====\n");
   return res;
 }
 static int cnt=0;

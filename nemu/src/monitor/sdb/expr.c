@@ -184,6 +184,7 @@ int find_primary_operator(int p, int q){
   int l=p;
   bool parent_flag = false; 
   while(l<q){
+    printf("token type is %d", tokens[l].type);
     if(parent_flag || tokens[l].type == TK_NUM){
       printf("this is a num, is %s\n", tokens[l].str);
       l++;

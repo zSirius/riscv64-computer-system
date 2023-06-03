@@ -187,7 +187,7 @@ int find_primary_operator(int p, int q){
   int l=p;
   bool parent_flag = false; 
   while(l<q){
-    printf("token type is %d,  res=%d\n", tokens[l].type, res);
+    printf("token type is %d,  res=%d, flags = %d\n", tokens[l].type, res, parent_flag);
     if(parent_flag || tokens[l].type == TK_NUM){
       if(tokens[l].type == TK_NUM) printf("this is a num, is %s\n", tokens[l].str);
       l++;
@@ -237,7 +237,7 @@ int eval(int p, int q){
 
 void test(){
   bool success;
-  expr("2+2+3", &success);
+  expr("87-(9/41)/(24)-(47)-81/43-37+10+0*40/6", &success);
   // printf("cnts of tokens:%d\n", nr_token);
   // for(int i=0; i<nr_token; i++){
   //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);

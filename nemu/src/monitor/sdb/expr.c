@@ -178,6 +178,7 @@ bool is_lower(int p,int res){
 
 
 int find_primary_operator(int p, int q){
+  printf("====find op====\n");
   int res=-1;
   int l=p;
   bool parent_flag = false; 
@@ -194,6 +195,7 @@ int find_primary_operator(int p, int q){
     }
     l++;
   }
+  printf("====over====\n");
   return res;
 }
 static int cnt=0;

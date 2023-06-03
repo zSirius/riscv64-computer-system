@@ -211,7 +211,7 @@ int eval(int p, int q){
   }
   else{
     int op = find_primary_operator(p,q);
-    printf("op is %c\n", tokens[op].type);
+    printf("op idx is %d ,  %c\n", op , tokens[op].type);
     int val1 = eval(p, op-1);
     int val2 = eval(op+1, q);
     switch (tokens[op].type)

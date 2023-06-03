@@ -185,13 +185,13 @@ int find_primary_operator(int p, int q){
   //printf("p is %d, q is %d\n", p, q);
   int res=-1;
   int l=p;
-  bool parent_flag = false; 
+  int parent_flag = 0; 
   while(l<q){
     //printf("token type is %d,  res=%d, flags = %d\n", tokens[l].type, res, parent_flag);
     if(tokens[l].type == '('){
-      parent_flag = true;
+      parent_flag++;
     }else if(tokens[l].type == ')'){
-      parent_flag = false;
+      parent_flag--;
     }else if(parent_flag || tokens[l].type == TK_NUM){
       //if(tokens[l].type == TK_NUM) printf("this is a num, is %s\n", tokens[l].str);
       l++;

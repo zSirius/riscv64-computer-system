@@ -207,7 +207,7 @@ int find_primary_operator(int p, int q){
 }
 static int cnt=0;
 int eval(int p, int q){
-  printf("here is %d, p is %d, q is %d\n", ++cnt, p ,q);
+  //printf("here is %d, p is %d, q is %d\n", ++cnt, p ,q);
   if( p > q){
     fprintf(stderr, "Error: Bad expression!\n");
     assert(0);

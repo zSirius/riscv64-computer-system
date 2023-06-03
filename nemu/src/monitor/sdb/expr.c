@@ -213,7 +213,7 @@ int eval(int p, int q){
     int op = find_primary_operator(p,q);
     printf("op: %d\n", op);
     int val1 = eval(p, op-1);
-    int val2 = eval(op+1, op);
+    int val2 = eval(op+1, q);
     switch (tokens[op].type)
     {
     case '+': return val1 + val2;

@@ -199,8 +199,9 @@ int find_primary_operator(int p, int q){
 
 int eval(int p, int q){
   if( p > q){
-    fprintf(stderr, "Error: Bad expression!\n");
-    assert(0);
+    //fprintf(stderr, "Error: Bad expression!\n");
+    //assert(0);
+    return 0;
   }
   else if(p == q){
     return atoi(tokens[p].str);

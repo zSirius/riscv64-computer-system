@@ -147,11 +147,11 @@ word_t expr(char *e, bool *success) {
   return 0;
 }
 
+static char stack[16];
 bool check_parentheses(int p, int q){
   int l=p, r=q;
   if(tokens[l++].type!='(' || tokens[r--].type!=')')
     return false;
-  static char stack[16];
   int top = -1;
 
   while(l<=r){
@@ -162,25 +162,37 @@ bool check_parentheses(int p, int q){
      }
     l++;
   }
-  printf("top=%d\n", top);
   if(top == -1) return true;
   else return false;
 }
 
-void eval(int p, int q){
-  if( p > q){
-    return;
-  }
-  else if(p == q){
 
-  }
-  else if( check_parentheses(p,q) == true){
 
-  }
-  else{
+// int find_primary_operator(int p, int q){
+//   int top=-1;
+//   int l=p;
+//   while(l<q){
+//     if(top==-1 || is_lower(l)){
 
-  }
-}
+//     }
+//   }
+//   return 0;
+// }
+
+// int eval(int p, int q){
+//   if( p > q){
+//     return;
+//   }
+//   else if(p == q){
+//     return atoi(tokens[p].str);
+//   }
+//   else if( check_parentheses(p,q) == true){
+//     return eval(p+1,q-1);
+//   }
+//   else{
+//     int op = find_primary_operator(p,q);
+//   }
+// }
 
 void test(){
   bool success;

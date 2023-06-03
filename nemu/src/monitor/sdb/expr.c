@@ -164,7 +164,7 @@ bool check_parentheses(int p, int q){
   }
   if(top == -1) return true;
   else{
-    fprintf(stderr, "Error: The parentheses do not match!");
+    fprintf(stderr, "Error: The parentheses do not match!\n");
     assert(0);
   }
 }
@@ -199,8 +199,7 @@ int find_primary_operator(int p, int q){
 
 int eval(int p, int q){
   if( p > q){
-    fprintf(stderr, "Error: Bad expession");
-    assert(0);
+    return 0;
   }
   else if(p == q){
     return atoi(tokens[p].str);

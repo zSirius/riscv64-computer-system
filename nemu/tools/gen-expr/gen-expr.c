@@ -31,8 +31,38 @@ static char *code_format =
 "  return 0; "
 "}";
 
+static void gen_rand_op(){
+  switch(rand()%4){
+    case 0:
+      strcat(buf, "+");
+      break;
+    case 1:
+      strcat(buf, "-");
+      break;
+    case 2:
+      strcat(buf, "*");
+      break;
+    default:
+      strcat(buf, "/");
+      break;
+  }
+}
+
 static void gen_rand_expr() {
-  buf[0] = '\0';
+  switch(rand()%3){
+    case 0: 
+      strcat(buf, itoa(rand()));
+      break;
+    case 1:
+      strcat(buf, "(");
+      gen_rand_expr();
+      strcat(buf, ")");
+    default:
+      gen_rand_expr();
+      gen_rand_op();
+      gen_rand_expr();
+      break;
+  }
 }
 
 int main(int argc, char *argv[]) {

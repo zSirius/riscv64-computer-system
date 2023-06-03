@@ -231,7 +231,7 @@ void test(){
   //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
   // }
   int val = eval(0, nr_token-1);
-  printf("result val = %d", val);
+  printf("result val = %d\n", val);
   // int op = find_primary_operator(0, nr_token-1);
   // printf("primary op index is %d\n", op);
 }

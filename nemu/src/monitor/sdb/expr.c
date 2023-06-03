@@ -198,8 +198,6 @@ int find_primary_operator(int p, int q){
 }
 
 int eval(int p, int q){
-  static int cnt=0;
-  printf("this is in %d, p=%d, q=%d\n", ++cnt, p, q);
   if( p > q){
     fprintf(stderr, "Error: Bad expression!\n");
     assert(0);
@@ -212,7 +210,6 @@ int eval(int p, int q){
   }
   else{
     int op = find_primary_operator(p,q);
-    printf("op: %d\n", op);
     int val1 = eval(p, op-1);
     int val2 = eval(op+1, q);
     switch (tokens[op].type)
@@ -224,7 +221,6 @@ int eval(int p, int q){
     default: assert(0);
     }
   }
-  cnt--;
 }
 
 void test(){

@@ -193,7 +193,7 @@ int find_primary_operator(int p, int q){
     }else if(tokens[l].type == ')'){
       parent_flag = false;
     }else if(parent_flag || tokens[l].type == TK_NUM){
-      if(tokens[l].type == TK_NUM) printf("this is a num, is %s\n", tokens[l].str);
+      //if(tokens[l].type == TK_NUM) printf("this is a num, is %s\n", tokens[l].str);
       l++;
       continue;
     }else if(res==-1 || is_lower(l, res)){

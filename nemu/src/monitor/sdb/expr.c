@@ -177,6 +177,32 @@ static bool make_token(char *e) {
   return true;
 }
 
+
+word_t expr(char *e, bool *success) {
+  if (!make_token(e)) {
+    *success = false;
+    return 0;
+  }
+
+  /* TODO: Insert codes to evaluate the expression. */
+  //TODO();
+  for(int i=0; i<nr_token; i++){
+    if(tokens[i].type == '*' && (i==0 || (tokens[i-1].type != TK_NUM && tokens[i-1].type != ')'))){
+      tokens[i].type = TK_DEREF;
+    }
+    if(i<nr_token-1 && tokens[i].type == TK_REG && tokens[i+1].type == TK_NUM){
+      *success = false;
+      fprintf(stderr, "Error: Register name is error!\n");
+      return 0;
+    }
+  }
+
+  *success = true;
+  return eval(0, nr_token-1, success);
+  //return 1;
+}
+
+
 bool check_parentheses(int p, int q, bool *success){
   int l=p, r=q;
   if(tokens[l++].type!='(' || tokens[r--].type!=')')
@@ -197,36 +223,6 @@ bool check_parentheses(int p, int q, bool *success){
   }
   return true;
 }
-
-
-word_t expr(char *e, bool *success) {
-  if (!make_token(e)) {
-    *success = false;
-    return 0;
-  }
-
-  check_parentheses(0, nr_token-1, success);
-  if(*success == false) return 0;
-  
-
-  /* TODO: Insert codes to evaluate the expression. */
-  //TODO();
-  for(int i=0; i<nr_token; i++){
-    if(tokens[i].type == '*' && (i==0 || (tokens[i-1].type != TK_NUM && tokens[i-1].type != ')'))){
-      tokens[i].type = TK_DEREF;
-    }
-    if(i<nr_token-1 && tokens[i].type == TK_REG && tokens[i+1].type == TK_NUM){
-      *success = false;
-      fprintf(stderr, "Error: Register name is error!\n");
-      return 0;
-    }
-  }
-
-  *success = true;
-  return eval(0, nr_token-1, success);
-  //return 1;
-}
-
 
 bool is_lower(int p,int res){
   //printf("------is_lower------\n");

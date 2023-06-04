@@ -321,7 +321,7 @@ void test(){
   //printf("success is %d, result val = %lu\n", success, val);
   // int op = find_primary_operator(0, nr_token-1);
   // printf("primary op index is %d\n", op);
-  printf("%d\n", get_priority('+'));
+  printf("%d\n", get_priority('-'));
 }
 //((40-90)*(((40+(18)+41/22))/98))/((5))
 //12 87-(9/41)/(24)-(47)-81/43-37+10+0*40/6

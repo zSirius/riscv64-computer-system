@@ -330,7 +330,7 @@ word_t eval(int p, int q, bool *success){
 }
 
 void test(){
-  //bool success;
+  bool success;
   //word_t val = expr("68/(((((79-8))*78*33*84-(81-87-((((35+56/53))/(49)))-26*41*77*95+27+57+66-41/58)-52/10+33-71)))", &success);
   // printf("cnts of tokens:%d\n", nr_token);
   // for(int i=0; i<nr_token; i++){
@@ -344,7 +344,9 @@ void test(){
 
   //test htod()
   //printf("res = %lu\n", htod("ef12"));
-  printf("res=%lu\n", isa_reg_str2val("s12", NULL));
+  success = false;
+  word_t res = isa_reg_str2val("s12", &success);
+  if(success) printf("res=%lu\n", res);
 
 }
 //((40-90)*(((40+(18)+41/22))/98))/((5))

@@ -129,7 +129,7 @@ static bool make_token(char *e) {
             strncpy(tokens[nr_token].str, substr_start, substr_len);
             break;
           case TK_HEX:
-            strncpy(tokens[nr_token].str, substr_start+2, substr_len);
+            strncpy(tokens[nr_token].str, substr_start+2, substr_len-2);
             break;
           default:
             break;

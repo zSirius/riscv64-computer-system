@@ -23,7 +23,7 @@
 word_t eval(int p, int q, bool *success);
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NUM,
+  TK_NOTYPE = 256, TK_EQ, TK_NUM, TK_HEX, TK_DEREF, 
 
   /* TODO: Add more token types */
 
@@ -47,6 +47,7 @@ static struct rule {
   {"[0-9]+", TK_NUM},     // number
   {"\\(", '('},
   {"\\)", ')'},
+  {"0[xX][0-9a-fA-F]+", TK_HEX},
 
 };
 
@@ -146,6 +147,12 @@ word_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
+  for(int i=0; i<nr_token; i++){
+    if(tokens[i].type == '*' && (i==0 || (tokens[i-1].type != TK_NUM && tokens[i-1].type != ')'))){
+      tokens[i].type = TK_DEREF;
+    }
+  }
+
   *success = true;
   word_t res = eval(0, nr_token-1, success);
   return res;
@@ -258,7 +265,7 @@ void test(){
   // for(int i=0; i<nr_token; i++){
   //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
   // }
-  printf("success is %d, result val = %ld\n", success, val);
+  printf("success is %d, result val = %lu\n", success, val);
   // int op = find_primary_operator(0, nr_token-1);
   // printf("primary op index is %d\n", op);
 }

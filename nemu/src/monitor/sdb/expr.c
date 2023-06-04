@@ -228,7 +228,12 @@ int eval(int p, int q){
     case '+': return val1 + val2;
     case '-': return val1 - val2;
     case '*': return val1 * val2;
-    case '/': return val1 / val2;
+    case '/': 
+      if(val2 == 0){
+        fprintf(stderr, "Error: div-by-zero!\n");
+        assert(0);
+      }
+      return val1 / val2;
     default: assert(0);
     }
   }
@@ -237,7 +242,7 @@ int eval(int p, int q){
 
 void test(){
   bool success;
-  expr("((76-(26)/(((79)+((((((((38))/14+0-((57+(26/(56))*((83+((76)-34))*23)+67/(((((56)*25))))*(((73*((65)))*22)*93)/(66)+((51))/93))+(30)*(1)+((99))+93/(95)-99))))))+(90/5-70+(92))-43))*(89)*((84))-29*(53-47))*55)", &success);
+  expr("66+0-(64*62)*(73)/(16/(61/77*78)/58*(35-50))", &success);
   // printf("cnts of tokens:%d\n", nr_token);
   // for(int i=0; i<nr_token; i++){
   //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);

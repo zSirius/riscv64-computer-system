@@ -159,7 +159,7 @@ word_t expr(char *e, bool *success) {
     }
     if(i<nr_token-1 && tokens[i].type == TK_REG && tokens[i+1].type == TK_NUM){
       *success = false;
-      fprintf(stderr, "Error: Register name is error!");
+      fprintf(stderr, "Error: Register name is error!\n");
       return 0;
     }
   }
@@ -272,7 +272,7 @@ word_t eval(int p, int q, bool *success){
 
 void test(){
   bool success;
-  word_t val = expr("0xef12 $$0 $s11 $s111", &success);
+  word_t val = expr("0xef12 $$0 $s15 $s11", &success);
   // printf("cnts of tokens:%d\n", nr_token);
   // for(int i=0; i<nr_token; i++){
   //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);

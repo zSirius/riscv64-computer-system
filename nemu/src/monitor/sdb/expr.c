@@ -54,6 +54,34 @@ static struct rule {
 
 };
 
+static struct priority
+{
+  int type;
+  int level;
+} priorities[] = {
+  {TK_DEREF, 1},
+  {'*', 2},
+  {'/', 2},
+  {'+', 3},
+  {'-', 3},
+  {TK_EQ, 4},
+  {TK_NE, 4},
+  {TK_AND, 5},
+
+};
+
+int get_priority(int type){
+  int n = sizeof(priorities)/sizeof(priorities[0]);
+  for(int i=0; i<n; i++){
+    if(type == priorities[i].type){
+      return priorities[i].level;
+    }
+  }
+  fprintf(stderr, "Error: Invalid operator!\n");
+  return 0;
+}
+
+
 
 //\\$(\\$0|ra|sp|gp|tp|t[0-6]|s[0-9]|s10|s11|a[0-7])(?![0-9a-z])
 
@@ -170,9 +198,8 @@ word_t expr(char *e, bool *success) {
   }
 
   *success = true;
-  // word_t res = eval(0, nr_token-1, success);
-  // return res;
-  return 1;
+  return eval(0, nr_token-1, success);
+  //return 1;
 }
 
 
@@ -203,9 +230,11 @@ bool is_lower(int p,int res){
   //printf("p is %d, res is %d\n", p, res);
   //printf("p type is %c, res type is %c\n\n", tokens[p].type, tokens[res].type);
   //printf("tokens[p]: %c, tokens[res]: %c\n", tokens[p].type, tokens[res].type);
-  if( (tokens[p].type=='*'||tokens[p].type=='/') && (tokens[res].type== '+' || tokens[res].type== '-') ) 
-    return false;
-  return true;
+
+  // if( (tokens[p].type=='*'||tokens[p].type=='/') && (tokens[res].type== '+' || tokens[res].type== '-') ) 
+  //   return false;
+  // return true;
+  return get_priority(tokens[p].type) >= get_priority(tokens[p].type);
 }
 
 
@@ -277,7 +306,7 @@ word_t eval(int p, int q, bool *success){
 
 void test(){
   bool success;
-  word_t val = expr("1+2+3+*5+6", &success);
+  word_t val = expr("1+2+3", &success);
   // printf("cnts of tokens:%d\n", nr_token);
   for(int i=0; i<nr_token; i++){
     printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);

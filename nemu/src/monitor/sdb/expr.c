@@ -315,9 +315,9 @@ void test(){
   bool success;
   word_t val = expr("87-(9/41)/(24)-(47)-81/43-37+10+0*40/6", &success);
   // printf("cnts of tokens:%d\n", nr_token);
-  for(int i=0; i<nr_token; i++){
-    printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
-  }
+  // for(int i=0; i<nr_token; i++){
+  //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
+  // }
   printf("success is %d, result val = %lu\n", success, val);
   // int op = find_primary_operator(0, nr_token-1);
   // printf("primary op index is %d\n", op);

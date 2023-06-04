@@ -230,16 +230,18 @@ word_t expr(char *e, bool *success) {
 }
 
 
-bool is_lower(int p,int res){
+//return a is lower b
+bool is_lower(int a,int b){
   //printf("------is_lower------\n");
   //printf("p is %d, res is %d\n", p, res);
   //printf("p type is %c, res type is %c\n\n", tokens[p].type, tokens[res].type);
   //printf("tokens[p]: %c, tokens[res]: %c\n", tokens[p].type, tokens[res].type);
 
-  if( (tokens[p].type=='*'||tokens[p].type=='/') && (tokens[res].type== '+' || tokens[res].type== '-') ) 
-    return false;
-  return true;
-  // return get_priority(tokens[p].type) >= get_priority(tokens[p].type);
+  // if( (tokens[p].type=='*'||tokens[p].type=='/') && (tokens[res].type== '+' || tokens[res].type== '-') ) 
+  //   return false;
+  // return true;
+  return  get_priority(tokens[a].type) >= get_priority(tokens[b].type);
+
 }
 
 

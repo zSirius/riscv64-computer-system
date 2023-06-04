@@ -189,11 +189,8 @@ bool check_parentheses_valid(int p, int q){
      }
     l++;
   }
-  if(top != -1) {
-    fprintf(stderr, "Error: The parentheses do not match!\n");
-    return false;
-  }
-  return true;
+  if(top != -1) return false;
+  else return true;
 }
 
 bool check_parentheses(int p, int q){
@@ -210,6 +207,7 @@ word_t expr(char *e, bool *success) {
 
   if(!check_parentheses_valid(0, nr_token-1)){
     *success = false;
+    fprintf(stderr, "Error: The parentheses do not match!\n");
     return 0;
   }
 

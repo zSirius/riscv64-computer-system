@@ -22,6 +22,19 @@ int is_exit_status_bad();
 word_t expr(char *e, bool *success);
 
 int main(int argc, char *argv[]) {
+  //test
+  int exp_res;
+  char ex[4096];
+  int res;
+  bool success;
+  FILE *fp = fopen("../tools/gen-expr/input", "r");
+  for(int i=0; i<10; i++){
+    int ret = fscanf(fp, "%d %s", &exp_res, ex);
+    if(ret==2);
+    res = expr(ex, &success);
+    printf("res = %d, exp_res = %d\n", res, exp_res);
+  }
+
   /* Initialize the monitor. */
 #ifdef CONFIG_TARGET_AM
   am_init_monitor();

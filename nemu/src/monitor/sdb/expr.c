@@ -344,7 +344,7 @@ void test(){
 
   //test htod()
   //printf("res = %lu\n", htod("ef12"));
-  printf("res=%lu\n", isa_reg_str2val("$0", NULL));
+  printf("res=%lu\n", isa_reg_str2val("s11", NULL));
 
 }
 //((40-90)*(((40+(18)+41/22))/98))/((5))

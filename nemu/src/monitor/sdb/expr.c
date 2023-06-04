@@ -199,7 +199,7 @@ bool check_parentheses_valid(int p, int q){
 bool check_parentheses(int p, int q){
   if(tokens[p].type!='(' || tokens[q].type!=')')
     return false;
-  return true;
+  return check_parentheses_valid(p+1, q-1);
 }
 
 word_t expr(char *e, bool *success) {

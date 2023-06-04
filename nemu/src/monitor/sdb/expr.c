@@ -276,7 +276,7 @@ int find_primary_operator(int p, int q){
 
 word_t htod(char str[]){
   word_t ans = 0;
-  for(int i=0; i<strlen(str); i++){
+  for(int i=0; str[i]!='\0'; i++){
     if(str[i]>='0' && str[i]<='9') ans = ans*16 + str[i] - '0';
     else ans = ans*16 + str[i]-'a' + 10;
   }

@@ -23,7 +23,7 @@
 word_t eval(int p, int q, bool *success);
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NUM, TK_HEX, TK_DEREF, 
+  TK_NOTYPE = 256, TK_EQ, TK_NE, TK_AND, TK_NUM, TK_HEX, TK_DEREF, TK_REG,
 
   /* TODO: Add more token types */
 
@@ -40,14 +40,18 @@ static struct rule {
 
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
-  {"==", TK_EQ},        // equal
   {"\\-", '-'},
   {"\\*", '*'},
   {"/", '/'},
+  {"==", TK_EQ},        // equal
+  {"\\!=", TK_NE},
+  {"&&", TK_AND},
   {"[0-9]+", TK_NUM},     // number
+  {"0[xX][0-9a-fA-F]+", TK_HEX},
   {"\\(", '('},
   {"\\)", ')'},
-  {"0[xX][0-9a-fA-F]+", TK_HEX},
+  {"\\$(\\$0|ra|sp|gp|tp|t[0-6]|s[0-9]|s10|s11|a[0-7])(?![0-9a-z])", TK_REG},
+  {}
 
 };
 
@@ -154,8 +158,9 @@ word_t expr(char *e, bool *success) {
   }
 
   *success = true;
-  word_t res = eval(0, nr_token-1, success);
-  return res;
+  // word_t res = eval(0, nr_token-1, success);
+  // return res;
+  return 1;
 }
 
 

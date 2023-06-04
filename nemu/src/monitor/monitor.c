@@ -139,7 +139,7 @@ void init_monitor(int argc, char *argv[]) {
 #endif
   //test
   int exp_res;
-  char ex[4096];
+  char ex[128];
   int res;
   bool success;
   FILE *fp = fopen("../tools/gen-expr/input", "r");

@@ -28,18 +28,18 @@ int main(int argc, char *argv[]) {
 #else
   init_monitor(argc, argv);
 #endif
-  //test
-  int exp_res;
-  char ex[4096];
-  int res;
-  bool success;
-  FILE *fp = fopen("../tools/gen-expr/input", "r");
-  for(int i=0; i<10; i++){
-    int ret = fscanf(fp, "%d %s", &exp_res, ex);
-    if(ret==2);
-    res = expr(ex, &success);
-    printf("res = %d, exp_res = %d\n", res, exp_res);
-  }
+  // //test
+  // int exp_res;
+  // char ex[4096];
+  // int res;
+  // bool success;
+  // FILE *fp = fopen("../tools/gen-expr/input", "r");
+  // for(int i=0; i<10; i++){
+  //   int ret = fscanf(fp, "%d %s", &exp_res, ex);
+  //   if(ret==2);
+  //   res = expr(ex, &success);
+  //   printf("res = %d, exp_res = %d\n", res, exp_res);
+  // }
 
   /* Start engine. */
   engine_start();

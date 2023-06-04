@@ -313,7 +313,7 @@ word_t eval(int p, int q, bool *success){
 
 void test(){
   bool success;
-  word_t val = expr("(44*(((((19))+79)+(98-78)))+94-46/24)*96", &success);
+  word_t val = expr("((40-90)*(((40+(18)+41/22))/98))/((5))", &success);
   // printf("cnts of tokens:%d\n", nr_token);
   // for(int i=0; i<nr_token; i++){
   //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);

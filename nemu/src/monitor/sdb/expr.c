@@ -281,6 +281,7 @@ word_t eval(int p, int q, bool *success){
   }
   else{
     int op = find_primary_operator(p,q);
+    printf("p is %d, q is %d\n", p, q);
     printf("op idx is %d ,  %c\n", op , tokens[op].type);
     word_t val1 = eval(p, op-1,success);
     word_t val2 = eval(op+1, q,success);

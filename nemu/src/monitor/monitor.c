@@ -23,6 +23,7 @@ void init_difftest(char *ref_so_file, long img_size, int port);
 void init_device();
 void init_sdb();
 void init_disasm(const char *triple);
+word_t expr(char *e, bool *success);
 
 static void welcome() {
   Log("Trace: %s", MUXDEF(CONFIG_TRACE, ANSI_FMT("ON", ANSI_FG_GREEN), ANSI_FMT("OFF", ANSI_FG_RED)));
@@ -136,6 +137,18 @@ void init_monitor(int argc, char *argv[]) {
     MUXDEF(CONFIG_ISA_riscv64, "riscv64", "bad")))) "-pc-linux-gnu"
   ));
 #endif
+  //test
+  int exp_res;
+  char ex[4096];
+  int res;
+  bool success;
+  FILE *fp = fopen("../tools/gen-expr/input", "r");
+  for(int i=0; i<10; i++){
+    int ret = fscanf(fp, "%d %s", &exp_res, ex);
+    if(ret==2);
+    res = expr(ex, &success);
+    printf("res = %d, exp_res = %d\n", res, exp_res);
+  }
 
   /* Display welcome message. */
   welcome();

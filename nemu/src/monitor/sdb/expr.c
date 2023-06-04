@@ -20,7 +20,7 @@
  */
 #include <regex.h>
 
-int eval(int p, int q, bool *success);
+word_t eval(int p, int q, bool *success);
 
 enum {
   TK_NOTYPE = 256, TK_EQ, TK_NUM,
@@ -72,7 +72,7 @@ void init_regex() {
     }
   }
 
-  //test();
+  test();
 }
 
 typedef struct token {
@@ -147,7 +147,7 @@ word_t expr(char *e, bool *success) {
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
   *success = true;
-  int res = eval(0, nr_token-1, success);
+  word_t res = eval(0, nr_token-1, success);
   return res;
 }
 
@@ -211,7 +211,7 @@ int find_primary_operator(int p, int q){
   return res;
 }
 
-int eval(int p, int q, bool *success){
+word_t eval(int p, int q, bool *success){
   //printf("here is %d, p is %d, q is %d\n", ++cnt, p ,q);
   if((*success)==false) return 0;
   if( p > q){
@@ -229,8 +229,8 @@ int eval(int p, int q, bool *success){
   else{
     int op = find_primary_operator(p,q);
     printf("op idx is %d ,  %c\n", op , tokens[op].type);
-    int val1 = eval(p, op-1,success);
-    int val2 = eval(op+1, q,success);
+    word_t val1 = eval(p, op-1,success);
+    word_t val2 = eval(op+1, q,success);
     switch (tokens[op].type)
     {
     case '+': return val1 + val2;
@@ -253,12 +253,12 @@ int eval(int p, int q, bool *success){
 
 void test(){
   bool success;
-  int val = expr("(63*(8)/((92)-42*89/(((48/((45)+((39)))*31)))/73-(4-87-85+1-77)*((45)+82-55-31)-0)+(((30))+59))", &success);
+  word_t val = expr("1-5", &success);
   // printf("cnts of tokens:%d\n", nr_token);
   // for(int i=0; i<nr_token; i++){
   //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
   // }
-  printf("success is %d, result val = %d\n", success, val);
+  printf("success is %d, result val = %lu\n", success, val);
   // int op = find_primary_operator(0, nr_token-1);
   // printf("primary op index is %d\n", op);
 }

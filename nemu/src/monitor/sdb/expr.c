@@ -21,6 +21,7 @@
 #include <regex.h>
 
 word_t eval(int p, int q, bool *success);
+word_t isa_reg_str2val(const char *s, bool *success);
 
 enum {
   TK_NOTYPE = 256, TK_EQ, TK_NE, TK_AND, TK_NUM, TK_HEX, TK_DEREF, TK_REG,
@@ -294,7 +295,7 @@ word_t eval(int p, int q, bool *success){
   else if(p == q){
     if(tokens[p].type == TK_NUM) return atoi(tokens[p].str);
     else if(tokens[p].type == TK_HEX) return htod(tokens[p].str);
-    else return 0;
+    else return isa_reg_str2val(tokens[p].str, NULL);
   }
   else if( check_parentheses(p,q) == true){
     return eval(p+1,q-1,success);

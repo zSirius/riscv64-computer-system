@@ -342,7 +342,7 @@ void test(){
 
 
   //test htod()
-  printf("res = %lu", htod("ef12\n"));
+  printf("res = %lu\n", htod("ef12"));
 
 
 }

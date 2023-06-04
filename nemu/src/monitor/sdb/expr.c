@@ -20,6 +20,8 @@
  */
 #include <regex.h>
 
+int eval(int p, int q, bool *success);
+
 enum {
   TK_NOTYPE = 256, TK_EQ, TK_NUM,
 
@@ -82,6 +84,7 @@ static Token tokens[4096] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
+  nr_token=0;
   int position = 0;
   int i;
   regmatch_t pmatch;
@@ -143,12 +146,13 @@ word_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
-
-  return 0;
+  *success = true;
+  int res = eval(0, nr_token-1, success);
+  return res;
 }
 
 
-bool check_parentheses(int p, int q){
+bool check_parentheses(int p, int q, bool *success){
   int l=p, r=q;
   if(tokens[l++].type!='(' || tokens[r--].type!=')')
     return false;
@@ -165,7 +169,8 @@ bool check_parentheses(int p, int q){
   if(top == -1) return true;
   else{
     fprintf(stderr, "Error: The parentheses do not match!\n");
-    assert(0);
+    *success = false;
+    return true;
   }
 }
 
@@ -205,24 +210,27 @@ int find_primary_operator(int p, int q){
   //printf("====over====\n");
   return res;
 }
-static int cnt=0;
-int eval(int p, int q){
+
+int eval(int p, int q, bool *success){
   //printf("here is %d, p is %d, q is %d\n", ++cnt, p ,q);
+  if((*success)==false) return 0;
   if( p > q){
     fprintf(stderr, "Error: Bad expression!\n");
-    assert(0);
+    *success = false;
+    return 0;
   }
   else if(p == q){
     return atoi(tokens[p].str);
   }
-  else if( check_parentheses(p,q) == true){
-    return eval(p+1,q-1);
+  else if( check_parentheses(p,q,success) == true){
+    if(success==false) return 0;
+    return eval(p+1,q-1,success);
   }
   else{
     int op = find_primary_operator(p,q);
     printf("op idx is %d ,  %c\n", op , tokens[op].type);
-    int val1 = eval(p, op-1);
-    int val2 = eval(op+1, q);
+    int val1 = eval(p, op-1,success);
+    int val2 = eval(op+1, q,success);
     switch (tokens[op].type)
     {
     case '+': return val1 + val2;
@@ -231,24 +239,25 @@ int eval(int p, int q){
     case '/': 
       if(val2 == 0){
         fprintf(stderr, "Error: div-by-zero!\n");
-        assert(0);
+        *success = false;
+        return 0;
       }
       return val1 / val2;
-    default: assert(0);
+    default: 
+      fprintf(stderr, "Error: Unexpected operator!\n");
+      assert(0);
     }
   }
-  cnt--;
 }
 
 void test(){
   bool success;
-  expr("(((27)+47))+((((((50))*88+(83)+98*(((((17))))))-(76)-86))*((31)-29+(15)))*57-(60)/77", &success);
+  int val = expr("(((27)+47))+((((((50))*88+(83)+98*(((((17))))))-(76)-86))*((31)-29+(15)))*57-(60)/77", &success);
   // printf("cnts of tokens:%d\n", nr_token);
   // for(int i=0; i<nr_token; i++){
   //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
   // }
-  int val = eval(0, nr_token-1);
-  printf("result val = %d\n", val);
+  printf("success is %d, result val = %d\n", success, val);
   // int op = find_primary_operator(0, nr_token-1);
   // printf("primary op index is %d\n", op);
 }

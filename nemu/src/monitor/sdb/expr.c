@@ -177,9 +177,38 @@ static bool make_token(char *e) {
   return true;
 }
 
+bool check_parentheses_valid(int p, int q){
+  int l=p, r=q;
+  int top = -1;
+  static char stack[16];
+  while(l<=r){
+    if(tokens[l].type=='(') stack[++top] = '(';
+     else if(tokens[l].type==')') {
+       if(top!=-1 && stack[top] == '(') top--;
+       else return false;
+     }
+    l++;
+  }
+  if(top != -1) {
+    fprintf(stderr, "Error: The parentheses do not match!\n");
+    return false;
+  }
+  return true;
+}
+
+bool check_parentheses(int p, int q){
+  if(tokens[p].type!='(' || tokens[q].type!=')')
+    return false;
+  return true;
+}
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
+    *success = false;
+    return 0;
+  }
+
+  if(!check_parentheses_valid(0, nr_token-1)){
     *success = false;
     return 0;
   }
@@ -202,27 +231,6 @@ word_t expr(char *e, bool *success) {
   //return 1;
 }
 
-
-bool check_parentheses(int p, int q, bool *success){
-  int l=p, r=q;
-  if(tokens[l++].type!='(' || tokens[r--].type!=')')
-    return false;
-  int top = -1;
-  static char stack[16];
-  while(l<=r){
-    if(tokens[l].type=='(') stack[++top] = '(';
-     else if(tokens[l].type==')') {
-       if(top!=-1 && stack[top] == '(') top--;
-       else return false;
-     }
-    l++;
-  }
-  if(top != -1) {
-    fprintf(stderr, "Error: The parentheses do not match!\n");
-    *success = false;
-  }
-  return true;
-}
 
 bool is_lower(int p,int res){
   //printf("------is_lower------\n");
@@ -274,8 +282,7 @@ word_t eval(int p, int q, bool *success){
   else if(p == q){
     return atoi(tokens[p].str);
   }
-  else if( check_parentheses(p,q,success) == true){
-    if(success==false) return 0;
+  else if( check_parentheses(p,q) == true){
     return eval(p+1,q-1,success);
   }
   else{

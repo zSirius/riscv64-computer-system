@@ -231,10 +231,10 @@ bool is_lower(int p,int res){
   //printf("p type is %c, res type is %c\n\n", tokens[p].type, tokens[res].type);
   //printf("tokens[p]: %c, tokens[res]: %c\n", tokens[p].type, tokens[res].type);
 
-  // if( (tokens[p].type=='*'||tokens[p].type=='/') && (tokens[res].type== '+' || tokens[res].type== '-') ) 
-  //   return false;
-  // return true;
-  return get_priority(tokens[p].type) >= get_priority(tokens[p].type);
+  if( (tokens[p].type=='*'||tokens[p].type=='/') && (tokens[res].type== '+' || tokens[res].type== '-') ) 
+    return false;
+  return true;
+  // return get_priority(tokens[p].type) >= get_priority(tokens[p].type);
 }
 
 

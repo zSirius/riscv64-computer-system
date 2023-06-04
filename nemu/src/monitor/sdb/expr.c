@@ -70,7 +70,7 @@ static struct priority
 
 };
 
-int get_priority(int type){
+static int get_priority(int type){
   int n = sizeof(priorities)/sizeof(priorities[0]);
   for(int i=0; i<n; i++){
     if(type == priorities[i].type){
@@ -237,10 +237,11 @@ bool is_lower(int a,int b){
   //printf("p type is %c, res type is %c\n\n", tokens[p].type, tokens[res].type);
   //printf("tokens[p]: %c, tokens[res]: %c\n", tokens[p].type, tokens[res].type);
 
-  if( (tokens[a].type=='*'||tokens[a].type=='/') && (tokens[b].type== '+' || tokens[b].type== '-') ) 
-    return false;
-  return true;
-  //return  get_priority(tokens[a].type) >= get_priority(tokens[b].type);
+  // if( (tokens[a].type=='*'||tokens[a].type=='/') && (tokens[b].type== '+' || tokens[b].type== '-') ) 
+  //   return false;
+  // return true;
+  printf("first type is %c , second type is %c\n", tokens[a].type, tokens[b].type);
+  return  get_priority(tokens[a].type) >= get_priority(tokens[b].type);
 
 }
 
@@ -262,7 +263,7 @@ int find_primary_operator(int p, int q){
       l++;
       continue;
     }else if(res==-1 || is_lower(l, res)){
-      //printf("lower tokens is %c\n", tokens[l].type);
+      printf("lower tokens is %c\n", tokens[l].type);
       res = l;
     }
     l++;

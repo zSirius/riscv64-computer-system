@@ -245,7 +245,8 @@ int eval(int p, int q, bool *success){
       return val1 / val2;
     default: 
       fprintf(stderr, "Error: Unexpected operator!\n");
-      assert(0);
+      *success = false;
+      return 0;
     }
   }
 }

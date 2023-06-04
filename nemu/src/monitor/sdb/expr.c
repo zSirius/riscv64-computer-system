@@ -345,7 +345,7 @@ void test(){
   //test htod()
   //printf("res = %lu\n", htod("ef12"));
   success = false;
-  word_t res = isa_reg_str2val("s12", &success);
+  word_t res = isa_reg_str2val("s11", &success);
   if(success) printf("res=%lu\n", res);
 
 }

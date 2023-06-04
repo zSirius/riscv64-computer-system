@@ -28,10 +28,6 @@ int main(int argc, char *argv[]) {
 #else
   init_monitor(argc, argv);
 #endif
-
-  /* Start engine. */
-  engine_start();
-
   //test
   int exp_res;
   char ex[4096];
@@ -44,6 +40,9 @@ int main(int argc, char *argv[]) {
     res = expr(ex, &success);
     printf("res = %d, exp_res = %d\n", res, exp_res);
   }
+
+  /* Start engine. */
+  engine_start();
 
   return is_exit_status_bad();
 }

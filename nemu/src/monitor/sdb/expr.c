@@ -112,7 +112,7 @@ void init_regex() {
 
 typedef struct token {
   int type;
-  char str[32];
+  char str[64];
 } Token;
 
 static Token tokens[4096] __attribute__((used)) = {};
@@ -159,6 +159,8 @@ static bool make_token(char *e) {
           case TK_HEX:
             strncpy(tokens[nr_token].str, substr_start+2, substr_len-2);
             break;
+          case TK_REG:
+            strncpy(tokens[nr_token].str, substr_start+1, substr_len-1);
           default:
             break;
         }
@@ -211,12 +213,12 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
-  /* TODO: Insert codes to evaluate the expression. */
-  //TODO();
   for(int i=0; i<nr_token; i++){
+    //check TK_DEREF
     if(tokens[i].type == '*' && (i==0 || (tokens[i-1].type != TK_NUM && tokens[i-1].type != ')'))){
       tokens[i].type = TK_DEREF;
     }
+    //check register name
     if(i<nr_token-1 && tokens[i].type == TK_REG && tokens[i+1].type == TK_NUM){
       *success = false;
       fprintf(stderr, "Error: Register name is error!\n");
@@ -263,13 +265,22 @@ int find_primary_operator(int p, int q){
       l++;
       continue;
     }else if(res==-1 || is_lower(l, res)){
-      printf("lower tokens is %c\n", tokens[l].type);
+      //printf("lower tokens is %c\n", tokens[l].type);
       res = l;
     }
     l++;
   }
   //printf("====over====\n");
   return res;
+}
+
+word_t htod(char str[]){
+  word_t ans = 0;
+  for(int i=strlen(str)-1; i>=0; i--){
+    if(str[i]>='0' && str[i]<='9') ans = ans*16 + str[i] - '0';
+    else ans = ans*16 + str[i]-'a' + 10;
+  }
+  return ans;
 }
 
 word_t eval(int p, int q, bool *success){
@@ -281,7 +292,9 @@ word_t eval(int p, int q, bool *success){
     return 0;
   }
   else if(p == q){
-    return atoi(tokens[p].str);
+    if(tokens[p].type == TK_NUM) return atoi(tokens[p].str);
+    else if(tokens[p].type == TK_HEX) return htod(tokens[p].str);
+    else return 0;
   }
   else if( check_parentheses(p,q) == true){
     return eval(p+1,q-1,success);
@@ -304,6 +317,9 @@ word_t eval(int p, int q, bool *success){
         return 0;
       }
       return val1 / val2;
+    // case TK_EQ: return val1 == val2;
+    // case TK_NE: return val1 != val2;
+    // case TK_AND: return val1 && val2;
     default: 
       fprintf(stderr, "Error: Unexpected operator!\n");
       *success = false;
@@ -313,16 +329,22 @@ word_t eval(int p, int q, bool *success){
 }
 
 void test(){
-  bool success;
-  word_t val = expr("68/(((((79-8))*78*33*84-(81-87-((((35+56/53))/(49)))-26*41*77*95+27+57+66-41/58)-52/10+33-71)))", &success);
+  //bool success;
+  //word_t val = expr("68/(((((79-8))*78*33*84-(81-87-((((35+56/53))/(49)))-26*41*77*95+27+57+66-41/58)-52/10+33-71)))", &success);
   // printf("cnts of tokens:%d\n", nr_token);
   // for(int i=0; i<nr_token; i++){
   //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
   // }
-  printf("success is %d, result val = %lu\n", success, val);
+  //printf("success is %d, result val = %lu\n", success, val);
   // int op = find_primary_operator(0, nr_token-1);
   // printf("primary op index is %d\n", op);
   //printf("%d\n", get_priority('+') >= get_priority(TK_AND));
+
+
+  //test htod()
+  printf("res = %lu", htod("ef12"));
+
+
 }
 //((40-90)*(((40+(18)+41/22))/98))/((5))
 //12 87-(9/41)/(24)-(47)-81/43-37+10+0*40/6

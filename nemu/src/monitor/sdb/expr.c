@@ -125,9 +125,14 @@ static bool make_token(char *e) {
         }
 
         switch (rules[i].token_type) {
-          case TK_NUM : 
+          case TK_NUM: 
             strncpy(tokens[nr_token].str, substr_start, substr_len);
-          default: 
+            break;
+          case TK_HEX:
+            strncpy(tokens[nr_token].str, substr_start+2, substr_len);
+            break;
+          default:
+            break;
         }
 
         ++nr_token;
@@ -274,9 +279,9 @@ void test(){
   bool success;
   word_t val = expr("0xef12 $$0 $s15 $s11", &success);
   // printf("cnts of tokens:%d\n", nr_token);
-  // for(int i=0; i<nr_token; i++){
-  //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
-  // }
+  for(int i=0; i<nr_token; i++){
+    printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
+  }
   printf("success is %d, result val = %lu\n", success, val);
   // int op = find_primary_operator(0, nr_token-1);
   // printf("primary op index is %d\n", op);

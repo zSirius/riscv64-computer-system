@@ -280,7 +280,8 @@ word_t htod(char str[]){
   word_t ans = 0;
   for(int i=0; str[i]!='\0'; i++){
     if(str[i]>='0' && str[i]<='9') ans = ans*16 + str[i] - '0';
-    else ans = ans*16 + str[i]-'a' + 10;
+    else if(str[i]>='a' && str[i]<='z') ans = ans*16 + str[i]-'a' + 10;
+    else ans = ans*16 + str[i]-'A' + 10;
   }
   return ans;
 }
@@ -332,7 +333,7 @@ word_t eval(int p, int q, bool *success){
 
 void test(){
   bool success;
-  word_t val = expr("(((0x6)+0x3a*((0x4d))*0x41) / 0x47)", &success);
+  word_t val = expr("(((0x6)+0x3A*((0x4D))*0x41) / 0x47)", &success);
   printf("---cnts of tokens:%d---\n", nr_token);
   for(int i=0; i<nr_token; i++){
     printf("idx is %d, token type:%d, str:%s\n", i, tokens[i].type, tokens[i].str);

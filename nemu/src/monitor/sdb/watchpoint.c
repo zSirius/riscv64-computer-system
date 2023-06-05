@@ -17,13 +17,7 @@
 
 #define NR_WP 32
 
-typedef struct watchpoint {
-  int NO;
-  struct watchpoint *next;
 
-  /* TODO: Add more members if necessary */
-
-} WP;
 
 static WP wp_pool[NR_WP] = {};
 static WP *head = NULL, *free_ = NULL;
@@ -50,6 +44,7 @@ WP* new_wp(){
   free_ = free_->next;
   return ret;
 }
+
 void free_wp(WP *wp){
   if(head == wp){
     if(head->next == NULL) head = NULL;
@@ -72,5 +67,37 @@ void free_wp(WP *wp){
   wp->next = free_;
   free_ = wp;
   return;
+}
+
+bool check_watchpoint(){
+  if(head == NULL) return false;
+  WP *tmp = head;
+  bool success;
+  bool break_flag = false;
+  while(tmp != NULL){
+    word_t new_value = expr(tmp->expr, &success);
+    if(!success){
+      fprintf(stderr, "Error: Please cheack your expression \"%s\"\n", tmp->expr);
+    }else{
+      if(new_value != tmp->old_value){
+        printf("watchpoint %d: %s\n", tmp->NO, tmp->expr);
+        printf("Old value = %lu\n", tmp->old_value);
+        printf("New value = %lu\n", new_value);
+        tmp->hit_cnt++;
+        break_flag = true;
+      }
+    }
+    tmp = tmp->next;
+  }
+  return break_flag;
+}
+
+WP *find_wp(int NO){
+  WP *tmp = head;
+  while(tmp!=NULL){
+    if(tmp->NO == NO) return tmp;
+  }
+  fprintf(stderr, "Error: watchpoint %d is not exist!\n", NO);
+  return NULL;
 }
 

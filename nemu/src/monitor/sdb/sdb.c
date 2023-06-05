@@ -25,6 +25,9 @@ static int is_batch_mode = false;
 void init_regex();
 void init_wp_pool();
 word_t expr(char *e, bool *success);
+WP *find_wp(int NO);
+void free_wp(WP *wp);
+WP* new_wp();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -91,13 +94,13 @@ static int cmd_x(char *args){
     fprintf(stderr, "Error: Please check your expression!\n");
     return 0;
   }
+  //format print data
   for(int i=0; i<N; i++){
     printf("0x%016lx: ",EXPR_vddr+4*i);
     for(int j=3; j>=0; j--)
-      printf("%02lx ", vaddr_read(EXPR_vddr+4*i+j, 1));
+      printf("%02lx ", vaddr_read(EXPR_vddr+4*i+j, 1));  //small-ended sequence
   }
   printf("\n");
-//printf("0x%016lx: %08lx\n", EXPR_vddr+4*i+j, vaddr_read(EXPR_vddr+4*i+j, 1));
   return 0;
 }
 
@@ -108,6 +111,37 @@ static int cmd_p(char *args){
     fprintf(stderr, "Error: Please check your expression!\n");
   }else{
     printf("%lu\n", res);
+  }
+  return 0;
+}
+
+static int cmd_w(char *args){
+  bool success;
+  word_t val = expr(args, &success);
+  if(!success){
+    fprintf(stderr, "Error: Please check your expression!\n");
+    return 0;
+  }
+
+  WP *wp = new_wp();
+  if(wp != NULL){
+    strcpy(wp->expr, args);
+    wp->old_value = val;
+    wp->hit_cnt=0;
+  }
+  return 0;
+}
+
+static int cmd_d(char *args){
+  bool success;
+  int NO = expr(args, &success);
+  if(!success){
+    fprintf(stderr, "Error: Please check your expression!\n");
+    return 0;
+  }
+  WP *wp = find_wp(NO);
+  if(wp != NULL){
+    free_wp(wp);
   }
   return 0;
 }
@@ -124,6 +158,8 @@ static struct {
   { "info", "Print infomation of the program", cmd_info},
   { "x", "Scan memory", cmd_x},
   { "p", "Expression evaluation", cmd_p},
+  { "w", "Add watchpoint", cmd_w},
+  { "d", "Delete watchpoint", cmd_d},
 
   /* TODO: Add more commands */
 

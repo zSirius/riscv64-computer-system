@@ -299,7 +299,10 @@ word_t eval(int p, int q, bool *success){
     return 0;
   }
   else if(p == q){
-    if(tokens[p].type == TK_NUM) return atoi(tokens[p].str);
+    if(tokens[p].type == TK_NUM) {
+      printf("%s, %d\n",tokens[p].str, atoi(tokens[p].str));
+      return atoi(tokens[p].str);
+    }
     else if(tokens[p].type == TK_HEX) return htod(tokens[p].str);
     else {
       bool reg_success;

@@ -297,15 +297,22 @@ word_t eval(int p, int q, bool *success){
   else if(p == q){
     if(tokens[p].type == TK_NUM) return atoi(tokens[p].str);
     else if(tokens[p].type == TK_HEX) return htod(tokens[p].str);
-    else return isa_reg_str2val(tokens[p].str, NULL);
+    else {
+      int ret = isa_reg_str2val(tokens[p].str, success);
+      if(!success){
+        fprintf(stderr, "Error: $%s is a invalid register!", tokens[p].str);
+        return 0;
+      }
+      return ret;
+    }
   }
   else if( check_parentheses(p,q) == true){
     return eval(p+1,q-1,success);
   }
   else{
     int op = find_primary_operator(p,q);
-    printf("p is %d, q is %d\n", p, q);
-    printf("op idx is %d ,  %c\n", op , tokens[op].type);
+    // printf("p is %d, q is %d\n", p, q);
+    // printf("op idx is %d ,  %c\n", op , tokens[op].type);
     word_t val1 = eval(p, op-1,success);
     word_t val2 = eval(op+1, q,success);
     switch (tokens[op].type)
@@ -333,12 +340,12 @@ word_t eval(int p, int q, bool *success){
 
 void test(){
   bool success;
-  // word_t val = expr("(((0x6)+0x3A*((0x4d))*0x41) / 0x47)", &success);
+  word_t val = expr("$$0", &success);
   // printf("---cnts of tokens:%d---\n", nr_token);
   // for(int i=0; i<nr_token; i++){
   //   printf("idx is %d, token type:%d, str:%s\n", i, tokens[i].type, tokens[i].str);
   // }
-  // printf("success is %d, result val = %lu\n", success, val);
+  printf("success is %d, result val = %lu\n", success, val);
   // int op = find_primary_operator(0, nr_token-1);
   // printf("primary op index is %d\n", op);
   //printf("%d\n", get_priority('+') >= get_priority(TK_AND));  
@@ -347,7 +354,6 @@ void test(){
   //test htod()
   //printf("res = %lu\n", htod("ef12"));
 
-  isa_reg_str2val("s12", &success);
 
 
 }

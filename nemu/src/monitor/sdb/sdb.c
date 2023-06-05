@@ -80,8 +80,16 @@ static int cmd_info(char *args){
 static int cmd_x(char *args){
   int N;
   vaddr_t EXPR_vddr;
-  sscanf(args, "%d 0x%lx", &N, &EXPR_vddr);
+  char str[128];
+  bool success;
 
+  sscanf(args, "%d %s", &N, str);
+  EXPR_vddr = expr(str, &success);
+
+  if(!success){
+    fprintf(stderr, "Error: Please check your expression!\n");
+    return 0;
+  }
   for(int i=0; i<N; i++){
     printf("0x%016lx: %08lx\n", EXPR_vddr+4*i, vaddr_read(EXPR_vddr+4*i, 4));
   }

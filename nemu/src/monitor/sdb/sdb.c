@@ -28,6 +28,7 @@ word_t expr(char *e, bool *success);
 WP *find_wp(int NO);
 void free_wp(WP *wp);
 WP* new_wp();
+void watchpoint_display();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -77,6 +78,9 @@ static int cmd_si(char *args){
 static int cmd_info(char *args){
   if(strcmp(args,"r")==0)
     isa_reg_display();
+  else{
+    watchpoint_display();
+  }
   return 0;
 }
 

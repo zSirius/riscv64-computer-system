@@ -101,3 +101,11 @@ WP *find_wp(int NO){
   return NULL;
 }
 
+void watchpoint_display(){
+  printf("Num   Hit   What\n");
+  WP *wp = head;
+  while(wp!=NULL){
+    printf("%-6d%-6d%s\n",wp->NO,wp->hit_cnt,wp->expr);
+  }
+}
+

@@ -285,7 +285,7 @@ word_t htod(char str[]){
 }
 
 word_t eval(int p, int q, bool *success){
-  printf("p is %d, q is %d\n", p ,q);
+  //printf("p is %d, q is %d\n", p ,q);
   if((*success)==false) return 0;
   if( p > q){
     fprintf(stderr, "Error: Bad expression!\n");
@@ -302,8 +302,8 @@ word_t eval(int p, int q, bool *success){
   }
   else{
     int op = find_primary_operator(p,q);
-    // printf("p is %d, q is %d\n", p, q);
-    // printf("op idx is %d ,  %c\n", op , tokens[op].type);
+    printf("p is %d, q is %d\n", p, q);
+    printf("op idx is %d ,  %c\n", op , tokens[op].type);
     word_t val1 = eval(p, op-1,success);
     word_t val2 = eval(op+1, q,success);
     switch (tokens[op].type)
@@ -352,3 +352,4 @@ void test(){
 //((97))-(11/((((0)))-17+21-(78)-(74)-((59))))
 //324809 65+61-37+37/31-((23)+2*96+(0*36*(26)/(((39)))+87*12-(59)-(((89)))*((37)/(36))+35+24+(96)-23*((22/35))+(2))/23+(33)*3+(81)/70/((((42)))-14)-42/((13)+(5/(9))-(65)-(3)+(97)*34-99-91*97+55-82*((((((((56)+(61))))))/72-9*14-29)*13))/(89-97-(79))/15-48+(71)/(41)-39*25+90+(60+((49/40)-46)-29*20/(96)*9*30/(10)*33+(((((66/69))))-(((86-(13))))))*60+45-(((87))/5)*74/41+79-(((45)/((61)*(26*(24)/((38))-(97)))/87)))
 // 4088 (((6)+58*((77))*65)/(71))    (((0x6)+0x3a*((0x4d))*65)/(71))
+//(((0x6)+0x3a*((0x4d))*65)/(71))

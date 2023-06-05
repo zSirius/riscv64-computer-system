@@ -42,7 +42,9 @@ WP* new_wp(){
     return NULL;
   }
   WP * ret = free_;
-  free_ = free_->next;
+  free_ = free_->next;   
+  ret->next = head;
+  head = ret;
   return ret;
 }
 

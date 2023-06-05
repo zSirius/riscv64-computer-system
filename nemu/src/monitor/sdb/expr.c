@@ -285,7 +285,7 @@ word_t htod(char str[]){
 }
 
 word_t eval(int p, int q, bool *success){
-  //printf("here is %d, p is %d, q is %d\n", ++cnt, p ,q);
+  printf("p is %d, q is %d\n", p ,q);
   if((*success)==false) return 0;
   if( p > q){
     fprintf(stderr, "Error: Bad expression!\n");

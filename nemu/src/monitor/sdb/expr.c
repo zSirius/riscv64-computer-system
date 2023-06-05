@@ -316,7 +316,7 @@ word_t eval(int p, int q, bool *success){
     int op = find_primary_operator(p,q);
     // printf("p is %d, q is %d\n", p, q);
     // printf("op idx is %d ,  %c\n", op , tokens[op].type);
-    if(op == TK_DEREF) return vaddr_read(atoi(tokens[q].str), 1);
+    if(op == TK_DEREF) return vaddr_read(atoi(tokens[q].str), 4);
     word_t val1 = eval(p, op-1,success);
     word_t val2 = eval(op+1, q,success);
     switch (tokens[op].type)

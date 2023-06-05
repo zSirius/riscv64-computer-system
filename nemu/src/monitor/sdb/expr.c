@@ -332,10 +332,10 @@ word_t eval(int p, int q, bool *success){
 void test(){
   bool success;
   word_t val = expr("(((6)+0x3a*((77))*65)/(71))", &success);
-  // printf("cnts of tokens:%d\n", nr_token);
-  // for(int i=0; i<nr_token; i++){
-  //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);
-  // }
+  printf("---cnts of tokens:%d---\n", nr_token);
+  for(int i=0; i<nr_token; i++){
+    printf("idx is %d, token type:%d, str:%s\n", i, tokens[i].type, tokens[i].str);
+  }
   printf("success is %d, result val = %lu\n", success, val);
   // int op = find_primary_operator(0, nr_token-1);
   // printf("primary op index is %d\n", op);
@@ -352,4 +352,4 @@ void test(){
 //((97))-(11/((((0)))-17+21-(78)-(74)-((59))))
 //324809 65+61-37+37/31-((23)+2*96+(0*36*(26)/(((39)))+87*12-(59)-(((89)))*((37)/(36))+35+24+(96)-23*((22/35))+(2))/23+(33)*3+(81)/70/((((42)))-14)-42/((13)+(5/(9))-(65)-(3)+(97)*34-99-91*97+55-82*((((((((56)+(61))))))/72-9*14-29)*13))/(89-97-(79))/15-48+(71)/(41)-39*25+90+(60+((49/40)-46)-29*20/(96)*9*30/(10)*33+(((((66/69))))-(((86-(13))))))*60+45-(((87))/5)*74/41+79-(((45)/((61)*(26*(24)/((38))-(97)))/87)))
 // 4088 (((6)+58*((77))*65)/(71))    (((0x6)+0x3a*((0x4d))*65)/(71))
-//(((0x6)+0x3a*((0x4d))*65)/(71))
+//(((6)+0x3a*((77))*65) / (71))

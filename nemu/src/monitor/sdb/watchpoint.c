@@ -36,7 +36,6 @@ void init_wp_pool() {
 /* TODO: Implement the functionality of watchpoint */
 
 WP* new_wp(){
-  printf("this is new_wp\n");
   if(free_ == NULL){
     fprintf(stderr, "Error: Can not create more watchpoint!\n");
     return NULL;

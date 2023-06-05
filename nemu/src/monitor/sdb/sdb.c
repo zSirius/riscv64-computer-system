@@ -139,6 +139,7 @@ static int cmd_w(char *args){
 static int cmd_d(char *args){
   bool success;
   int NO = expr(args, &success);
+  printf("NO is %d\n", NO);
   if(!success){
     fprintf(stderr, "Error: Please check your expression!\n");
     return 0;

@@ -317,7 +317,8 @@ word_t eval(int p, int q, bool *success){
     printf("p is %d, q is %d\n", p, q);
     printf("op idx is %d ,  %d\n", op , tokens[op].type);
     if(op == TK_DEREF) {
-      printf("q type is %d, str is %s", tokens[q].type, tokens[q].str);
+      printf("this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      printf("q type is %d, str is %s\n", tokens[q].type, tokens[q].str);
       if(tokens[q].type == TK_NUM) return vaddr_read(atoi(tokens[q].str), 4);
       else return vaddr_read(htod(tokens[q].str), 4);
     }

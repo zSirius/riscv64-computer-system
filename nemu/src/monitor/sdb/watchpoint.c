@@ -109,6 +109,7 @@ void watchpoint_display(){
   WP *wp = head;
   while(wp!=NULL){
     printf("%-6d%-6d%s\n",wp->NO,wp->hit_cnt,wp->expr);
+    wp = wp->next;
   }
 }
 

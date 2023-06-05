@@ -243,7 +243,7 @@ bool is_lower(int a,int b){
   // if( (tokens[a].type=='*'||tokens[a].type=='/') && (tokens[b].type== '+' || tokens[b].type== '-') ) 
   //   return false;
   // return true;
-  //printf("first type is %c , second type is %c\n", tokens[a].type, tokens[b].type);
+  printf("first type is %d , second type is %d\n", tokens[a].type, tokens[b].type);
   return  get_priority(tokens[a].type) >= get_priority(tokens[b].type);
 
 }

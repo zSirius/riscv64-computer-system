@@ -22,6 +22,7 @@
 
 word_t eval(int p, int q, bool *success);
 word_t isa_reg_str2val(const char *s, bool *success);
+word_t vaddr_read(vaddr_t addr, int len);
 
 enum {
   TK_NOTYPE = 256, TK_EQ, TK_NE, TK_AND, TK_NUM, TK_HEX, TK_DEREF, TK_REG,
@@ -315,6 +316,7 @@ word_t eval(int p, int q, bool *success){
     int op = find_primary_operator(p,q);
     // printf("p is %d, q is %d\n", p, q);
     // printf("op idx is %d ,  %c\n", op , tokens[op].type);
+    if(op == TK_DEREF) return vaddr_read(atoi(tokens[q].str), 1);
     word_t val1 = eval(p, op-1,success);
     word_t val2 = eval(op+1, q,success);
     switch (tokens[op].type)
@@ -342,7 +344,7 @@ word_t eval(int p, int q, bool *success){
 
 void test(){
   bool success;
-  word_t val = expr("(99&&1) == (5*8&&1)", &success);
+  word_t val = expr("", &success);
   // printf("---cnts of tokens:%d---\n", nr_token);
   // for(int i=0; i<nr_token; i++){
   //   printf("idx is %d, token type:%d, str:%s\n", i, tokens[i].type, tokens[i].str);

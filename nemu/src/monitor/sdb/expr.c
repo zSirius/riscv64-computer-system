@@ -317,7 +317,6 @@ word_t eval(int p, int q, bool *success){
     printf("p is %d, q is %d\n", p, q);
     printf("op idx is %d ,  %d\n", op , tokens[op].type);
     if(tokens[op].type == TK_DEREF) {
-      printf("this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       printf("q type is %d, str is %s\n", tokens[q].type, tokens[q].str);
       if(tokens[q].type == TK_NUM) return vaddr_read(atoi(tokens[q].str), 4);
       else return vaddr_read(htod(tokens[q].str), 4);
@@ -349,7 +348,7 @@ word_t eval(int p, int q, bool *success){
 
 void test(){
   bool success;
-  word_t val = expr("*0x80000000", &success);
+  word_t val = expr("5**0x80000000", &success);
   // printf("---cnts of tokens:%d---\n", nr_token);
   // for(int i=0; i<nr_token; i++){
   //   printf("idx is %d, token type:%d, str:%s\n", i, tokens[i].type, tokens[i].str);

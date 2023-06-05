@@ -83,7 +83,7 @@ static int cmd_x(char *args){
   char str[128];
   bool success;
 
-  sscanf(args, "%d %s", &N, str);
+  sscanf(args, "%d %[^\n]", &N, str);
   printf("%d, %s, %s\n", N, str, args);
   EXPR_vddr = expr(str, &success);
 

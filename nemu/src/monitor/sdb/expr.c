@@ -230,6 +230,7 @@ word_t expr(char *e, bool *success) {
   }
 
   *success = true;
+  printf("nr_token is %d\n", nr_token);
   return eval(0, nr_token-1, success);
   //return 1;
 }

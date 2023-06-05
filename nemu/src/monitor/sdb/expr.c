@@ -298,8 +298,10 @@ word_t eval(int p, int q, bool *success){
     if(tokens[p].type == TK_NUM) return atoi(tokens[p].str);
     else if(tokens[p].type == TK_HEX) return htod(tokens[p].str);
     else {
-      int ret = isa_reg_str2val(tokens[p].str, success);
-      if(!success){
+      bool reg_success;
+      int ret = isa_reg_str2val(tokens[p].str, &reg_success);
+      if(!reg_success){
+        *success = false;
         fprintf(stderr, "Error: $%s is a invalid register!", tokens[p].str);
         return 0;
       }

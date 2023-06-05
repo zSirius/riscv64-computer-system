@@ -333,12 +333,12 @@ word_t eval(int p, int q, bool *success){
 
 void test(){
   bool success;
-  word_t val = expr("(((0x6)+0x3A*((0x4d))*0x41) / 0x47)", &success);
-  printf("---cnts of tokens:%d---\n", nr_token);
-  for(int i=0; i<nr_token; i++){
-    printf("idx is %d, token type:%d, str:%s\n", i, tokens[i].type, tokens[i].str);
-  }
-  printf("success is %d, result val = %lu\n", success, val);
+  // word_t val = expr("(((0x6)+0x3A*((0x4d))*0x41) / 0x47)", &success);
+  // printf("---cnts of tokens:%d---\n", nr_token);
+  // for(int i=0; i<nr_token; i++){
+  //   printf("idx is %d, token type:%d, str:%s\n", i, tokens[i].type, tokens[i].str);
+  // }
+  // printf("success is %d, result val = %lu\n", success, val);
   // int op = find_primary_operator(0, nr_token-1);
   // printf("primary op index is %d\n", op);
   //printf("%d\n", get_priority('+') >= get_priority(TK_AND));  
@@ -346,6 +346,8 @@ void test(){
 
   //test htod()
   //printf("res = %lu\n", htod("ef12"));
+
+  isa_reg_str2val("$0", &success);
 
 
 }

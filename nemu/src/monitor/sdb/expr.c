@@ -261,7 +261,7 @@ int find_primary_operator(int p, int q){
       parent_flag++;
     }else if(tokens[l].type == ')'){
       parent_flag--;
-    }else if(parent_flag || tokens[l].type == TK_NUM){
+    }else if(parent_flag || tokens[l].type == TK_NUM || tokens[l].type == TK_HEX || tokens[l].type == TK_REG){
       //if(tokens[l].type == TK_NUM) printf("this is a num, is %s\n", tokens[l].str);
       l++;
       continue;

@@ -348,7 +348,7 @@ word_t eval(int p, int q, bool *success){
 
 void test(){
   bool success;
-  word_t val = expr("5**0x80000000", &success);
+  word_t val = expr("700-*0x80000000", &success);
   // printf("---cnts of tokens:%d---\n", nr_token);
   // for(int i=0; i<nr_token; i++){
   //   printf("idx is %d, token type:%d, str:%s\n", i, tokens[i].type, tokens[i].str);

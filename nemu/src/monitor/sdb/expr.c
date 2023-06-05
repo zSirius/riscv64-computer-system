@@ -331,7 +331,7 @@ word_t eval(int p, int q, bool *success){
 
 void test(){
   bool success;
-  word_t val = expr("5 + 0xef12", &success);
+  word_t val = expr("87-(9/41)/(24)-(47)-0x51/43-0x25+10+0*40/6", &success);
   // printf("cnts of tokens:%d\n", nr_token);
   // for(int i=0; i<nr_token; i++){
   //   printf("token type:%d, str:%s\n", tokens[i].type, tokens[i].str);

@@ -94,7 +94,7 @@ static int cmd_x(char *args){
   for(int i=0; i<N; i++){
     printf("0x%016lx: ",EXPR_vddr+4*i);
     for(int j=0; j<4; j++)
-      printf("%08lx ", vaddr_read(EXPR_vddr+4*i+j, 1));
+      printf("%02lx ", vaddr_read(EXPR_vddr+4*i+j, 1));
   }
   printf("\n");
 //printf("0x%016lx: %08lx\n", EXPR_vddr+4*i+j, vaddr_read(EXPR_vddr+4*i+j, 1));

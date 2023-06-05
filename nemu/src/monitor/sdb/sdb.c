@@ -93,7 +93,7 @@ static int cmd_x(char *args){
   }
   for(int i=0; i<N; i++){
     printf("0x%016lx: ",EXPR_vddr+4*i);
-    for(int j=0; j<4; j++)
+    for(int j=3; j>=0; j--)
       printf("%02lx ", vaddr_read(EXPR_vddr+4*i+j, 1));
   }
   printf("\n");

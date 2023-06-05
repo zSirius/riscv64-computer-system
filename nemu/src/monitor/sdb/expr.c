@@ -347,7 +347,7 @@ void test(){
   //test htod()
   //printf("res = %lu\n", htod("ef12"));
 
-  isa_reg_str2val("$0", &success);
+  isa_reg_str2val("ra", &success);
 
 
 }

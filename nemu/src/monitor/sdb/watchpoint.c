@@ -99,6 +99,7 @@ WP *find_wp(int NO){
   WP *tmp = head;
   while(tmp!=NULL){
     if(tmp->NO == NO) return tmp;
+    tmp=tmp->next;
   }
   fprintf(stderr, "Error: watchpoint %d is not exist!\n", NO);
   return NULL;

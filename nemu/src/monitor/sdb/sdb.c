@@ -24,6 +24,7 @@ static int is_batch_mode = false;
 
 void init_regex();
 void init_wp_pool();
+word_t expr(char *e, bool *success);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -88,6 +89,17 @@ static int cmd_x(char *args){
   return 0;
 }
 
+static int cmd_p(char *args){
+  bool success;
+  word_t res = expr(args, &success);
+  if(!success){
+    fprintf(stderr, "Error: Please check your expression!\n");
+  }else{
+    printf("%lu\n", res);
+  }
+  return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -99,6 +111,7 @@ static struct {
   { "si", "Single step of the execution of the program", cmd_si},
   { "info", "Print infomation of the program", cmd_info},
   { "x", "Scan memory", cmd_x},
+  { "p", "Expression evaluation", cmd_p},
 
   /* TODO: Add more commands */
 

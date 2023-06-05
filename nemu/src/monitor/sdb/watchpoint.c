@@ -41,3 +41,36 @@ void init_wp_pool() {
 
 /* TODO: Implement the functionality of watchpoint */
 
+WP* new_wp(){
+  if(free_ == NULL){
+    fprintf(stderr, "Error: Can not create more watchpoint!\n");
+    return NULL;
+  }
+  WP * ret = free_;
+  free_ = free_->next;
+  return ret;
+}
+void free_wp(WP *wp){
+  if(head == wp){
+    if(head->next == NULL) head = NULL;
+    else head = head->next;
+  }else{
+    WP *pre = head, *cur = head->next;
+    while(cur!=NULL){
+      if(cur==wp){
+        pre->next = cur->next;
+        break;
+      }
+      pre = cur;
+      cur = cur->next;
+    }
+    if(cur == NULL){
+      fprintf(stderr, "Error: No such watchpoint exist!\n");
+      return;
+    }
+  }
+  wp->next = free_;
+  free_ = wp;
+  return;
+}
+

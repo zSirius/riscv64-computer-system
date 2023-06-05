@@ -109,7 +109,7 @@ void init_regex() {
     }
   }
 
-  test();
+  //test();
 }
 
 typedef struct token {

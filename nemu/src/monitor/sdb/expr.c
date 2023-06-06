@@ -294,6 +294,14 @@ word_t htod(char str[]){
   return ans;
 }
 
+word_t atow(char str[]){
+  word_t ans = 0;
+  for(int i=0; str[i]!='\0'; i++){
+    ans = ans*10+str[i]-'0';
+  }
+  return ans;
+}
+
 word_t eval(int p, int q, bool *success){
   printf("p is %d, q is %d\n", p ,q);
   if((*success)==false) return 0;
@@ -304,8 +312,8 @@ word_t eval(int p, int q, bool *success){
   }
   else if(p == q){
     if(tokens[p].type == TK_NUM) {
-      printf("%s, %d\n",tokens[p].str, atoi(tokens[p].str));
-      return atoi(tokens[p].str);
+      printf("%s, %lu\n",tokens[p].str, atow(tokens[p].str));
+      return atow(tokens[p].str);
     }
     else if(tokens[p].type == TK_HEX) return htod(tokens[p].str);
     else {

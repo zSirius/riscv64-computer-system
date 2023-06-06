@@ -80,7 +80,7 @@ static int cmd_info(char *args){
     isa_reg_display();
   else{
 #ifndef CONFIG_WATCHPOINT
-  fprintf(stder, "Error: Please enable watchpoint!\n");
+  fprintf(stderr, "Error: Please enable watchpoint!\n");
   return 0;
 #endif
     watchpoint_display();
@@ -125,7 +125,7 @@ static int cmd_p(char *args){
 
 static int cmd_w(char *args){
 #ifndef CONFIG_WATCHPOINT
-  fprintf(stder, "Error: Please enable watchpoint!\n");
+  fprintf(stderr, "Error: Please enable watchpoint!\n");
   return 0;
 #endif
   bool success;
@@ -146,7 +146,7 @@ static int cmd_w(char *args){
 
 static int cmd_d(char *args){
 #ifndef CONFIG_WATCHPOINT
-  fprintf(stder, "Error: Please enable watchpoint!\n");
+  fprintf(stderr, "Error: Please enable watchpoint!\n");
   return 0;
 #endif
   bool success;

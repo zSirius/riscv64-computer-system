@@ -79,6 +79,10 @@ static int cmd_info(char *args){
   if(strcmp(args,"r")==0)
     isa_reg_display();
   else{
+#ifndef CONFIG_WATCHPOINT
+  fprintf(stder, "Error: Please enable watchpoint!\n");
+  return 0;
+#endif
     watchpoint_display();
   }
   return 0;
@@ -122,6 +126,7 @@ static int cmd_p(char *args){
 static int cmd_w(char *args){
 #ifndef CONFIG_WATCHPOINT
   fprintf(stder, "Error: Please enable watchpoint!\n");
+  return 0;
 #endif
   bool success;
   word_t val = expr(args, &success);
@@ -140,6 +145,10 @@ static int cmd_w(char *args){
 }
 
 static int cmd_d(char *args){
+#ifndef CONFIG_WATCHPOINT
+  fprintf(stder, "Error: Please enable watchpoint!\n");
+  return 0;
+#endif
   bool success;
   int NO = expr(args, &success);
   printf("str is %s, NO is %d\n",args,  NO);

@@ -83,12 +83,6 @@ static int get_priority(int type){
   return 0;
 }
 
-
-
-//\\$(\\$0|ra|sp|gp|tp|t[0-6]|s[0-9]|s10|s11|a[0-7])(?![0-9a-z])
-
-void test();
-
 #define NR_REGEX ARRLEN(rules)
 
 static regex_t re[NR_REGEX] = {};
@@ -109,7 +103,6 @@ void init_regex() {
     }
   }
 
-  //test();
 }
 
 typedef struct token {
@@ -234,53 +227,36 @@ word_t expr(char *e, bool *success) {
   }
 
   *success = true;
-  //printf("nr_token is %d\n", nr_token);
-  word_t res = eval(0, nr_token-1, success);
-  printf("res = %lu\n", res);
-  return res;
-  //return eval(0, nr_token-1, success);
+  // word_t res = eval(0, nr_token-1, success);
+  // printf("res = %lu\n", res);
+  // return res;
+  return eval(0, nr_token-1, success);
 }
 
 
 //return a is lower b
 bool is_lower(int a,int b){
-  //printf("------is_lower------\n");
-  //printf("p is %d, res is %d\n", p, res);
-  //printf("p type is %c, res type is %c\n\n", tokens[p].type, tokens[res].type);
-  //printf("tokens[p]: %c, tokens[res]: %c\n", tokens[p].type, tokens[res].type);
-
-  // if( (tokens[a].type=='*'||tokens[a].type=='/') && (tokens[b].type== '+' || tokens[b].type== '-') ) 
-  //   return false;
-  // return true;
-  //printf("first type is %d , second type is %d\n", tokens[a].type, tokens[b].type);
   return  get_priority(tokens[a].type) >= get_priority(tokens[b].type);
-
 }
 
 
 int find_primary_operator(int p, int q){
-  //printf("====find op====\n");
-  //printf("p is %d, q is %d\n", p, q);
   int res=-1;
   int l=p;
   int parent_flag = 0; 
   while(l<q){
-    //printf("token type is %d,  res=%d, flags = %d\n", tokens[l].type, res, parent_flag);
     if(tokens[l].type == '('){
       parent_flag++;
     }else if(tokens[l].type == ')'){
       parent_flag--;
     }else if(parent_flag || tokens[l].type == TK_NUM || tokens[l].type == TK_HEX || tokens[l].type == TK_REG){
-      //if(tokens[l].type == TK_NUM) printf("this is a num, is %s\n", tokens[l].str);
       l++;
       continue;
     }else if(res==-1 || is_lower(l, res)){
-      //printf("lower tokens is %c\n", tokens[l].type);
       res = l;
     }
     l++;
   }
-  //printf("====over====\n");
   return res;
 }
 
@@ -303,7 +279,6 @@ word_t atow(char str[]){
 }
 
 word_t eval(int p, int q, bool *success){
-  //printf("p is %d, q is %d\n", p ,q);
   if((*success)==false) return 0;
   if( p > q){
     fprintf(stderr, "Error: Bad expression!\n");
@@ -312,10 +287,11 @@ word_t eval(int p, int q, bool *success){
   }
   else if(p == q){
     if(tokens[p].type == TK_NUM) {
-      printf("%s, %lu\n",tokens[p].str, atow(tokens[p].str));
       return atow(tokens[p].str);
     }
-    else if(tokens[p].type == TK_HEX) return htod(tokens[p].str);
+    else if(tokens[p].type == TK_HEX) {
+      return htod(tokens[p].str);
+    }
     else {
       bool reg_success;
       int ret = isa_reg_str2val(tokens[p].str, &reg_success);
@@ -332,10 +308,7 @@ word_t eval(int p, int q, bool *success){
   }
   else{
     int op = find_primary_operator(p,q);
-    // printf("p is %d, q is %d\n", p, q);
-    // printf("op idx is %d ,  %d\n", op , tokens[op].type);
     if(tokens[op].type == TK_DEREF) {
-      //printf("q type is %d, str is %s\n", tokens[q].type, tokens[q].str);
       if(tokens[q].type == TK_NUM) return vaddr_read(atoi(tokens[q].str), 4);
       else return vaddr_read(htod(tokens[q].str), 4);
     }
@@ -363,29 +336,3 @@ word_t eval(int p, int q, bool *success){
     }
   }
 }
-
-void test(){
-  bool success;
-  word_t val = expr("(((0x6)+663*((0x4d))*0x41) / 0x47)", &success);
-  // printf("---cnts of tokens:%d---\n", nr_token);
-  // for(int i=0; i<nr_token; i++){
-  //   printf("idx is %d, token type:%d, str:%s\n", i, tokens[i].type, tokens[i].str);
-  // }
-  printf("success is %d, result val = %lu\n", success, val);
-  // int op = find_primary_operator(0, nr_token-1);
-  // printf("primary op index is %d\n", op);
-  //printf("%d\n", get_priority('+') >= get_priority(TK_AND));  
-
-
-  //test htod()
-  //printf("res = %lu\n", htod("ef12"));
-
-
-
-}
-//((40-90)*(((40+(18)+41/22))/98))/((5))
-//12 87-(9/41)/(24)-(47)-81/43-37+10+0*40/6
-//((97))-(11/((((0)))-17+21-(78)-(74)-((59))))
-//324809 65+61-37+37/31-((23)+2*96+(0*36*(26)/(((39)))+87*12-(59)-(((89)))*((37)/(36))+35+24+(96)-23*((22/35))+(2))/23+(33)*3+(81)/70/((((42)))-14)-42/((13)+(5/(9))-(65)-(3)+(97)*34-99-91*97+55-82*((((((((56)+(61))))))/72-9*14-29)*13))/(89-97-(79))/15-48+(71)/(41)-39*25+90+(60+((49/40)-46)-29*20/(96)*9*30/(10)*33+(((((66/69))))-(((86-(13))))))*60+45-(((87))/5)*74/41+79-(((45)/((61)*(26*(24)/((38))-(97)))/87)))
-// 4088 (((6)+58*((77))*65)/(71))    (((0x6)+0x3a*((0x4d))*65)/(71))
-//(((0x6)+0x3a*((0x4d))*0x41) / 0x47)

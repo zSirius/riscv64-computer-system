@@ -234,7 +234,7 @@ word_t expr(char *e, bool *success) {
   }
 
   *success = true;
-  printf("nr_token is %d\n", nr_token);
+  //printf("nr_token is %d\n", nr_token);
   word_t res = eval(0, nr_token-1, success);
   printf("res = %lu\n", res);
   return res;
@@ -303,7 +303,7 @@ word_t atow(char str[]){
 }
 
 word_t eval(int p, int q, bool *success){
-  printf("p is %d, q is %d\n", p ,q);
+  //printf("p is %d, q is %d\n", p ,q);
   if((*success)==false) return 0;
   if( p > q){
     fprintf(stderr, "Error: Bad expression!\n");

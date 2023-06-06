@@ -86,6 +86,7 @@ bool check_watchpoint(){
         printf("Old value = %lu\n", tmp->old_value);
         printf("New value = %lu\n", new_value);
         tmp->hit_cnt++;
+        tmp->old_value = new_value;
         break_flag = true;
       }
     }

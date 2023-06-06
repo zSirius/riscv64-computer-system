@@ -120,6 +120,9 @@ static int cmd_p(char *args){
 }
 
 static int cmd_w(char *args){
+#ifndef CONFIG_WATCHPOINT
+  fprintf(stder, "Error: Please enable watchpoint!\n");
+#endif
   bool success;
   word_t val = expr(args, &success);
   if(!success){

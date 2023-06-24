@@ -63,9 +63,9 @@ void mtrace_display(){
     printf("Never read memory!\n");
   }else{
     printf("Read memory history:\n");
-    printf("     addr       len/bytes\n");
+    printf("  addr  len(bytes)\n");
     for(int i=_mtrace.read_start; i!=_mtrace.read_end; i = (i+1)%64){
-      printf("0x%08x  %d\n", _mtrace.read_mtrace[i].addr, _mtrace.read_mtrace[i].len);
+      printf("0x%08x      %d\n", _mtrace.read_mtrace[i].addr, _mtrace.read_mtrace[i].len);
     }
   }
 
@@ -73,9 +73,9 @@ void mtrace_display(){
     printf("Never wrote to memory!\n");
   }else{
     printf("Write memory history:\n");
-    printf("     addr       len/bytes\n");
+    printf("  addr  len(bytes)\n");
     for(int i=_mtrace.write_start; i!=_mtrace.write_end; i = (i+1)%64){
-      printf("0x%08x    %d\n", _mtrace.write_mtrace[i].addr, _mtrace.write_mtrace[i].len);
+      printf("0x%08x      %d\n", _mtrace.write_mtrace[i].addr, _mtrace.write_mtrace[i].len);
     }
   }
 }

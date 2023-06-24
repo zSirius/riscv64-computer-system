@@ -90,7 +90,7 @@ static void execute(uint64_t n) {
   for (;n > 0; n --) {
     exec_once(&s, cpu.pc);
   #ifdef CONFIG_ITRACE
-    if(_iringbuf.end != -1 && (++_iringbuf.end)%10 == _iringbuf.start)
+    if(_iringbuf.end != -1 && (_iringbuf.end+1)%10 == _iringbuf.start)
       ++_iringbuf.start;  
     printf("start = %d , end = %d \n", _iringbuf.start, _iringbuf.end);
     strcpy(_iringbuf.logbuf[(++_iringbuf.end)%10],s.logbuf);

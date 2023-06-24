@@ -113,6 +113,11 @@ static int cmd_x(char *args){
   char str[128];
   bool success;
 
+  if(args == NULL){
+    fprintf(stderr, "Error: x need two arguments!\n");
+    return 0;
+  }
+
   sscanf(args, "%d %[^\n]", &N, str);
   EXPR_vddr = expr(str, &success);
 

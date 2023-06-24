@@ -56,7 +56,40 @@ void init_mem() {
   Log("physical memory area [" FMT_PADDR ", " FMT_PADDR "]", PMEM_LEFT, PMEM_RIGHT);
 }
 
+struct mtrace _mtrace = { .read_start=0, .read_end=-1, .write_start=0, .write_end=-1};
+
+void mtrace_display(){
+  if(_mtrace.read_end == -1){
+    printf("Never read memory!\n");
+  }else{
+    printf("Read memory history:\n");
+    printf("         addr          len/bytes\n");
+    for(int i=_mtrace.read_start; i!=_mtrace.read_end; i = (i+1)%64){
+      printf("0x%016x  %d", _mtrace.read_mtrace[i].addr, _mtrace.read_mtrace[i].len);
+    }
+  }
+
+  if(_mtrace.write_end == -1){
+    printf("Never wrote to memory!\n");
+  }else{
+    printf("Write memory history:\n");
+    printf("         addr          len/bytes\n");
+    for(int i=_mtrace.write_start; i!=_mtrace.write_end; i = (i+1)%64){
+      printf("0x%016x  %d", _mtrace.write_mtrace[i].addr, _mtrace.write_mtrace[i].len);
+    }
+  }
+}
+
+void add_mrecord(struct mtrace_item records[], int *start, int *end, paddr_t addr, int len){
+  if(*end != -1 && (*end+1)%64 == *start)
+    ++(*start);
+  *end = (*end + 1) % 64;
+  records[*end].addr = addr;
+  records[*end].len = len;
+}
+
 word_t paddr_read(paddr_t addr, int len) {
+  add_mrecord(_mtrace.read_mtrace, &_mtrace.read_start, &_mtrace.read_end, addr, len);
   if (likely(in_pmem(addr))) return pmem_read(addr, len);
   IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
   out_of_bound(addr);
@@ -64,6 +97,7 @@ word_t paddr_read(paddr_t addr, int len) {
 }
 
 void paddr_write(paddr_t addr, int len, word_t data) {
+  add_mrecord(_mtrace.write_mtrace, &_mtrace.write_start, &_mtrace.write_end, addr, len);
   if (likely(in_pmem(addr))) { pmem_write(addr, len, data); return; }
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
   out_of_bound(addr);

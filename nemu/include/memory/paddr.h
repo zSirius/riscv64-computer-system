@@ -31,6 +31,23 @@ static inline bool in_pmem(paddr_t addr) {
   return addr - CONFIG_MBASE < CONFIG_MSIZE;
 }
 
+struct mtrace_item
+{
+  paddr_t addr;
+  int len;
+};
+
+struct mtrace
+{
+  struct mtrace_item read_mtrace[64];
+  struct mtrace_item write_mtrace[64];
+  int read_start;
+  int read_end;
+  int write_start;
+  int write_end;
+};
+
+
 word_t paddr_read(paddr_t addr, int len);
 void paddr_write(paddr_t addr, int len, word_t data);
 

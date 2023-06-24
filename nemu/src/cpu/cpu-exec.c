@@ -94,7 +94,7 @@ static void execute(uint64_t n) {
       ++_iringbuf.start;
     _iringbuf.end = (_iringbuf.end+1)%10;
     strcpy(_iringbuf.logbuf[_iringbuf.end],s.logbuf);
-    printf("start = %d , end = %d \n", _iringbuf.start, _iringbuf.end);
+    //printf("start = %d , end = %d \n", _iringbuf.start, _iringbuf.end);
   #endif
     g_nr_guest_inst ++;
     trace_and_difftest(&s, cpu.pc);

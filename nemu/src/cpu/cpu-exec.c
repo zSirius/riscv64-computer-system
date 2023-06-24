@@ -36,7 +36,7 @@ struct iringbuf
   int start;
   int end;
 };
-
+void iringbuf_display();
 extern struct iringbuf _iringbuf;
 
 void device_update();
@@ -146,6 +146,7 @@ void cpu_exec(uint64_t n) {
             ANSI_FMT("HIT BAD TRAP", ANSI_FG_RED))),
           nemu_state.halt_pc);
       // fall through
+      if(nemu_state.halt_ret != 0) iringbuf_display();
     case NEMU_QUIT: statistic();
   }
 }

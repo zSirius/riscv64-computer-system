@@ -203,6 +203,8 @@ bool check_parentheses(int p, int q){
 word_t expr(char *e, bool *success) {
   if(e == NULL){
     fprintf(stderr, "Error: The expression cannot be empty!\n");
+    success = false;
+    return 0;
   }
   if (!make_token(e)) {
     *success = false;

@@ -31,6 +31,8 @@ static inline bool in_pmem(paddr_t addr) {
   return addr - CONFIG_MBASE < CONFIG_MSIZE;
 }
 
+#ifdef CONFIG_MTRACE
+
 struct mtrace_item
 {
   paddr_t addr;
@@ -46,6 +48,8 @@ struct mtrace
   int write_start;
   int write_end;
 };
+
+#endif
 
 
 word_t paddr_read(paddr_t addr, int len);

@@ -56,6 +56,7 @@ void init_mem() {
   Log("physical memory area [" FMT_PADDR ", " FMT_PADDR "]", PMEM_LEFT, PMEM_RIGHT);
 }
 
+#ifdef CONFIG_MTRACE
 struct mtrace _mtrace = { .read_start=0, .read_end=-1, .write_start=0, .write_end=-1};
 
 void mtrace_display(){
@@ -67,7 +68,7 @@ void mtrace_display(){
     for(int i=_mtrace.read_start; i!=_mtrace.read_end; i = (i+1)%64){
       printf("0x%08x     %d\n", _mtrace.read_mtrace[i].addr, _mtrace.read_mtrace[i].len);
     }
-    printf("0x%08x     %d\n", _mtrace.read_mtrace[_mtrace.read_end].addr, _mtrace.read_mtrace[_mtrace.read_end].len);
+    printf("0x%08x      %d\n", _mtrace.read_mtrace[_mtrace.read_end].addr, _mtrace.read_mtrace[_mtrace.read_end].len);
   }
 
   if(_mtrace.write_end == -1){
@@ -78,7 +79,7 @@ void mtrace_display(){
     for(int i=_mtrace.write_start; i!=_mtrace.write_end; i = (i+1)%64){
       printf("0x%08x     %d\n", _mtrace.write_mtrace[i].addr, _mtrace.write_mtrace[i].len);
     }
-    printf("0x%08x     %d\n", _mtrace.write_mtrace[_mtrace.write_end].addr, _mtrace.write_mtrace[_mtrace.write_end].len);
+    printf("0x%08x      %d\n", _mtrace.write_mtrace[_mtrace.write_end].addr, _mtrace.write_mtrace[_mtrace.write_end].len);
   }
 }
 
@@ -89,9 +90,12 @@ void add_mrecord(struct mtrace_item records[], int *start, int *end, paddr_t add
   records[*end].addr = addr;
   records[*end].len = len;
 }
+#endif
 
 word_t paddr_read(paddr_t addr, int len) {
+#ifdef CONFIG_MTRACE
   add_mrecord(_mtrace.read_mtrace, &_mtrace.read_start, &_mtrace.read_end, addr, len);
+#endif
   if (likely(in_pmem(addr))) return pmem_read(addr, len);
   IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
   out_of_bound(addr);
@@ -99,7 +103,9 @@ word_t paddr_read(paddr_t addr, int len) {
 }
 
 void paddr_write(paddr_t addr, int len, word_t data) {
+#ifdef CONFIG_MTRACE
   add_mrecord(_mtrace.write_mtrace, &_mtrace.write_start, &_mtrace.write_end, addr, len);
+#endif
   if (likely(in_pmem(addr))) { pmem_write(addr, len, data); return; }
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
   out_of_bound(addr);

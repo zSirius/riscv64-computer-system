@@ -22,15 +22,9 @@
 
 static int is_batch_mode = false;
 
-struct iringbuf
-{
-  char logbuf[10][128];
-  int start;
-  int end;
-}_iringbuf = {.start = -1, .end = -1};
 
 void iringbuf_display(){
-  if(_iringbuf.start == -1){
+  if(_iringbuf.end == -1){
     printf("iringbuf is empty!\n");
     return;
   }

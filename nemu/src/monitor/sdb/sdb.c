@@ -98,7 +98,7 @@ static int cmd_info(char *args){
     isa_reg_display();
   else if(strcmp(args,"iringbuf")==0){
     iringbuf_display();
-  }else if(strcmp(args,"iringbuf")==0){
+  }else if(strcmp(args,"mtrace")==0){
     mtrace_display();
   }else if(strcmp(args, "w")==0){
 #ifndef CONFIG_WATCHPOINT

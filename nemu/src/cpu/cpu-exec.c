@@ -92,6 +92,7 @@ static void execute(uint64_t n) {
   #ifdef CONFIG_ITRACE
     if(_iringbuf.end != -1 && (++_iringbuf.end)%10 == _iringbuf.start)
       ++_iringbuf.start;  
+    printf("start = %d , end = %d \n", _iringbuf.start, _iringbuf.end);
     strcpy(_iringbuf.logbuf[(++_iringbuf.end)%10],s.logbuf);
   #endif
     g_nr_guest_inst ++;

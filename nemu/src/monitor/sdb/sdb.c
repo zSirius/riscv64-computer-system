@@ -33,7 +33,7 @@ void iringbuf_display(){
     printf("     ");
     puts(_iringbuf.logbuf[i]);
   }
-  printf(" --> %s", _iringbuf.logbuf[_iringbuf.end]);
+  printf(" --> %s\n", _iringbuf.logbuf[_iringbuf.end]);
   return;
 }
 

@@ -294,7 +294,7 @@ word_t eval(int p, int q, bool *success){
     }
     else {
       bool reg_success;
-      int ret = isa_reg_str2val(tokens[p].str, &reg_success);
+      word_t ret = isa_reg_str2val(tokens[p].str, &reg_success);
       if(!reg_success){
         *success = false;
         fprintf(stderr, "Error: $%s is a invalid register!", tokens[p].str);

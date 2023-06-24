@@ -22,6 +22,27 @@
 
 static int is_batch_mode = false;
 
+struct iringbuf
+{
+  char logbuf[10][128];
+  int start;
+  int end;
+}_iringbuf = {.start = -1, .end = -1};
+
+void iringbuf_display(){
+  if(_iringbuf.start == -1){
+    printf("iringbuf is empty!\n");
+    return;
+  }
+  for(int i=_iringbuf.start; i!=_iringbuf.end; i = (i+1)%10){
+    printf("     ");
+    puts(_iringbuf.logbuf[i]);
+  }
+  printf(" --> %s", _iringbuf.logbuf[_iringbuf.end]);
+  return;
+}
+
+
 void init_regex();
 void init_wp_pool();
 word_t expr(char *e, bool *success);
@@ -78,7 +99,9 @@ static int cmd_si(char *args){
 static int cmd_info(char *args){
   if(strcmp(args,"r")==0)
     isa_reg_display();
-  else{
+  else if(strcmp(args,"iringbuf")==0){
+    iringbuf_display();
+  }else{
 #ifndef CONFIG_WATCHPOINT
   fprintf(stderr, "Error: Please enable watchpoint!\n");
   return 0;

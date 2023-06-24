@@ -47,8 +47,9 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 static void exec_once(Decode *s, vaddr_t pc) {
   s->pc = pc;
   s->snpc = pc;
-  isa_exec_once(s);
+  isa_exec_once(s); //change: s->snpc += 4;
   cpu.pc = s->dnpc;
+  printf("cpu.pc = 0x%016lx , s->pc = 0x%016lx \n", cpu.pc, s->pc);
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);

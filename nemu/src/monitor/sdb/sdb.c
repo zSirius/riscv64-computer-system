@@ -92,6 +92,7 @@ static int cmd_si(char *args){
 }
 
 static int cmd_info(char *args){
+  if(args == NULL) return 0;
   if(strcmp(args,"r")==0)
     isa_reg_display();
   else if(strcmp(args,"iringbuf")==0){
@@ -168,7 +169,6 @@ static int cmd_d(char *args){
 #endif
   bool success;
   int NO = expr(args, &success);
-  printf("str is %s, NO is %d\n",args,  NO);
   if(!success){
     fprintf(stderr, "Error: Please check your expression!\n");
     return 0;

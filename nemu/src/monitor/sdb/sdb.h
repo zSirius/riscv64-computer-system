@@ -18,12 +18,6 @@
 
 #include <common.h>
 
-struct iringbuf
-{
-  char logbuf[10][128];
-  int start;
-  int end;
-}_iringbuf = {.start = 0, .end = -1};
 
 typedef struct watchpoint {
   int NO;

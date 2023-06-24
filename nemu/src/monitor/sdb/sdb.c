@@ -22,12 +22,7 @@
 
 static int is_batch_mode = false;
 
-struct iringbuf
-{
-  char logbuf[10][128];
-  int start;
-  int end;
-}_iringbuf = {.start = 0, .end = -1};
+struct iringbuf _iringbuf = {.start = 0, .end = -1};
 
 void iringbuf_display(){
   if(_iringbuf.end == -1){

@@ -18,6 +18,12 @@
 
 #include <common.h>
 
+struct iringbuf
+{
+  char logbuf[10][128];
+  int start;
+  int end;
+};
 
 typedef struct watchpoint {
   int NO;

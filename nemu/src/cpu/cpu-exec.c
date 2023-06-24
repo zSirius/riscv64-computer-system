@@ -30,7 +30,13 @@ uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 
-struct iringbuf;
+struct iringbuf
+{
+  char logbuf[10][128];
+  int start;
+  int end;
+};
+
 extern struct iringbuf _iringbuf;
 
 void device_update();
@@ -84,7 +90,7 @@ static void execute(uint64_t n) {
   for (;n > 0; n --) {
     exec_once(&s, cpu.pc);
   #ifdef CONFIG_ITRACE
-    //strcpy(_iringbuf.logbuf[(++_iringbuf.end)%10],s.logbuf);
+    strcpy(_iringbuf.logbuf[(++_iringbuf.end)%10],s.logbuf);
   #endif
     g_nr_guest_inst ++;
     trace_and_difftest(&s, cpu.pc);

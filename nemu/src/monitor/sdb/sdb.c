@@ -99,17 +99,17 @@ static int cmd_info(char *args){
   else if(strcmp(args,"iringbuf")==0){
     iringbuf_display();
   }else if(strcmp(args,"mtrace")==0){
-#ifndef CONFIG_MTRACE
-    fprintf(stderr, "Error: Please enable mtrace!\n");
-    return 0;
-#endif
+#ifdef CONFIG_MTRACE
     mtrace_display();
-  }else if(strcmp(args, "w")==0){
-#ifndef CONFIG_WATCHPOINT
-    fprintf(stderr, "Error: Please enable watchpoint!\n");
-    return 0;
+#else
+    fprintf(stderr, "Error: Please enable mtrace!\n");
 #endif
+  }else if(strcmp(args, "w")==0){
+#ifdef CONFIG_WATCHPOINT
     watchpoint_display();
+#else
+    fprintf(stderr, "Error: Please enable watchpoint!\n");
+#endif
   }
   return 0;
 }

@@ -125,7 +125,7 @@ void difftest_step(vaddr_t pc, vaddr_t npc) {
 
   ref_difftest_exec(1);
   ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
-  printf("after difftest , its pc = 0x%lx", ref_r.pc);
+  printf("after difftest , its pc = 0x%lx\n", ref_r.pc);
 
   checkregs(&ref_r, pc);
 }

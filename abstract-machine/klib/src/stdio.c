@@ -5,6 +5,20 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
+void itoa(char str[], int d){
+  size_t num_len = 0;
+  int t = d;
+  while(t != 0){
+    num_len++;
+    t /= 10;
+  }
+  for(int i = num_len-1; i>=0; i--){
+    str[i] = d%10 + '0';
+    d /= 10;
+  }
+  str[num_len] = '\0';
+}
+
 int printf(const char *fmt, ...) {
   va_list ap;
   size_t i=0;
@@ -55,19 +69,6 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
   panic("Not implemented");
 }
 
-void itoa(char str[], int d){
-  size_t num_len = 0;
-  int t = d;
-  while(t != 0){
-    num_len++;
-    t /= 10;
-  }
-  for(int i = num_len-1; i>=0; i--){
-    str[i] = d%10 + '0';
-    d /= 10;
-  }
-  str[num_len] = '\0';
-}
 
 int sprintf(char *out, const char *fmt, ...) {
   va_list ap;

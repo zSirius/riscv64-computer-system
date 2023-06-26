@@ -45,6 +45,9 @@ int printf(const char *fmt, ...) {
     }
   }
   va_end(ap);
+  putch('y');
+  putch('e');
+  putch('s');
   return total_ch;
 }
 

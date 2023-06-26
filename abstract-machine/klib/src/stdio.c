@@ -5,6 +5,10 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
+#define DEFINE_VAR va_list ap; size_t i=0; int d; char *s
+#define PUT_STR(str) for(int j=0; j<len; j++) putch(str[j]); i += len
+#define GET_INT char str[64]; d = va_arg(ap, int); itoa(str, d)
+
 void itoa(char str[], int d){
   size_t num_len = 0;
   int t = d;
@@ -20,11 +24,9 @@ void itoa(char str[], int d){
 }
 
 int printf(const char *fmt, ...) {
-  va_list ap;
-  size_t i=0;
-  int d;
-  char *s;
+  DEFINE_VAR;
   int total_ch = 0;
+  int len=0;
 
   va_start(ap,fmt);
   while(*fmt){
@@ -33,24 +35,16 @@ int printf(const char *fmt, ...) {
       fmt++;
       total_ch++;
       if(*fmt == 'd'){
-        char str[64];
-        d = va_arg(ap, int);
-        itoa(str, d);
-        int len = strlen(str);
-        for(int i=0; i<len; i++)
-          putch(str[i]);
-        i += len;
-        total_ch += len;
+        GET_INT;
+        len = strlen(str);
+        PUT_STR(str);
       }else if(*fmt == 's'){
         s = va_arg(ap, char *);
-        int len = strlen(s);
-        for(int i=0; i<len; i++)
-          putch(s[i]);
-        i += len;
-        total_ch += len;
+        len = strlen(s);
+        PUT_STR(s);
       }
       fmt++;
-      total_ch++;
+      total_ch += len + 1;
       break;
     default:
       putch(*fmt++);
@@ -59,9 +53,6 @@ int printf(const char *fmt, ...) {
     }
   }
   va_end(ap);
-  putch('y');
-  putch('e');
-  putch('s');
   return total_ch;
 }
 
@@ -71,10 +62,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 
 
 int sprintf(char *out, const char *fmt, ...) {
-  va_list ap;
-  size_t i=0;
-  int d;
-  char *s;
+  DEFINE_VAR;
 
   va_start(ap,fmt);
   while(*fmt){
@@ -82,9 +70,7 @@ int sprintf(char *out, const char *fmt, ...) {
     case '%':
       fmt++;
       if(*fmt == 'd'){
-        char str[64];
-        d = va_arg(ap, int);
-        itoa(str, d);
+        GET_INT;
         strcpy(out+i, str);
         i += strlen(str);
       }else if(*fmt == 's'){

@@ -40,6 +40,8 @@ ifeq ($(flavor SRCS), undefined)
   $(error Nothing to build)
 endif
 
+$(info this is end of checks, SRCS = $(SRCS))
+
 ### Checks end here
 endif
 

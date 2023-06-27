@@ -11,7 +11,7 @@ CFLAGS    += -fdata-sections -ffunction-sections
 LDFLAGS   += -T $(AM_HOME)/scripts/linker.ld \
              --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0
 LDFLAGS   += --gc-sections -e _start
-NEMUFLAGS += -l $(shell dirname $(IMAGE).elf)/nemu-log.txt
+NEMUFLAGS += -l $(shell dirname $(IMAGE).elf)/nemu-log.txt -b
 
 
 CFLAGS += -DMAINARGS=\"$(mainargs)\"
@@ -28,5 +28,3 @@ run: image
 
 gdb: image
 	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) gdb ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin
-
-$(info IMAGE = $(IMAGE))  #调试

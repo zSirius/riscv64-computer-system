@@ -40,7 +40,7 @@ ifeq ($(flavor SRCS), undefined)
   $(error Nothing to build)
 endif
 
-$(info this is end of checks, SRCS = $(SRCS), NAME = $(NAME))
+$(info this is end of checks, SRCS = $(SRCS), NAME = $(NAME)) #调试
 
 ### Checks end here
 endif
@@ -49,7 +49,7 @@ endif
 
 ### Create the destination directory (`build/$ARCH`)
 WORK_DIR  = $(shell pwd)
-$(info WORK_DIR = $(WORK_DIR))
+$(info WORK_DIR = $(WORK_DIR)) #调试
 DST_DIR   = $(WORK_DIR)/build/$(ARCH)
 $(shell mkdir -p $(DST_DIR))
 
@@ -57,6 +57,7 @@ $(shell mkdir -p $(DST_DIR))
 IMAGE_REL = build/$(NAME)-$(ARCH)
 IMAGE     = $(abspath $(IMAGE_REL))
 ARCHIVE   = $(WORK_DIR)/build/$(NAME)-$(ARCH).a
+$(info IMAGE_REL = $(IMAGE_REL), IMAGE = $(IMAGE)) #调试
 
 ### Collect the files to be linked: object files (`.o`) and libraries (`.a`)
 OBJS      = $(addprefix $(DST_DIR)/, $(addsuffix .o, $(basename $(SRCS))))

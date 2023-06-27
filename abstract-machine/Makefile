@@ -44,8 +44,6 @@ ifeq ($(flavor SRCS), undefined)
   $(error Nothing to build)
 endif
 
-$(info this is end of checks, SRCS = $(SRCS), NAME = $(NAME)) #调试
-
 ### Checks end here
 endif
 
@@ -55,13 +53,11 @@ endif
 WORK_DIR  = $(shell pwd)
 DST_DIR   = $(WORK_DIR)/build/$(ARCH)
 $(shell mkdir -p $(DST_DIR))
-$(info WORK_DIR = $(WORK_DIR), DST_DIR = $(DST_DIR)) #调试
 
 ### Compilation targets (a binary image or archive)
 IMAGE_REL = build/$(NAME)-$(ARCH)
 IMAGE     = $(abspath $(IMAGE_REL))
 ARCHIVE   = $(WORK_DIR)/build/$(NAME)-$(ARCH).a
-$(info IMAGE_REL = $(IMAGE_REL), IMAGE = $(IMAGE), ARCHIVE = $(ARCHIVE)) #调试
 
 ### Collect the files to be linked: object files (`.o`) and libraries (`.a`)
 OBJS      = $(addprefix $(DST_DIR)/, $(addsuffix .o, $(basename $(SRCS))))

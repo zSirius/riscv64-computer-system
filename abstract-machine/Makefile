@@ -40,7 +40,7 @@ ifeq ($(flavor SRCS), undefined)
   $(error Nothing to build)
 endif
 
-$(info this is end of checks, SRCS = $(SRCS))
+$(info this is end of checks, SRCS = $(SRCS), NAME = $(NAME))
 
 ### Checks end here
 endif
@@ -49,6 +49,7 @@ endif
 
 ### Create the destination directory (`build/$ARCH`)
 WORK_DIR  = $(shell pwd)
+$(info WORK_DIR = $(WORK_DIR))
 DST_DIR   = $(WORK_DIR)/build/$(ARCH)
 $(shell mkdir -p $(DST_DIR))
 

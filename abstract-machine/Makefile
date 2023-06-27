@@ -5,6 +5,8 @@ html:
 	cat Makefile | sed 's/^\([^#]\)/    \1/g' | markdown_py > Makefile.html
 .PHONY: html
 
+$(info ------------start---------------) #调试
+
 ## 1. Basic Setup and Checks
 
 ### Default to create a bare-metal kernel image
@@ -61,7 +63,7 @@ $(info IMAGE_REL = $(IMAGE_REL), IMAGE = $(IMAGE), ARCHIVE = $(ARCHIVE)) #调试
 
 ### Collect the files to be linked: object files (`.o`) and libraries (`.a`)
 OBJS      = $(addprefix $(DST_DIR)/, $(addsuffix .o, $(basename $(SRCS))))
-$(info OBJS = $(OBJS))
+$(info OBJS = $(OBJS))  #调试
 
 LIBS     := $(sort $(LIBS) am klib) # lazy evaluation ("=") causes infinite recursions
 LINKAGE   = $(OBJS) \

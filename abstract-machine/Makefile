@@ -49,9 +49,9 @@ endif
 
 ### Create the destination directory (`build/$ARCH`)
 WORK_DIR  = $(shell pwd)
-$(info WORK_DIR = $(WORK_DIR)) #调试
 DST_DIR   = $(WORK_DIR)/build/$(ARCH)
 $(shell mkdir -p $(DST_DIR))
+$(info WORK_DIR = $(WORK_DIR), DST_DIR = $(DST_DIR)) #调试
 
 ### Compilation targets (a binary image or archive)
 IMAGE_REL = build/$(NAME)-$(ARCH)
@@ -61,6 +61,8 @@ $(info IMAGE_REL = $(IMAGE_REL), IMAGE = $(IMAGE), ARCHIVE = $(ARCHIVE)) #调试
 
 ### Collect the files to be linked: object files (`.o`) and libraries (`.a`)
 OBJS      = $(addprefix $(DST_DIR)/, $(addsuffix .o, $(basename $(SRCS))))
+$(info OBJS = $(OBJS))
+
 LIBS     := $(sort $(LIBS) am klib) # lazy evaluation ("=") causes infinite recursions
 LINKAGE   = $(OBJS) \
   $(addsuffix -$(ARCH).a, $(join \

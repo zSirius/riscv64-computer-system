@@ -25,8 +25,8 @@ typedef struct
 {
     char str[32];
     int idx;
-}shstrtab;
-static shstrtab _shstrtab[32];
+}StringTable;
+static StringTable shstrtab[32];
 static int shstrtab_num=0;
 
 
@@ -42,8 +42,8 @@ uint64_t get_section_addr_by_name(char *name, FILE *elf_fp, uint64_t *size){
     int dst_idx=0;
     uint64_t offset;
     for(int i=0; i<shstrtab_num; i++){
-        if(strcmp(name, _shstrtab[i].str) == 0){
-            dst_idx = _shstrtab[i].idx;
+        if(strcmp(name, shstrtab[i].str) == 0){
+            dst_idx = shstrtab[i].idx;
             break;
         }
     }
@@ -101,15 +101,15 @@ void get_shstrtab(FILE *elf_fp){
         for(int i=0; i<shstrtab_size; i++){
             str[cnt++] = ch[i];
             if(ch[i] == '\0'){
-                strcpy(_shstrtab[shstrtab_num].str,str);
-                _shstrtab[shstrtab_num++].idx = i-cnt+1;
+                strcpy(shstrtab[shstrtab_num].str,str);
+                shstrtab[shstrtab_num++].idx = i-cnt+1;
                 cnt=0;
             }
         }
     }
     // printf("\n");        
     // for(int i=0; i<shstrtab_num; i++)
-    //     printf("%s , %d\n", _shstrtab[i].str, _shstrtab[i].idx);
+    //     printf("%s , %d\n", shstrtab[i].str, shstrtab[i].idx);
 
     
     //根据节名获取.symtab 和 .strtab的地址

@@ -4,10 +4,10 @@
 #define ELF64_ST_TYPE(info)    ((info) & 0x0F)
 
 typedef struct{
-    char name[16];
+    char name[64];
     vaddr_t start;
     size_t size;
-}func_table;
+}FunctionTable;
 
 typedef struct
 {
@@ -65,6 +65,15 @@ uint64_t get_section_addr_by_name(char *name, FILE *elf_fp, uint64_t *size){
         SET_FP(shoff+64*i+24);
         byte_read = fread(&offset, sizeof(uint64_t), 1 , elf_fp);
         if(byte_read!=0) return offset;
+    }
+}
+
+void get_symbol_name_by_idx(int idx, char *name){
+    for(int i=1; i<strtab_num; i++){
+        if(idx == strtab[i].idx){
+            strcpy(name, strtab[i].str);
+            return;
+        }
     }
 }
 
@@ -150,12 +159,14 @@ void get_shstrtab(FILE *elf_fp){
         if(byte_read!=0 && ELF64_ST_TYPE(info) == 2){ //func
             uint64_t value;
             uint64_t size;
+            uint32_t name_idx;
+            char name[64];
             SET_FP(symtab_off+24*i+8);
             byte_read = fread(&value, sizeof(value), 1, elf_fp);
-            printf("value = %lx\n", value);
-            //SET_FP(symtab_off+24*i+16);
             byte_read = fread(&size, sizeof(size), 1, elf_fp);
-            printf("size = %lu\n", size);
+            byte_read = fread(&name_idx, sizeof(name_idx), 1, elf_fp);
+            get_symbol_name_by_idx(name_idx ,name);
+            printf("value=%lx, size = %lu, name=%s\n", value, size, name);
         }
     }
 

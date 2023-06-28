@@ -102,7 +102,7 @@ void get_shstrtab(FILE *elf_fp){
     
     //根据节名获取.symtab 和 .strtab的地址
 
-    uint64_t text_offset = get_section_addr_by_name(".text", elf_fp);
+    uint64_t text_offset = get_section_addr_by_name(".symtab", elf_fp);
     printf("text_offet = %lx", text_offset);
 
 

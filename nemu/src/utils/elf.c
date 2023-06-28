@@ -146,8 +146,8 @@ void get_shstrtab(FILE *elf_fp){
             }
         }
     }
-    // for(int i=0; i<strtab_num; i++)
-    //     printf("%s, %d\n", strtab[i].str, strtab[i].idx);
+    for(int i=0; i<strtab_num; i++)
+        printf("%s, %d\n", strtab[i].str, strtab[i].idx);
     
     //遍历符号表
     SET_FP(symtab_off+24+4);
@@ -166,7 +166,7 @@ void get_shstrtab(FILE *elf_fp){
             byte_read = fread(&size, sizeof(size), 1, elf_fp);
             byte_read = fread(&name_idx, sizeof(name_idx), 1, elf_fp);
             get_symbol_name_by_idx(name_idx ,name);
-            printf("value=%lx, size = %lu, name=%s\n", value, size, name);
+            printf("value=%lx, size = %lu, name_idx=%d , name=%s\n", value, size, name_idx,name);
         }
     }
 

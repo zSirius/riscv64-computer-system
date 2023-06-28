@@ -16,7 +16,10 @@ static uint64_t shstrtab_off;
 static uint64_t shstrtab_size;
 
 static uint64_t symtab_off;
+static uint64_t symtab_size;
+
 static uint64_t strtab_off;
+static uint64_t strtab_size;
 
 typedef struct
 {
@@ -35,7 +38,7 @@ void get_shoff(FILE *elf_fp){
         printf("shoff = %lu\n", shoff);
 }
 
-uint64_t get_section_addr_by_name(char *name, FILE *elf_fp){
+uint64_t get_section_addr_by_name(char *name, FILE *elf_fp, uint64_t *size){
     int dst_idx=0;
     uint64_t offset;
     for(int i=0; i<shstrtab_num; i++){
@@ -52,6 +55,10 @@ uint64_t get_section_addr_by_name(char *name, FILE *elf_fp){
         if(byte_read == 0) return 0;
         if(cur_idx != dst_idx) continue;
         
+        SET_FP(shoff+64*i+32);
+        byte_read = fread(size, sizeof(uint64_t), 1, elf_fp);
+        if(byte_read == 0) return 0;
+
         SET_FP(shoff+64*i+24);
         byte_read = fread(&offset, sizeof(uint64_t), 1 , elf_fp);
         if(byte_read!=0) return offset;
@@ -105,9 +112,9 @@ void get_shstrtab(FILE *elf_fp){
     
     //根据节名获取.symtab 和 .strtab的地址
 
-    symtab_off = get_section_addr_by_name(".symtab", elf_fp);
-    strtab_off = get_section_addr_by_name(".strtab", elf_fp);
-    printf("sym=%lx, str=%lx\n", symtab_off, strtab_off);
+    symtab_off = get_section_addr_by_name(".symtab", elf_fp, &symtab_size);
+    strtab_off = get_section_addr_by_name(".strtab", elf_fp, &strtab_size);
+    printf("sym=%lx, str=%lx, symsize=%lx, strsize=%lx\n", symtab_off, strtab_off, symtab_size, strtab_size);
 
     SET_FP(symtab_off+24+8);
     uint64_t value;

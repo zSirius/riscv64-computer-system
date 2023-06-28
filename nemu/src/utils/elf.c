@@ -14,9 +14,18 @@ void get_shstrtab(FILE *elf_fp){
     SET_FP(62);
     size_t byte_read = fread(&e_shstrndx, sizeof(e_shstrndx), 1, elf_fp);
     if(byte_read!=0)
-        printf("res = %hx\n", e_shstrndx);
+        printf("e_shstrndx = %hx\n", e_shstrndx);
+    
     return;
 
+}
+
+void get_sh(FILE *elf_fp){
+    uint64_t shoff;
+    SET_FP(26);
+    size_t byte_read = fread(&shoff, sizeof(shoff), 1, elf_fp);
+    if(byte_read!=0);
+    printf("shoff = %lx", shoff);
 }
 
 void init_elf(const char *elf_file){
@@ -35,6 +44,7 @@ void init_elf(const char *elf_file){
             printf("%lx\n", s[i]);
 
     get_shstrtab(elf_fp);
+    get_sh(elf_fp);
 
 
 

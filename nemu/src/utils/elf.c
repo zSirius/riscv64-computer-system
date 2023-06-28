@@ -1,6 +1,7 @@
 #include <common.h>
 
 #define SET_FP(offset) fseek(elf_fp, (offset), SEEK_SET)
+#define ELF64_ST_TYPE(info)    ((info) & 0x0F)
 
 typedef struct{
     char name[16];
@@ -143,7 +144,7 @@ void get_shstrtab(FILE *elf_fp){
     SET_FP(symtab_off+24+4);
     unsigned char info;
     byte_read = fread(&info, sizeof(info), 1, elf_fp);
-    if(byte_read!=0)  printf("value = %u \n", info);
+    if(byte_read!=0)  printf("type = %u \n", ELF64_ST_TYPE(info));
     
     // SET_FP(shoff+64*2);
     // uint32_t name;

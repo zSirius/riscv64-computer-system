@@ -38,13 +38,19 @@ void get_shstrtab(FILE *elf_fp){
     if(byte_read!=0)
         printf("shstrtab_off = %lx\n", shstrtab_off);
 
-    SET_FP(shstrtab_off)
-    unsigned char ch[107];
-    byte_read = fread(ch, sizeof(unsigned char), 104 , elf_fp);
-    if(byte_read != 0)
-        for(int i=0; i<104; i++)
-            printf("%c", ch[i]);
+    // SET_FP(shstrtab_off)
+    // unsigned char ch[107];
+    // byte_read = fread(ch, sizeof(unsigned char), 104 , elf_fp);
+    // if(byte_read != 0)
+    //     for(int i=0; i<104; i++)
+    //         printf("%c", ch[i]);
 
+    SET_FP(shoff)
+    uint64_t a[8];
+    byte_read = fread(a, sizeof(uint64_t), 8 , elf_fp);
+    if(byte_read != 0)
+        for(int i=0; i<8; i++)
+            printf("%lx", a[i]);
     return;
 
 }

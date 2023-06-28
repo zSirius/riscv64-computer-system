@@ -14,8 +14,15 @@ static uint64_t shoff;
 
 static uint64_t shstrtab_off;
 static uint64_t shstrtab_size;
-static char shstrtab[32][32];
+
+typedef struct
+{
+    char str[32];
+    int idx;
+}shstrtab;
+static shstrtab _shstrtab[32];
 static int shstrtab_num=0;
+
 
 void get_shoff(FILE *elf_fp){
     
@@ -57,18 +64,19 @@ void get_shstrtab(FILE *elf_fp){
     byte_read = fread(ch, sizeof(unsigned char), shstrtab_size , elf_fp);
     if(byte_read != 0)
         for(int i=0; i<shstrtab_size; i++){
-            if(ch[i]=='\0') printf("\n");
-            else printf("%c",ch[i]);
+            // if(ch[i]=='\0') printf("\n");
+            // else printf("%c",ch[i]);
 
             str[cnt++] = ch[i];
             if(ch[i] == '\0'){
-                strcpy(shstrtab[shstrtab_num++],str);
+                strcpy(_shstrtab[shstrtab_num].str,str);
+                _shstrtab[shstrtab_num++].idx = i-cnt+1;
                 cnt=0;
             }
         }
     printf("\n");        
     for(int i=0; i<shstrtab_num; i++)
-        printf("%s\n", shstrtab[i]);
+        printf("%s , %d\n", _shstrtab[i].str, _shstrtab[i].idx);
 
 
     SET_FP(shoff+64);

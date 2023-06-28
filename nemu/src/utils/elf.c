@@ -32,16 +32,19 @@ void get_shstrtab(FILE *elf_fp){
 
 
     SET_FP(shoff+64*e_shstrndx+24);
-    // uint64_t a[8];
-    // byte_read = fread(&a, sizeof(uint64_t), 8 , elf_fp);
-    // if(byte_read != 0)
-    //     for(int i=0; i<8; i++)
-    //         printf("%lx\n", a[i]);
 
     byte_read = fread(&shstrtab_off, sizeof(shstrtab_off), 1, elf_fp);
 
     if(byte_read!=0)
         printf("shstrtab_off = %lx\n", shstrtab_off);
+
+    SET_FP(shstrtab_off)
+    uint64_t a[8];
+    byte_read = fread(&a, sizeof(uint64_t), 8 , elf_fp);
+    if(byte_read != 0)
+        for(int i=0; i<8; i++)
+            printf("%lx\n", a[i]);
+
     return;
 
 }

@@ -8,26 +8,28 @@ typedef struct{
     size_t size;
 }func_table;
 
+typedef struct
+{
+    char str[64];
+    int idx;
+}StringTable;
 
 static uint16_t e_shstrndx;
 static uint64_t shoff;
 
 static uint64_t shstrtab_off;
 static uint64_t shstrtab_size;
+static StringTable shstrtab[64];
+static int shstrtab_num=0;
 
 static uint64_t symtab_off;
 static uint64_t symtab_size;
 
 static uint64_t strtab_off;
 static uint64_t strtab_size;
+static StringTable strtab[64];
+static int strtab_num=0;
 
-typedef struct
-{
-    char str[32];
-    int idx;
-}StringTable;
-static StringTable shstrtab[32];
-static int shstrtab_num=0;
 
 
 void get_shoff(FILE *elf_fp){
@@ -124,14 +126,21 @@ void get_shstrtab(FILE *elf_fp){
     if(byte_read!=0)  printf("value = %lx\n", value);
 
     //构造字符串表
+    cnt=0;
     SET_FP(strtab_off);
     byte_read = fread(ch, sizeof(unsigned char), strtab_size, elf_fp);
     if(byte_read != 0){
         for(int i=0; i<strtab_size; i++){
-            if(ch[i]=='\0') printf("\n");
-            else printf("%c", ch[i]);
+            str[cnt++] = ch[i];
+            if(ch[i]=='\0'){
+                strcpy(strtab[strtab_num].str, str);
+                strtab[strtab_num++].idx = i-cnt+1;
+                cnt=0;
+            }
         }
     }
+    for(int i=0; i<strtab_num; i++)
+        printf("%s, %d\n", strtab[i].str, strtab[i].idx);
 
 
     

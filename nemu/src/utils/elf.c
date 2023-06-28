@@ -145,7 +145,7 @@ void get_shstrtab(FILE *elf_fp){
 
     for(int i=1; i<symtab_size; i++){
         SET_FP(symtab_off+24*i+4);
-        unsigned char info;
+        unsigned char info=0;
         byte_read = fread(&info, sizeof(info), 1, elf_fp);
         if(byte_read!=0 && ELF64_ST_TYPE(info) == 2){ //func
             uint64_t value;

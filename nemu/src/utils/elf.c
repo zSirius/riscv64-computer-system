@@ -42,7 +42,7 @@ void get_shstrtab(FILE *elf_fp){
     unsigned char ch[16];
     byte_read = fread(ch, sizeof(unsigned char), 16 , elf_fp);
     if(byte_read != 0)
-        for(int i=0; i<8; i++)
+        for(int i=0; i<16; i++)
             printf("%c \n", ch[i]);
 
     return;

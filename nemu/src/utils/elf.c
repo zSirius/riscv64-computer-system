@@ -184,7 +184,7 @@ void get_shstrtab(FILE *elf_fp){
     }
 
     for(int i=0; i<ftab_num; i++)
-        printf("%s, %lu, %lu\n", ftab[i].name, ftab[i].start, ftab[i].size);
+        printf("%s, 0x%lx, %lu\n", ftab[i].name, ftab[i].start, ftab[i].size);
 
     
     

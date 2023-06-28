@@ -57,7 +57,9 @@ void get_shstrtab(FILE *elf_fp){
     byte_read = fread(ch, sizeof(unsigned char), shstrtab_size , elf_fp);
     if(byte_read != 0)
         for(int i=0; i<shstrtab_size; i++){
-            printf("%c",ch[i]);
+            if(ch[i]=='\0') printf("\n");
+            else printf("%c",ch[i]);
+            
             str[cnt++] = ch[i];
             if(ch[i] == '\0'){
                 strcpy(shstrtab[shstrtab_num++],str);

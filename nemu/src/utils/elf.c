@@ -9,7 +9,6 @@ typedef struct{
     size_t size;
 }func_table;
 
-#define printdubug(str,l)     if(byte_read!=0) printf("str = %lx\n", str);
 
 static uint16_t e_shstrndx;
 static uint64_t shoff;
@@ -36,7 +35,8 @@ void get_shstrtab(FILE *elf_fp){
     SET_FP(shoff+e_shstrndx*64);
     byte_read = fread(&shstrndx_off, sizeof(shstrndx_off), 1, elf_fp);
 
-    printdubug(shstrndx_off, l);
+    if(byte_read!=0)
+        printf("shstrndx_off = %lx\n", shstrndx_off);
     return;
 
 }

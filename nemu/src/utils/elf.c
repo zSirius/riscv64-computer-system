@@ -109,10 +109,10 @@ void get_shstrtab(FILE *elf_fp){
     strtab_off = get_section_addr_by_name(".strtab", elf_fp);
     printf("sym=%lx, str=%lx\n", symtab_off, strtab_off);
 
-    SET_FP(symtab_off+24*2);
-    uint32_t value;
-    byte_read = fread(&value, sizeof(value), 1, elf_fp);
-    if(byte_read!=0) printf("value = %x", value);
+    SET_FP(symtab_off+24*1);
+    uint8_t value[3];
+    byte_read = fread(&value, sizeof(value[0]), 3, elf_fp);
+    if(byte_read!=0) for(int i=0; i<3; i++) printf("value = %x\nq", value[i]);
 
     //构造字符串表
 

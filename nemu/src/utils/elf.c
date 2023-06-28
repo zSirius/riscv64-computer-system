@@ -32,6 +32,29 @@ void get_shoff(FILE *elf_fp){
         printf("shoff = %lu\n", shoff);
 }
 
+uint64_t get_section_addr_by_name(char *name, FILE *elf_fp){
+    int dst_idx=0;
+    uint64_t offset;
+    for(int i=0; i<shstrtab_num; i++){
+        if(strcmp(name, _shstrtab[i].str) == 0){
+            dst_idx = _shstrtab[i].idx;
+            break;
+        }
+    }
+
+    for(int i=1; ;i++){
+        uint32_t cur_idx=0;
+        SET_FP(shoff+64*i);
+        size_t byte_read = fread(&cur_idx, sizeof(uint32_t), 1 , elf_fp);
+        if(byte_read == 0) return 0;
+        if(cur_idx != dst_idx) continue;
+        
+        SET_FP(shoff+64*i+24);
+        byte_read = fread(&offset, sizeof(uint64_t), 1 , elf_fp);
+        if(byte_read!=0) return offset;
+    }
+}
+
 void get_shstrtab(FILE *elf_fp){
     
     SET_FP(62);
@@ -56,17 +79,14 @@ void get_shstrtab(FILE *elf_fp){
     if(byte_read!=0)
         printf("shstrtab_size = %lu\n", shstrtab_size);
 
-    //获取节名字符串表
+    //构造节名字符串表
     SET_FP(shstrtab_off)
     unsigned char ch[1024];
     char str[16];
     int cnt=0;
     byte_read = fread(ch, sizeof(unsigned char), shstrtab_size , elf_fp);
-    if(byte_read != 0)
+    if(byte_read != 0){
         for(int i=0; i<shstrtab_size; i++){
-            // if(ch[i]=='\0') printf("\n");
-            // else printf("%c",ch[i]);
-
             str[cnt++] = ch[i];
             if(ch[i] == '\0'){
                 strcpy(_shstrtab[shstrtab_num].str,str);
@@ -74,16 +94,23 @@ void get_shstrtab(FILE *elf_fp){
                 cnt=0;
             }
         }
-    printf("\n");        
-    for(int i=0; i<shstrtab_num; i++)
-        printf("%s , %d\n", _shstrtab[i].str, _shstrtab[i].idx);
+    }
+    // printf("\n");        
+    // for(int i=0; i<shstrtab_num; i++)
+    //     printf("%s , %d\n", _shstrtab[i].str, _shstrtab[i].idx);
+
+    
+    //根据节名获取.symtab 和 .strtab的地址
+
+    uint64_t text_offset = get_section_addr_by_name(".text", elf_fp);
+    printf("text_offet = %lx", text_offset);
 
 
-    SET_FP(shoff+64*2);
-    uint32_t name;
-    byte_read = fread(&name, sizeof(uint32_t), 1 , elf_fp);
-    if(byte_read != 0)
-        printf("name = %x", name);
+    // SET_FP(shoff+64*2);
+    // uint32_t name;
+    // byte_read = fread(&name, sizeof(uint32_t), 1 , elf_fp);
+    // if(byte_read != 0)
+    //     printf("name = %x", name);
     // uint64_t a[8];
     // byte_read = fread(a, sizeof(uint64_t), 8 , elf_fp);
     // if(byte_read != 0)

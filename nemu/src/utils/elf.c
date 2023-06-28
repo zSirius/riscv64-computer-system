@@ -20,7 +20,7 @@ void init_elf(const char *elf_file){
     uint64_t s;
     size_t byte_read = fread(&s, sizeof(unsigned char), 8, elf_fp);
     if(byte_read != 0)
-        printf("%lux\n", s);
+        printf("%lx\n", s);
 
 
 

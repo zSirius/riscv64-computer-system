@@ -50,7 +50,7 @@ void get_shstrtab(FILE *elf_fp){
     byte_read = fread(a, sizeof(uint64_t), 8 , elf_fp);
     if(byte_read != 0)
         for(int i=0; i<8; i++)
-            printf("%lx", a[i]);
+            printf("%lx \n", a[i]);
     return;
 
 }

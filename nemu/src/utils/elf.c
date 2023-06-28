@@ -15,6 +15,9 @@ static uint64_t shoff;
 static uint64_t shstrtab_off;
 static uint64_t shstrtab_size;
 
+static uint64_t symtab_off;
+static uint64_t strtab_off;
+
 typedef struct
 {
     char str[32];
@@ -102,9 +105,15 @@ void get_shstrtab(FILE *elf_fp){
     
     //根据节名获取.symtab 和 .strtab的地址
 
-    uint64_t text_offset = get_section_addr_by_name(".strtab", elf_fp);
-    printf("text_offet = %lx", text_offset);
+    symtab_off = get_section_addr_by_name(".symtab", elf_fp);
+    strtab_off = get_section_addr_by_name(".strtab", elf_fp);
 
+    SET_FP(symtab_off+24);
+    uint32_t value;
+    byte_read = fread(&value, sizeof(value), 1, elf_fp);
+    if(byte_read!=0) printf("value = %x", value);
+
+    //构造字符串表
 
     // SET_FP(shoff+64*2);
     // uint32_t name;

@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) {
   printf("argc = %d\n", argc);
   for(int i=0; i<argc; i++)
     puts(argv[i]);
+    
   init_monitor(argc, argv);
 #endif
   /* Start engine. */

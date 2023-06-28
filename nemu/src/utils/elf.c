@@ -39,10 +39,10 @@ void get_shstrtab(FILE *elf_fp){
         printf("shstrtab_off = %lx\n", shstrtab_off);
 
     SET_FP(shstrtab_off)
-    unsigned char ch[106];
-    byte_read = fread(ch, sizeof(unsigned char), 106 , elf_fp);
+    unsigned char ch[107];
+    byte_read = fread(ch, sizeof(unsigned char), 107 , elf_fp);
     if(byte_read != 0)
-        for(int i=0; i<106; i++)
+        for(int i=0; i<107; i++)
             printf("%c", ch[i]);
 
     return;

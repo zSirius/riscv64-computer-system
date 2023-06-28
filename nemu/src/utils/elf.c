@@ -32,7 +32,7 @@ void get_shstrtab(FILE *elf_fp){
     get_shoff(elf_fp);
 
 
-    SET_FP(shoff+e_shstrndx*64);
+    SET_FP(2276);
     byte_read = fread(&shstrndx_off, sizeof(shstrndx_off), 1, elf_fp);
 
     if(byte_read!=0)

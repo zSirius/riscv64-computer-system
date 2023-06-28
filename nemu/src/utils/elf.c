@@ -43,7 +43,7 @@ void get_shstrtab(FILE *elf_fp){
     byte_read = fread(ch, sizeof(unsigned char), 107 , elf_fp);
     if(byte_read != 0)
         //for(int i=0; i<107; i++)
-            printf("%s", ch);
+            printf("%s", ch+1);
 
     return;
 

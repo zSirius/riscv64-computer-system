@@ -22,7 +22,7 @@ void get_shstrtab(FILE *elf_fp){
 
 void get_sh(FILE *elf_fp){
     uint64_t shoff;
-    SET_FP(26);
+    SET_FP(40);
     size_t byte_read = fread(&shoff, sizeof(shoff), 1, elf_fp);
     if(byte_read!=0);
     printf("shoff = %lx", shoff);

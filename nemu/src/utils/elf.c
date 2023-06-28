@@ -120,10 +120,7 @@ void get_shstrtab(FILE *elf_fp){
     strtab_off = get_section_addr_by_name(".strtab", elf_fp, &strtab_size);
     printf("sym=%lx, str=%lx, symsize=%lx, strsize=%lx\n", symtab_off, strtab_off, symtab_size, strtab_size);
 
-    SET_FP(symtab_off+24+8);
-    uint64_t value;
-    byte_read = fread(&value, sizeof(value), 1, elf_fp);
-    if(byte_read!=0)  printf("value = %lx\n", value);
+
 
     //构造字符串表
     cnt=0;
@@ -141,8 +138,12 @@ void get_shstrtab(FILE *elf_fp){
     }
     for(int i=0; i<strtab_num; i++)
         printf("%s, %d\n", strtab[i].str, strtab[i].idx);
-
-
+    
+    //遍历符号表
+    SET_FP(symtab_off+24+4);
+    unsigned char info;
+    byte_read = fread(&info, sizeof(info), 1, elf_fp);
+    if(byte_read!=0)  printf("value = %u \n", info);
     
     // SET_FP(shoff+64*2);
     // uint32_t name;

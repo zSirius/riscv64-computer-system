@@ -122,6 +122,8 @@ void get_shstrtab(FILE *elf_fp){
     if(byte_read!=0)  printf("value = %lx\n", value);
 
     //构造字符串表
+    SET_FP(symtab_off);
+
     
     // SET_FP(shoff+64*2);
     // uint32_t name;

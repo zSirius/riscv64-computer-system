@@ -46,7 +46,7 @@ void get_shstrtab(FILE *elf_fp){
     byte_read = fread(&shstrtab_size, sizeof(shstrtab_size), 1, elf_fp);
 
     if(byte_read!=0)
-        printf("shstrtab_size = %lx\n", shstrtab_size);
+        printf("shstrtab_size = %lu\n", shstrtab_size);
 
     SET_FP(shstrtab_off)
     unsigned char ch[107];

@@ -45,7 +45,7 @@ void get_shstrtab(FILE *elf_fp){
     //     for(int i=0; i<104; i++)
     //         printf("%c", ch[i]);
 
-    SET_FP(shoff)
+    SET_FP(shoff+64)
     uint64_t a[8];
     byte_read = fread(a, sizeof(uint64_t), 8 , elf_fp);
     if(byte_read != 0)

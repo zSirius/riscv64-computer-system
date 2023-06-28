@@ -40,7 +40,6 @@ $(OBJ_DIR)/%.o: %.cc
 	@$(CXX) $(CFLAGS) $(CXXFLAGS) -c -o $@ $<
 	$(call call_fixdep, $(@:.o=.d), $@)
 
-$(info hi,this is nemu/scripts/build.mk)  #调试
 
 # Depencies
 -include $(OBJS:.o=.d)

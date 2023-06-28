@@ -28,7 +28,6 @@ override ARGS ?= --log=$(BUILD_DIR)/nemu-log.txt
 override ARGS += $(ARGS_DIFF)
 
 # Command to execute NEMU
-$(info this is native) #调试
 IMG ?=
 NEMU_EXEC := $(BINARY) $(ARGS) $(IMG)
 

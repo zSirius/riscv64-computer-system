@@ -11,7 +11,7 @@ typedef struct{
 
 static uint16_t e_shstrndx;
 static uint64_t shoff;
-// static uint64_t shstrndx_off;
+static uint64_t shstrtab_off;
 
 void get_shoff(FILE *elf_fp){
     
@@ -31,17 +31,17 @@ void get_shstrtab(FILE *elf_fp){
     get_shoff(elf_fp);
 
 
-    SET_FP(shoff+64*e_shstrndx);
-    uint64_t a[8];
-    byte_read = fread(&a, sizeof(uint64_t), 8 , elf_fp);
-    if(byte_read != 0)
-        for(int i=0; i<8; i++)
-            printf("%lx\n", a[i]);
+    SET_FP(shoff+64*e_shstrndx+12);
+    // uint64_t a[8];
+    // byte_read = fread(&a, sizeof(uint64_t), 8 , elf_fp);
+    // if(byte_read != 0)
+    //     for(int i=0; i<8; i++)
+    //         printf("%lx\n", a[i]);
 
-    // byte_read = fread(&shstrndx_off, sizeof(shstrndx_off), 1, elf_fp);
+    byte_read = fread(&shstrtab_off, sizeof(shstrtab_off), 1, elf_fp);
 
-    // if(byte_read!=0)
-    //     printf("shstrndx_off = %lx\n", shstrndx_off);
+    if(byte_read!=0)
+        printf("shstrtab_off = %lx\n", shstrtab_off);
     return;
 
 }

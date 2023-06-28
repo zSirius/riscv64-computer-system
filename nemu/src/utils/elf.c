@@ -26,7 +26,7 @@ void get_shstrtab(FILE *elf_fp){
     SET_FP(62);
     size_t byte_read = fread(&e_shstrndx, sizeof(e_shstrndx), 1, elf_fp);
     if(byte_read!=0)
-        printf("e_shstrndx = %hx\n", e_shstrndx);
+        printf("e_shstrndx = %hu\n", e_shstrndx);
     
     get_shoff(elf_fp);
 

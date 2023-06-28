@@ -12,6 +12,6 @@ void init_elf(const char *elf_file){
     unsigned char byte;
     size_t byte_read = fread(&byte, sizeof(byte), 1, elf_fp);
     if(byte_read != 0)
-        printf("%u", byte);
+        printf("%x", byte);
 
 }

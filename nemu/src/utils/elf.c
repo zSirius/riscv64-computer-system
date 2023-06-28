@@ -16,6 +16,7 @@ void insert_ftab(char name[], uint64_t addr, uint64_t size){
     strcpy(ftab[ftab_num].name, name);
     ftab[ftab_num].start = addr;
     ftab[ftab_num].size = size;
+    ftab_num++;
 }
 
 typedef struct

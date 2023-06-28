@@ -143,7 +143,7 @@ void get_shstrtab(FILE *elf_fp){
     //遍历符号表
     SET_FP(symtab_off+24+4);
 
-    for(int i=1; i<symtab_size; i++){
+    for(int i=1; i<symtab_size/24; i++){
         SET_FP(symtab_off+24*i+4);
         unsigned char info=0;
         byte_read = fread(&info, sizeof(info), 1, elf_fp);

@@ -45,6 +45,7 @@ void get_shstrtab(FILE *elf_fp){
     if(byte_read != 0)
         for(int i=0; i<104; i++)
             printf("%c", ch[i]);
+    printf("\n");
 
     SET_FP(shoff+64*8)
     uint64_t a[8];

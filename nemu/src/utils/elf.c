@@ -12,7 +12,7 @@ typedef struct{
 
 static uint16_t e_shstrndx;
 static uint64_t shoff;
-static uint64_t shstrndx_off;
+// static uint64_t shstrndx_off;
 
 void get_shoff(FILE *elf_fp){
     
@@ -32,11 +32,17 @@ void get_shstrtab(FILE *elf_fp){
     get_shoff(elf_fp);
 
 
-    SET_FP(1772);
-    byte_read = fread(&shstrndx_off, sizeof(shstrndx_off), 1, elf_fp);
+    SET_FP(1700);
+    uint64_t a[8];
+    byte_read = fread(a, sizeof(uint64_t), 8 , elf_fp);
+    if(byte_read != 0)
+        for(int i=0; i<8; i++)
+            printf("%lx\n", a[i]);
 
-    if(byte_read!=0)
-        printf("shstrndx_off = %lx\n", shstrndx_off);
+    // byte_read = fread(&shstrndx_off, sizeof(shstrndx_off), 1, elf_fp);
+
+    // if(byte_read!=0)
+    //     printf("shstrndx_off = %lx\n", shstrndx_off);
     return;
 
 }
@@ -51,11 +57,11 @@ void init_elf(const char *elf_file){
     Assert(fp, "Can not open '%s'", elf_file);
     elf_fp= fp;
 
-    uint64_t s[8];
-    size_t byte_read = fread(&s, sizeof(uint64_t), 8, elf_fp);
-    if(byte_read != 0)
-        for(int i=0; i<8; i++)
-            printf("%lx\n", s[i]);
+    // uint64_t s[8];
+    // size_t byte_read = fread(s, sizeof(uint64_t), 8, elf_fp);
+    // if(byte_read != 0)
+    //     for(int i=0; i<8; i++)
+    //         printf("%lx\n", s[i]);
 
     get_shstrtab(elf_fp);
 

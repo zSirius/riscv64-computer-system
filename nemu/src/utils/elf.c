@@ -31,7 +31,8 @@ void init_elf(const char *elf_file){
     uint64_t s[8];
     size_t byte_read = fread(&s, sizeof(uint64_t), 8, elf_fp);
     if(byte_read != 0)
-        printf("%lx\n", s[7]);
+        for(int i=0; i<8; i++)
+            printf("%lx\n", s[i]);
 
     get_shstrtab(elf_fp);
 

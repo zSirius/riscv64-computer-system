@@ -112,7 +112,7 @@ void get_shstrtab(FILE *elf_fp){
     SET_FP(symtab_off+24*1);
     uint8_t value[3];
     byte_read = fread(&value, sizeof(value[0]), 3, elf_fp);
-    if(byte_read!=0) for(int i=0; i<3; i++) printf("value = %x\nq", value[i]);
+    if(byte_read!=0) for(int i=0; i<3; i++) printf("value = %x\n", value[i]);
 
     //构造字符串表
 

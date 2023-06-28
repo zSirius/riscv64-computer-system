@@ -149,9 +149,12 @@ void get_shstrtab(FILE *elf_fp){
         byte_read = fread(&info, sizeof(info), 1, elf_fp);
         if(byte_read!=0 && ELF64_ST_TYPE(info) == 2){ //func
             uint64_t value;
+            uint64_t size;
             SET_FP(symtab_off+24*i+8);
             byte_read = fread(&value, sizeof(value), 1, elf_fp);
             printf("value = %lx\n", value);
+            byte_read = fread(&size, sizeof(size), 1, elf_fp);
+            printf("size = %lx\n", size);
         }
     }
 

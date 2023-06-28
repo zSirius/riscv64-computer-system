@@ -1,6 +1,6 @@
 #include <common.h>
 
-#define SET_FP(offset) fseek(elf_fp, (offset), SEEK_SET);
+#define SET_FP(offset) fseek(elf_fp, (offset), SEEK_SET)
 
 typedef struct{
     char name[16];
@@ -89,11 +89,13 @@ void get_shstrtab(FILE *elf_fp){
     if(byte_read!=0)
         printf("shstrtab_size = %lu\n", shstrtab_size);
 
-    //构造节名字符串表
-    SET_FP(shstrtab_off)
+
     unsigned char ch[1024];
     char str[16];
     int cnt=0;
+
+    //构造节名字符串表
+    SET_FP(shstrtab_off);
     byte_read = fread(ch, sizeof(unsigned char), shstrtab_size , elf_fp);
     if(byte_read != 0){
         for(int i=0; i<shstrtab_size; i++){
@@ -121,8 +123,16 @@ void get_shstrtab(FILE *elf_fp){
     byte_read = fread(&value, sizeof(value), 1, elf_fp);
     if(byte_read!=0)  printf("value = %lx\n", value);
 
-    //构造字符串表
+    //构造字符表
     SET_FP(symtab_off);
+    byte_read = fread(ch, sizeof(unsigned char), symtab_size, elf_fp);
+    if(byte_read != 0){
+        for(int i=0; i<symtab_size; i++){
+            if(ch[i]=='\0') printf("\n");
+            else printf("%c", ch[i]);
+        }
+    }
+
 
     
     // SET_FP(shoff+64*2);

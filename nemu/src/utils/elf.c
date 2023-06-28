@@ -51,7 +51,7 @@ void get_shstrtab(FILE *elf_fp){
     uint32_t name;
     byte_read = fread(&name, sizeof(uint32_t), 1 , elf_fp);
     if(byte_read != 0)
-        printf("name = %dx", name);
+        printf("name = %x", name);
     // uint64_t a[8];
     // byte_read = fread(a, sizeof(uint64_t), 8 , elf_fp);
     // if(byte_read != 0)

@@ -11,7 +11,7 @@ typedef struct{
 
 void get_shstrtab(FILE *elf_fp){
     uint16_t e_shstrndx;
-    SET_FP(64);
+    SET_FP(60);
     size_t byte_read = fread(&e_shstrndx, sizeof(e_shstrndx), 1, elf_fp);
     if(byte_read!=0)
         printf("res = %hx\n", e_shstrndx);

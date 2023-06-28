@@ -57,15 +57,17 @@ void get_shstrtab(FILE *elf_fp){
     byte_read = fread(ch, sizeof(unsigned char), shstrtab_size , elf_fp);
     if(byte_read != 0)
         for(int i=0; i<shstrtab_size; i++){
+            printf("%c",ch[i]);
             str[cnt++] = ch[i];
             if(ch[i] == '\0'){
                 strcpy(shstrtab[shstrtab_num++],str);
                 cnt=0;
             }
         }
+    printf("\n");        
     for(int i=0; i<shstrtab_num; i++)
         printf("%s\n", shstrtab[i]);
-    printf("\n");
+
 
     SET_FP(shoff+64*7);
     uint32_t name;

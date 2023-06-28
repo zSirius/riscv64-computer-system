@@ -1,6 +1,5 @@
 #include <common.h>
 
-#define RESET_FP fseek(elf_fp, 0, SEEK_SET);
 #define SET_FP(offset) fseek(elf_fp, (offset), SEEK_SET);
 
 typedef struct{
@@ -34,7 +33,7 @@ void get_shstrtab(FILE *elf_fp){
 
     SET_FP(1764);
     uint64_t a[8];
-    byte_read = fread(a, sizeof(uint64_t), 8 , elf_fp);
+    byte_read = fread(&a, sizeof(uint64_t), 8 , elf_fp);
     if(byte_read != 0)
         for(int i=0; i<8; i++)
             printf("%lx\n", a[i]);

@@ -5,9 +5,18 @@
 
 typedef struct{
     char name[64];
-    vaddr_t start;
-    size_t size;
+    uint64_t start;
+    uint64_t size;
 }FunctionTable;
+
+FunctionTable ftab[64];
+int ftab_num=0;
+
+void insert_ftab(char name[], uint64_t addr, uint64_t size){
+    strcpy(ftab[ftab_num].name, name);
+    ftab[ftab_num].start = addr;
+    ftab[ftab_num].size = size;
+}
 
 typedef struct
 {
@@ -149,8 +158,8 @@ void get_shstrtab(FILE *elf_fp){
             }
         }
     }
-    for(int i=0; i<strtab_num; i++)
-        printf("%s, %d\n", strtab[i].str, strtab[i].idx);
+    // for(int i=0; i<strtab_num; i++)
+    //     printf("%s, %d\n", strtab[i].str, strtab[i].idx);
     
     //遍历符号表
     for(int i=1; i<symtab_size/24; i++){
@@ -168,9 +177,13 @@ void get_shstrtab(FILE *elf_fp){
             SET_FP(symtab_off+24*i);
             byte_read = fread(&name_idx, sizeof(name_idx), 1, elf_fp);
             get_symbol_name_by_idx(name_idx ,name);
-            printf("value=%lx, size = %lu, name_idx=%d , name=%s\n", value, size, name_idx,name);
+            insert_ftab(name, value, size);
+            //printf("value=%lx, size = %lu, name_idx=%d , name=%s\n", value, size, name_idx,name);
         }
     }
+
+    for(int i=0; i<ftab_num; i++)
+        printf("%s, %lu, %lu\n", ftab[i].name, ftab[i].start, ftab[i].size);
 
     
     

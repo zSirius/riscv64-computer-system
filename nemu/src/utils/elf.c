@@ -141,7 +141,7 @@ void get_shstrtab(FILE *elf_fp){
         printf("%s, %d\n", strtab[i].str, strtab[i].idx);
     
     //遍历符号表
-    SET_FP(symtab_off+24+4);
+    SET_FP(symtab_off+16*24+4);
     unsigned char info;
     byte_read = fread(&info, sizeof(info), 1, elf_fp);
     if(byte_read!=0)  printf("type = %u \n", ELF64_ST_TYPE(info));

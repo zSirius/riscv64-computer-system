@@ -154,8 +154,7 @@ void get_shstrtab(FILE *elf_fp){
             byte_read = fread(&value, sizeof(value), 1, elf_fp);
             printf("value = %lx\n", value);
             SET_FP(symtab_off+24*i+16);
-            byte_read = fread(&size, sizeof(size), 1, elf_fp);
-            printf("size = %lx\n", size);
+            printf("size = %lu\n", size);
         }
     }
 

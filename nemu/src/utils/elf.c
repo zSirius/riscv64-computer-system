@@ -11,7 +11,9 @@ typedef struct{
 
 static uint16_t e_shstrndx;
 static uint64_t shoff;
+
 static uint64_t shstrtab_off;
+static uint64_t shstrtab_size;
 
 
 void get_shoff(FILE *elf_fp){
@@ -38,6 +40,13 @@ void get_shstrtab(FILE *elf_fp){
 
     if(byte_read!=0)
         printf("shstrtab_off = %lx\n", shstrtab_off);
+
+    SET_FP(shoff+64*e_shstrndx+32);
+    
+    byte_read = fread(&shstrtab_size, sizeof(shstrtab_size), 1, elf_fp);
+
+    if(byte_read!=0)
+        printf("shstrtab_size = %lx\n", shstrtab_size);
 
     SET_FP(shstrtab_off)
     unsigned char ch[107];

@@ -141,10 +141,22 @@ void get_shstrtab(FILE *elf_fp){
         printf("%s, %d\n", strtab[i].str, strtab[i].idx);
     
     //遍历符号表
-    SET_FP(symtab_off+16*24+4);
-    unsigned char info;
-    byte_read = fread(&info, sizeof(info), 1, elf_fp);
-    if(byte_read!=0)  printf("type = %u \n", ELF64_ST_TYPE(info));
+    SET_FP(symtab_off+24+4);
+
+    for(int i=1; i<symtab_size; i++){
+        SET_FP(symtab_off+24*i+4);
+        unsigned char info;
+        byte_read = fread(&info, sizeof(info), 1, elf_fp);
+        if(byte_read!=0 && (info) == 2){ //func
+            uint64_t value;
+            SET_FP(symtab_off+24*i+8);
+            byte_read = fread(&value, sizeof(value), 1, elf_fp);
+            printf("value = %lx\n", value);
+        }
+    }
+
+    
+    
     
     // SET_FP(shoff+64*2);
     // uint32_t name;

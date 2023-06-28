@@ -107,6 +107,7 @@ void get_shstrtab(FILE *elf_fp){
 
     symtab_off = get_section_addr_by_name(".symtab", elf_fp);
     strtab_off = get_section_addr_by_name(".strtab", elf_fp);
+    printf("sym=%lx, str=%lx\n", symtab_off, strtab_off);
 
     SET_FP(symtab_off+24);
     uint32_t value;

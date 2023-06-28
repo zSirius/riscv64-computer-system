@@ -14,7 +14,8 @@ static uint64_t shoff;
 
 static uint64_t shstrtab_off;
 static uint64_t shstrtab_size;
-
+static char shstrtab[16][16];
+static int shstrtab_num=0;
 
 void get_shoff(FILE *elf_fp){
     
@@ -48,12 +49,22 @@ void get_shstrtab(FILE *elf_fp){
     if(byte_read!=0)
         printf("shstrtab_size = %lu\n", shstrtab_size);
 
+    //获取节名字符串表
     SET_FP(shstrtab_off)
-    unsigned char ch[107];
-    byte_read = fread(ch, sizeof(unsigned char), 104 , elf_fp);
+    unsigned char ch[1024];
+    char str[16];
+    int cnt=0;
+    byte_read = fread(ch, sizeof(unsigned char), shstrtab_size , elf_fp);
     if(byte_read != 0)
-        for(int i=0; i<104; i++)
-            printf("%c", ch[i]);
+        for(int i=0; i<shstrtab_size; i++){
+            str[cnt++] = ch[i];
+            if(ch[i] == '\0'){
+                strcpy(shstrtab[shstrtab_num++],str);
+                cnt=0;
+            }
+        }
+    for(int i=0; i<shstrtab_num; i++)
+        printf("%s\n", shstrtab[i]);
     printf("\n");
 
     SET_FP(shoff+64*7);

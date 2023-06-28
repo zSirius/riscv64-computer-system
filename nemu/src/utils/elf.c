@@ -149,27 +149,34 @@ void get_shstrtab(FILE *elf_fp){
     for(int i=0; i<strtab_num; i++)
         printf("%s, %d\n", strtab[i].str, strtab[i].idx);
     
-    //遍历符号表
-    SET_FP(symtab_off+24+4);
+    //_start
+    SET_FP(symtab_off+24*17);
 
-    for(int i=1; i<symtab_size/24; i++){
-        SET_FP(symtab_off+24*i+4);
-        unsigned char info=0;
-        byte_read = fread(&info, sizeof(info), 1, elf_fp);
-        if(byte_read!=0 && ELF64_ST_TYPE(info) == 2){ //func
-            uint64_t value;
-            uint64_t size;
-            uint32_t name_idx;
-            char name[64];
-            SET_FP(symtab_off+24*i+8);
-            byte_read = fread(&value, sizeof(value), 1, elf_fp);
-            byte_read = fread(&size, sizeof(size), 1, elf_fp);
-            SET_FP(symtab_off+24*i);
-            byte_read = fread(&name_idx, sizeof(name_idx), 1, elf_fp);
-            get_symbol_name_by_idx(name_idx ,name);
-            printf("value=%lx, size = %lu, name_idx=%d , name=%s\n", value, size, name_idx,name);
-        }
-    }
+    uint32_t start_name;
+    byte_read = fread(&start_name, sizeof(start_name), 1, elf_fp);
+    printf("_start = %u\n", start_name);
+    //遍历符号表
+    //SET_FP(symtab_off+24+4);
+
+
+    // for(int i=1; i<symtab_size/24; i++){
+    //     SET_FP(symtab_off+24*i+4);
+    //     unsigned char info=0;
+    //     byte_read = fread(&info, sizeof(info), 1, elf_fp);
+    //     if(byte_read!=0 && ELF64_ST_TYPE(info) == 2){ //func
+    //         uint64_t value;
+    //         uint64_t size;
+    //         uint32_t name_idx;
+    //         char name[64];
+    //         SET_FP(symtab_off+24*i+8);
+    //         byte_read = fread(&value, sizeof(value), 1, elf_fp);
+    //         byte_read = fread(&size, sizeof(size), 1, elf_fp);
+    //         SET_FP(symtab_off+24*i);
+    //         byte_read = fread(&name_idx, sizeof(name_idx), 1, elf_fp);
+    //         get_symbol_name_by_idx(name_idx ,name);
+    //         printf("value=%lx, size = %lu, name_idx=%d , name=%s\n", value, size, name_idx,name);
+    //     }
+    // }
 
     
     

@@ -9,24 +9,38 @@ typedef struct{
     size_t size;
 }func_table;
 
+#define printdubug(str,l)     if(byte_read!=0) printf("str = %lx\n", str);
+
+static uint16_t e_shstrndx;
+static uint64_t shoff;
+static uint64_t shstrndx_off;
+
+void get_shoff(FILE *elf_fp){
+    
+    SET_FP(40);
+    size_t byte_read = fread(&shoff, sizeof(shoff), 1, elf_fp);
+    if(byte_read!=0)
+        printf("shoff = %lx\n", shoff);
+}
+
 void get_shstrtab(FILE *elf_fp){
-    uint16_t e_shstrndx;
+    
     SET_FP(62);
     size_t byte_read = fread(&e_shstrndx, sizeof(e_shstrndx), 1, elf_fp);
     if(byte_read!=0)
         printf("e_shstrndx = %hx\n", e_shstrndx);
     
+    get_shoff(elf_fp);
+
+
+    SET_FP(shoff+e_shstrndx*64);
+    byte_read = fread(&shstrndx_off, sizeof(shstrndx_off), 1, elf_fp);
+
+    printdubug(shstrndx_off, l);
     return;
 
 }
 
-void get_sh(FILE *elf_fp){
-    uint64_t shoff;
-    SET_FP(40);
-    size_t byte_read = fread(&shoff, sizeof(shoff), 1, elf_fp);
-    if(byte_read!=0);
-    printf("shoff = %lx", shoff);
-}
 
 void init_elf(const char *elf_file){
     if(elf_file == NULL) return;
@@ -44,7 +58,7 @@ void init_elf(const char *elf_file){
             printf("%lx\n", s[i]);
 
     get_shstrtab(elf_fp);
-    get_sh(elf_fp);
+
 
 
 

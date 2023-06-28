@@ -14,7 +14,7 @@ static uint64_t shoff;
 
 static uint64_t shstrtab_off;
 static uint64_t shstrtab_size;
-static char shstrtab[16][16];
+static char shstrtab[32][32];
 static int shstrtab_num=0;
 
 void get_shoff(FILE *elf_fp){
@@ -59,7 +59,7 @@ void get_shstrtab(FILE *elf_fp){
         for(int i=0; i<shstrtab_size; i++){
             if(ch[i]=='\0') printf("\n");
             else printf("%c",ch[i]);
-            
+
             str[cnt++] = ch[i];
             if(ch[i] == '\0'){
                 strcpy(shstrtab[shstrtab_num++],str);

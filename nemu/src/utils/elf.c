@@ -141,7 +141,7 @@ void get_shstrtab(FILE *elf_fp){
 
     symtab_off = get_section_addr_by_name(".symtab", elf_fp, &symtab_size);
     strtab_off = get_section_addr_by_name(".strtab", elf_fp, &strtab_size);
-    printf("sym=%lx, str=%lx, symsize=%lx, strsize=%lx\n", symtab_off, strtab_off, symtab_size, strtab_size);
+    //printf("sym=%lx, str=%lx, symsize=%lx, strsize=%lx\n", symtab_off, strtab_off, symtab_size, strtab_size);
 
 
 

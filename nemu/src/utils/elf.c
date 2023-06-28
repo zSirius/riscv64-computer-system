@@ -123,11 +123,11 @@ void get_shstrtab(FILE *elf_fp){
     byte_read = fread(&value, sizeof(value), 1, elf_fp);
     if(byte_read!=0)  printf("value = %lx\n", value);
 
-    //构造字符表
-    SET_FP(symtab_off);
-    byte_read = fread(ch, sizeof(unsigned char), symtab_size, elf_fp);
+    //构造字符串表
+    SET_FP(strtab_off);
+    byte_read = fread(ch, sizeof(unsigned char), strtab_size, elf_fp);
     if(byte_read != 0){
-        for(int i=0; i<symtab_size; i++){
+        for(int i=0; i<strtab_size; i++){
             if(ch[i]=='\0') printf("\n");
             else printf("%c", ch[i]);
         }

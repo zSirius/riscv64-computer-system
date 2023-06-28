@@ -30,6 +30,7 @@ uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 
+#ifdef CONFIG_IRINGBUF
 struct iringbuf
 {
   char logbuf[10][128];
@@ -38,6 +39,7 @@ struct iringbuf
 };
 void iringbuf_display();
 extern struct iringbuf _iringbuf;
+#endif
 
 void device_update();
 bool check_watchpoint();
@@ -89,12 +91,11 @@ static void execute(uint64_t n) {
   Decode s;
   for (;n > 0; n --) {
     exec_once(&s, cpu.pc);
-  #ifdef CONFIG_ITRACE
+  #ifdef CONFIG_IRINGBUF
     if(_iringbuf.end != -1 && (_iringbuf.end+1)%10 == _iringbuf.start)
       ++_iringbuf.start;
     _iringbuf.end = (_iringbuf.end+1)%10;
     strcpy(_iringbuf.logbuf[_iringbuf.end],s.logbuf);
-    //printf("start = %d , end = %d \n", _iringbuf.start, _iringbuf.end);
   #endif
     g_nr_guest_inst ++;
     trace_and_difftest(&s, cpu.pc);

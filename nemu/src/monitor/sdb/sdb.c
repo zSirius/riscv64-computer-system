@@ -22,6 +22,8 @@
 
 static int is_batch_mode = false;
 
+
+#ifdef CONFIG_IRINGBUF
 struct iringbuf _iringbuf = {.start = 0, .end = -1};
 
 void iringbuf_display(){
@@ -36,6 +38,7 @@ void iringbuf_display(){
   printf(" --> %s\n", _iringbuf.logbuf[_iringbuf.end]);
   return;
 }
+#endif
 
 void mtrace_display();
 
@@ -97,19 +100,23 @@ static int cmd_info(char *args){
   if(strcmp(args,"r")==0)
     isa_reg_display();
   else if(strcmp(args,"iringbuf")==0){
+  #ifdef CONFIG_IRINGBUF
     iringbuf_display();
+  #else
+    fprintf(stderr, "Error: Please enable iringbuf!\n");
+  #endif
   }else if(strcmp(args,"mtrace")==0){
-#ifdef CONFIG_MTRACE
+  #ifdef CONFIG_MTRACE
     mtrace_display();
-#else
+  #else
     fprintf(stderr, "Error: Please enable mtrace!\n");
-#endif
+  #endif
   }else if(strcmp(args, "w")==0){
-#ifdef CONFIG_WATCHPOINT
+  #ifdef CONFIG_WATCHPOINT
     watchpoint_display();
-#else
+  #else
     fprintf(stderr, "Error: Please enable watchpoint!\n");
-#endif
+  #endif
   }
   return 0;
 }

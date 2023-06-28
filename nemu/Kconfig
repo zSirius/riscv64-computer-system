@@ -158,13 +158,20 @@ config DIFFTEST
     Enable differential testing with a reference design.
     Note that this will significantly reduce the performance of NEMU.
 
-config WATCHPOINT
-  bool "Enable Watchpoint"
+config IRINGBUF
+  bool "Enable iringbuf"
+  depends on ITRACE
   default y
 
 config MTRACE
   bool "Enable memory tracer"
+  depends on TRACE
   default y
+
+config WATCHPOINT
+  bool "Enable Watchpoint"
+  default y
+
 
 choice
   prompt "Reference design"

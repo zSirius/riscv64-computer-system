@@ -33,6 +33,7 @@ void init_elf(const char *elf_file){
     if(byte_read != 0)
         printf("%lx\n", s);
 
+    get_shstrtab(elf_fp);
 
 
 

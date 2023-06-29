@@ -148,7 +148,7 @@ void get_ftab(FILE *elf_fp){
         printf("shstrtab_size = %lu\n", shstrtab_size);
 
 
-    unsigned char ch[4096];
+    unsigned char ch[4096]; //must be large enough!
     char str[16];
     int cnt=0;
 
@@ -178,19 +178,18 @@ void get_ftab(FILE *elf_fp){
     byte_read = fread(ch, sizeof(unsigned char), strtab_size, elf_fp);
     if(byte_read != 0){
         for(int i=0; i<strtab_size; i++){
-            printf("i=%d, cnt=%d \n", i, cnt);
             str[cnt++] = ch[i];
             if(ch[i]=='\0'){
-                printf("str=%s\n", str);
                 strcpy(strtab[strtab_num].str, str);
                 strtab[strtab_num++].idx = i-cnt+1;
                 cnt=0;
             }
         }
     }
-    for(int i=0; i<strtab_num; i++){
-        printf("%s\n", strtab[i].str);
-    }
+
+    // for(int i=0; i<strtab_num; i++){
+    //     printf("%s\n", strtab[i].str);
+    // }
     
     // //travel symtab to construct ftab
     // for(int i=1; i<symtab_size/24; i++){

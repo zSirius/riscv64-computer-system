@@ -92,7 +92,7 @@ finish:
   pattern_decode(pattern, STRLEN(pattern), &key, &mask, &shift); \
   if ((((uint64_t)INSTPAT_INST(s) >> shift) & mask) == key) { \
     INSTPAT_MATCH(s, ##__VA_ARGS__); \
-    if(key == 111){ \
+    if(key == 111 || key == 103){ \
       ADD_ELF_LOG_CALL;\
     }\
     goto *(__instpat_end); \

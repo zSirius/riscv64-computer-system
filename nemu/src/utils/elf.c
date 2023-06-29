@@ -38,12 +38,13 @@ void insert_ftab(char name[], uint64_t addr, uint64_t size){
 }
 
 void is_func_addr(uint64_t pc,uint64_t addr){
-    for(int i=0; i<ftab_num; i++){
-        if(addr == ftab[i].start){
-            add_elf_log("call", ftab[i].name, pc, addr);
-            return;
-        }
-    }
+    printf("pc=0x%8lx, addr=0x%8lx\n",pc,addr);
+    // for(int i=0; i<ftab_num; i++){
+    //     if(addr == ftab[i].start){
+    //         add_elf_log("call", ftab[i].name, pc, addr);
+    //         return;
+    //     }
+    // }
 }
 
 typedef struct

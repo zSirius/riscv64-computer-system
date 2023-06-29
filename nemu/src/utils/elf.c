@@ -20,11 +20,6 @@ void insert_ftab(char name[], uint64_t addr, uint64_t size){
     ftab_num++;
 }
 
-struct log
-{
-    char log[4096][2048];
-    int num;
-}elf_log = { .num=0 };
 static int layer = 0;
 
 void add_elf_log(char *type, char *name, uint64_t pc, uint64_t addr){

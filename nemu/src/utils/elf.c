@@ -8,7 +8,7 @@ struct log
     char log[2048][512];
     int num;
 }elf_log = { .num=0 };
-int layer = 0;
+static int layer = 0;
 
 void add_elf_log(char *type, char *name, uint64_t pc, uint64_t addr){
     sprintf(elf_log.log[elf_log.num++], "0x%8lx:%*s %s [%s @ 0x%8lx]", pc, layer, "", type, name, addr);
@@ -42,6 +42,7 @@ void is_func_addr(uint64_t pc,uint64_t addr){
     for(int i=0; i<ftab_num; i++){
         if(addr == ftab[i].start){
             add_elf_log("call", ftab[i].name, pc, addr);
+            layer++;
             return;
         }
     }

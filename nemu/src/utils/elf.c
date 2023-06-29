@@ -11,7 +11,10 @@ struct log
 static int layer = 0;
 
 void add_elf_log(char *type, char *name, uint64_t pc, uint64_t addr){
-    sprintf(elf_log.log[elf_log.num++], "0x%8lx:%*s %s [%s @ 0x%8lx]", pc, layer, "", type, name, addr);
+    if(strcmp("call", type))
+        sprintf(elf_log.log[elf_log.num++], "0x%8lx:%*s %s [%s @ 0x%8lx]", pc, layer, "", type, name, addr);
+    else
+        sprintf(elf_log.log[elf_log.num++], "0x%8lx:%*s %s [%s]", pc, layer, "", type, name);
 }
 
 void print_elf_log(){
@@ -43,6 +46,16 @@ void is_func_addr(uint64_t pc,uint64_t addr){
         if(addr == ftab[i].start){
             add_elf_log("call", ftab[i].name, pc, addr);
             layer++;
+            return;
+        }
+    }
+}
+
+void is_func_ret(uint64_t pc){
+    for(int i=0; i<ftab_num; i++){
+        if(pc == ftab[i].start+ftab[i].size-1){
+            add_elf_log("ret", ftab[i].name, pc, 0);
+            layer--;
             return;
         }
     }

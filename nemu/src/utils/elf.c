@@ -75,11 +75,11 @@ static uint64_t shstrtab_size;
 static StringTable shstrtab[128];
 static int shstrtab_num=0;
 
-// static uint64_t symtab_off;
-// static uint64_t symtab_size;
+static uint64_t symtab_off;
+static uint64_t symtab_size;
 
-// static uint64_t strtab_off;
-// static uint64_t strtab_size;
+static uint64_t strtab_off;
+static uint64_t strtab_size;
 static StringTable strtab[128];
 static int strtab_num=0;
 
@@ -166,24 +166,24 @@ void get_ftab(FILE *elf_fp){
         }
     }
     
-    // //get .symtab and .strtab addr/size
-    // symtab_off = get_section_addr_by_name(".symtab", elf_fp, &symtab_size);
-    // strtab_off = get_section_addr_by_name(".strtab", elf_fp, &strtab_size);
+    //get .symtab and .strtab addr/size
+    symtab_off = get_section_addr_by_name(".symtab", elf_fp, &symtab_size);
+    strtab_off = get_section_addr_by_name(".strtab", elf_fp, &strtab_size);
 
-    // //construct strtab
-    // cnt=0;
-    // SET_FP(strtab_off);
-    // byte_read = fread(ch, sizeof(unsigned char), strtab_size, elf_fp);
-    // if(byte_read != 0){
-    //     for(int i=0; i<strtab_size; i++){
-    //         str[cnt++] = ch[i];
-    //         if(ch[i]=='\0'){
-    //             strcpy(strtab[strtab_num].str, str);
-    //             strtab[strtab_num++].idx = i-cnt+1;
-    //             cnt=0;
-    //         }
-    //     }
-    // }
+    //construct strtab
+    cnt=0;
+    SET_FP(strtab_off);
+    byte_read = fread(ch, sizeof(unsigned char), strtab_size, elf_fp);
+    if(byte_read != 0){
+        for(int i=0; i<strtab_size; i++){
+            str[cnt++] = ch[i];
+            if(ch[i]=='\0'){
+                strcpy(strtab[strtab_num].str, str);
+                strtab[strtab_num++].idx = i-cnt+1;
+                cnt=0;
+            }
+        }
+    }
     
     // //travel symtab to construct ftab
     // for(int i=1; i<symtab_size/24; i++){

@@ -93,6 +93,7 @@ finish:
   if ((((uint64_t)INSTPAT_INST(s) >> shift) & mask) == key) { \
     INSTPAT_MATCH(s, ##__VA_ARGS__); \
     if(key == 111){ \
+      printf("this is 111\n");\
       ADD_ELF_LOG_CALL;\
     }\
     goto *(__instpat_end); \

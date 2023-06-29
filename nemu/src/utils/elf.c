@@ -148,7 +148,7 @@ void get_ftab(FILE *elf_fp){
         printf("shstrtab_size = %lu\n", shstrtab_size);
 
 
-    unsigned char ch[1024];
+    unsigned char ch[4096];
     char str[16];
     int cnt=0;
 

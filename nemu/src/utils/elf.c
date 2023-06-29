@@ -137,8 +137,8 @@ void get_ftab(FILE *elf_fp){
     //process secrion header, get e_shstrndx and shoff
     SET_FP(62);
     size_t byte_read = fread(&e_shstrndx, sizeof(e_shstrndx), 1, elf_fp);
-    if(byte_read!=0)
-        printf("e_shstrndx = %hu\n", e_shstrndx);
+    // if(byte_read!=0)
+    //     printf("e_shstrndx = %hu\n", e_shstrndx);
     
     SET_FP(40);
     byte_read = fread(&shoff, sizeof(shoff), 1, elf_fp);
@@ -147,14 +147,14 @@ void get_ftab(FILE *elf_fp){
     SET_FP(shoff+64*e_shstrndx+24);
     byte_read = fread(&shstrtab_off, sizeof(shstrtab_off), 1, elf_fp);
 
-    if(byte_read!=0)
-        printf("shstrtab_off = %lx\n", shstrtab_off);
+    // if(byte_read!=0)
+    //     printf("shstrtab_off = %lx\n", shstrtab_off);
 
     SET_FP(shoff+64*e_shstrndx+32);
     byte_read = fread(&shstrtab_size, sizeof(shstrtab_size), 1, elf_fp);
 
-    if(byte_read!=0)
-        printf("shstrtab_size = %lu\n", shstrtab_size);
+    // if(byte_read!=0)
+    //     printf("shstrtab_size = %lu\n", shstrtab_size);
 
 
     unsigned char ch[4096]; //must be large enough!
@@ -179,7 +179,7 @@ void get_ftab(FILE *elf_fp){
     symtab_off = get_section_addr_by_name(".symtab", elf_fp, &symtab_size);
     strtab_off = get_section_addr_by_name(".strtab", elf_fp, &strtab_size);
 
-    printf("symtab:off=%lx,size=%lx ; strtab:off=%lx,size=%lx\n", symtab_off, symtab_size, strtab_off, strtab_size);
+    //printf("symtab:off=%lx,size=%lx ; strtab:off=%lx,size=%lx\n", symtab_off, symtab_size, strtab_off, strtab_size);
 
     //construct strtab
     cnt=0;
@@ -221,9 +221,9 @@ void get_ftab(FILE *elf_fp){
         }
     }
 
-    printf("ftab_num = %d\n", ftab_num);
-    for(int i=0; i<ftab_num; i++)
-        printf("%s, 0x%lx, %lu\n", ftab[i].name, ftab[i].start, ftab[i].size);
+    // printf("ftab_num = %d\n", ftab_num);
+    // for(int i=0; i<ftab_num; i++)
+    //     printf("%s, 0x%lx, %lu\n", ftab[i].name, ftab[i].start, ftab[i].size);
 
     return;
 }

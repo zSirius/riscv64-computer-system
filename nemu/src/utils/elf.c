@@ -148,23 +148,23 @@ void get_ftab(FILE *elf_fp){
         printf("shstrtab_size = %lu\n", shstrtab_size);
 
 
-    // unsigned char ch[1024];
-    // char str[16];
-    // int cnt=0;
+    unsigned char ch[1024];
+    char str[16];
+    int cnt=0;
 
-    // //construct shstrtab
-    // SET_FP(shstrtab_off);
-    // byte_read = fread(ch, sizeof(unsigned char), shstrtab_size , elf_fp);
-    // if(byte_read != 0){
-    //     for(int i=0; i<shstrtab_size; i++){
-    //         str[cnt++] = ch[i];
-    //         if(ch[i] == '\0'){
-    //             strcpy(shstrtab[shstrtab_num].str,str);
-    //             shstrtab[shstrtab_num++].idx = i-cnt+1;
-    //             cnt=0;
-    //         }
-    //     }
-    // }
+    //construct shstrtab
+    SET_FP(shstrtab_off);
+    byte_read = fread(ch, sizeof(unsigned char), shstrtab_size , elf_fp);
+    if(byte_read != 0){
+        for(int i=0; i<shstrtab_size; i++){
+            str[cnt++] = ch[i];
+            if(ch[i] == '\0'){
+                strcpy(shstrtab[shstrtab_num].str,str);
+                shstrtab[shstrtab_num++].idx = i-cnt+1;
+                cnt=0;
+            }
+        }
+    }
     
     // //get .symtab and .strtab addr/size
     // symtab_off = get_section_addr_by_name(".symtab", elf_fp, &symtab_size);

@@ -75,11 +75,11 @@ static uint64_t shstrtab_size;
 static StringTable shstrtab[128];
 static int shstrtab_num=0;
 
-static uint64_t symtab_off;
-static uint64_t symtab_size;
+// static uint64_t symtab_off;
+// static uint64_t symtab_size;
 
-static uint64_t strtab_off;
-static uint64_t strtab_size;
+// static uint64_t strtab_off;
+// static uint64_t strtab_size;
 static StringTable strtab[128];
 static int strtab_num=0;
 
@@ -128,8 +128,8 @@ void get_ftab(FILE *elf_fp){
     //process secrion header, get e_shstrndx and shoff
     SET_FP(62);
     size_t byte_read = fread(&e_shstrndx, sizeof(e_shstrndx), 1, elf_fp);
-    // if(byte_read!=0)
-    //     printf("e_shstrndx = %hu\n", e_shstrndx);
+    if(byte_read!=0)
+        printf("e_shstrndx = %hu\n", e_shstrndx);
     
     SET_FP(40);
     byte_read = fread(&shoff, sizeof(shoff), 1, elf_fp);
@@ -138,76 +138,76 @@ void get_ftab(FILE *elf_fp){
     SET_FP(shoff+64*e_shstrndx+24);
     byte_read = fread(&shstrtab_off, sizeof(shstrtab_off), 1, elf_fp);
 
-    // if(byte_read!=0)
-    //     printf("shstrtab_off = %lx\n", shstrtab_off);
+    if(byte_read!=0)
+        printf("shstrtab_off = %lx\n", shstrtab_off);
 
     SET_FP(shoff+64*e_shstrndx+32);
     byte_read = fread(&shstrtab_size, sizeof(shstrtab_size), 1, elf_fp);
 
-    // if(byte_read!=0)
-    //     printf("shstrtab_size = %lu\n", shstrtab_size);
+    if(byte_read!=0)
+        printf("shstrtab_size = %lu\n", shstrtab_size);
 
 
-    unsigned char ch[1024];
-    char str[16];
-    int cnt=0;
+    // unsigned char ch[1024];
+    // char str[16];
+    // int cnt=0;
 
-    //construct shstrtab
-    SET_FP(shstrtab_off);
-    byte_read = fread(ch, sizeof(unsigned char), shstrtab_size , elf_fp);
-    if(byte_read != 0){
-        for(int i=0; i<shstrtab_size; i++){
-            str[cnt++] = ch[i];
-            if(ch[i] == '\0'){
-                strcpy(shstrtab[shstrtab_num].str,str);
-                shstrtab[shstrtab_num++].idx = i-cnt+1;
-                cnt=0;
-            }
-        }
-    }
+    // //construct shstrtab
+    // SET_FP(shstrtab_off);
+    // byte_read = fread(ch, sizeof(unsigned char), shstrtab_size , elf_fp);
+    // if(byte_read != 0){
+    //     for(int i=0; i<shstrtab_size; i++){
+    //         str[cnt++] = ch[i];
+    //         if(ch[i] == '\0'){
+    //             strcpy(shstrtab[shstrtab_num].str,str);
+    //             shstrtab[shstrtab_num++].idx = i-cnt+1;
+    //             cnt=0;
+    //         }
+    //     }
+    // }
     
-    //get .symtab and .strtab addr/size
-    symtab_off = get_section_addr_by_name(".symtab", elf_fp, &symtab_size);
-    strtab_off = get_section_addr_by_name(".strtab", elf_fp, &strtab_size);
+    // //get .symtab and .strtab addr/size
+    // symtab_off = get_section_addr_by_name(".symtab", elf_fp, &symtab_size);
+    // strtab_off = get_section_addr_by_name(".strtab", elf_fp, &strtab_size);
 
-    //construct strtab
-    cnt=0;
-    SET_FP(strtab_off);
-    byte_read = fread(ch, sizeof(unsigned char), strtab_size, elf_fp);
-    if(byte_read != 0){
-        for(int i=0; i<strtab_size; i++){
-            str[cnt++] = ch[i];
-            if(ch[i]=='\0'){
-                strcpy(strtab[strtab_num].str, str);
-                strtab[strtab_num++].idx = i-cnt+1;
-                cnt=0;
-            }
-        }
-    }
+    // //construct strtab
+    // cnt=0;
+    // SET_FP(strtab_off);
+    // byte_read = fread(ch, sizeof(unsigned char), strtab_size, elf_fp);
+    // if(byte_read != 0){
+    //     for(int i=0; i<strtab_size; i++){
+    //         str[cnt++] = ch[i];
+    //         if(ch[i]=='\0'){
+    //             strcpy(strtab[strtab_num].str, str);
+    //             strtab[strtab_num++].idx = i-cnt+1;
+    //             cnt=0;
+    //         }
+    //     }
+    // }
     
-    //travel symtab to construct ftab
-    for(int i=1; i<symtab_size/24; i++){
-        SET_FP(symtab_off+24*i+4);
-        unsigned char info=0;
-        byte_read = fread(&info, sizeof(info), 1, elf_fp);
-        if(byte_read!=0 && ELF64_ST_TYPE(info) == 2){ //func
-            uint64_t value;
-            uint64_t size;
-            uint32_t name_idx;
-            char name[64];
-            SET_FP(symtab_off+24*i+8);
-            byte_read = fread(&value, sizeof(value), 1, elf_fp);
-            byte_read = fread(&size, sizeof(size), 1, elf_fp);
-            SET_FP(symtab_off+24*i);
-            byte_read = fread(&name_idx, sizeof(name_idx), 1, elf_fp);
-            get_symbol_name_by_idx(name_idx ,name);
-            insert_ftab(name, value, size);
-            //printf("value=%lx, size = %lu, name_idx=%d , name=%s\n", value, size, name_idx,name);
-        }
-    }
+    // //travel symtab to construct ftab
+    // for(int i=1; i<symtab_size/24; i++){
+    //     SET_FP(symtab_off+24*i+4);
+    //     unsigned char info=0;
+    //     byte_read = fread(&info, sizeof(info), 1, elf_fp);
+    //     if(byte_read!=0 && ELF64_ST_TYPE(info) == 2){ //func
+    //         uint64_t value;
+    //         uint64_t size;
+    //         uint32_t name_idx;
+    //         char name[64];
+    //         SET_FP(symtab_off+24*i+8);
+    //         byte_read = fread(&value, sizeof(value), 1, elf_fp);
+    //         byte_read = fread(&size, sizeof(size), 1, elf_fp);
+    //         SET_FP(symtab_off+24*i);
+    //         byte_read = fread(&name_idx, sizeof(name_idx), 1, elf_fp);
+    //         get_symbol_name_by_idx(name_idx ,name);
+    //         insert_ftab(name, value, size);
+    //         //printf("value=%lx, size = %lu, name_idx=%d , name=%s\n", value, size, name_idx,name);
+    //     }
+    // }
 
-    for(int i=0; i<ftab_num; i++)
-        printf("%s, 0x%lx, %lu\n", ftab[i].name, ftab[i].start, ftab[i].size);
+    // for(int i=0; i<ftab_num; i++)
+    //     printf("%s, 0x%lx, %lu\n", ftab[i].name, ftab[i].start, ftab[i].size);
 
     return;
 }
@@ -221,6 +221,6 @@ void init_elf(const char *elf_file){
     Assert(fp, "Can not open '%s'", elf_file);
     elf_fp= fp;
 
-    //get_ftab(elf_fp);
+    get_ftab(elf_fp);
     fclose(elf_fp);
 }

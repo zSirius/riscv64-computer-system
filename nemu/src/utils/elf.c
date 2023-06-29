@@ -188,7 +188,7 @@ void get_ftab(FILE *elf_fp){
             }
         }
     }
-    for(int i=0; i<strtab_size; i++){
+    for(int i=0; i<strtab_num; i++){
         printf("%s\n", strtab[i].str);
     }
     

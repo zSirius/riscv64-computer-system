@@ -42,7 +42,6 @@ static StringTable strtab[64];
 static int strtab_num=0;
 
 
-
 void get_shoff(FILE *elf_fp){
     
     SET_FP(40);
@@ -90,36 +89,36 @@ void get_symbol_name_by_idx(int idx, char *name){
     }
 }
 
-void get_shstrtab(FILE *elf_fp){
+void get_ftab(FILE *elf_fp){
     
+    //process secrion header, get e_shstrndx and shoff
     SET_FP(62);
     size_t byte_read = fread(&e_shstrndx, sizeof(e_shstrndx), 1, elf_fp);
-    if(byte_read!=0)
-        printf("e_shstrndx = %hu\n", e_shstrndx);
+    // if(byte_read!=0)
+    //     printf("e_shstrndx = %hu\n", e_shstrndx);
     
-    get_shoff(elf_fp);
+    SET_FP(40);
+    byte_read = fread(&shoff, sizeof(shoff), 1, elf_fp);
 
-
+    //process section header, get shstrtab offset and size
     SET_FP(shoff+64*e_shstrndx+24);
-
     byte_read = fread(&shstrtab_off, sizeof(shstrtab_off), 1, elf_fp);
 
-    if(byte_read!=0)
-        printf("shstrtab_off = %lx\n", shstrtab_off);
+    // if(byte_read!=0)
+    //     printf("shstrtab_off = %lx\n", shstrtab_off);
 
     SET_FP(shoff+64*e_shstrndx+32);
-    
     byte_read = fread(&shstrtab_size, sizeof(shstrtab_size), 1, elf_fp);
 
-    if(byte_read!=0)
-        printf("shstrtab_size = %lu\n", shstrtab_size);
+    // if(byte_read!=0)
+    //     printf("shstrtab_size = %lu\n", shstrtab_size);
 
 
     unsigned char ch[1024];
     char str[16];
     int cnt=0;
 
-    //构造节名字符串表
+    //construct shstrtab
     SET_FP(shstrtab_off);
     byte_read = fread(ch, sizeof(unsigned char), shstrtab_size , elf_fp);
     if(byte_read != 0){
@@ -132,20 +131,12 @@ void get_shstrtab(FILE *elf_fp){
             }
         }
     }
-    // printf("\n");        
-    // for(int i=0; i<shstrtab_num; i++)
-    //     printf("%s , %d\n", shstrtab[i].str, shstrtab[i].idx);
-
     
-    //根据节名获取.symtab 和 .strtab的地址
-
+    //get .symtab and .strtab addr/size
     symtab_off = get_section_addr_by_name(".symtab", elf_fp, &symtab_size);
     strtab_off = get_section_addr_by_name(".strtab", elf_fp, &strtab_size);
-    //printf("sym=%lx, str=%lx, symsize=%lx, strsize=%lx\n", symtab_off, strtab_off, symtab_size, strtab_size);
 
-
-
-    //构造字符串表
+    //construct strtab
     cnt=0;
     SET_FP(strtab_off);
     byte_read = fread(ch, sizeof(unsigned char), strtab_size, elf_fp);
@@ -159,10 +150,8 @@ void get_shstrtab(FILE *elf_fp){
             }
         }
     }
-    // for(int i=0; i<strtab_num; i++)
-    //     printf("%s, %d\n", strtab[i].str, strtab[i].idx);
     
-    //遍历符号表
+    //travel symtab to construct ftab
     for(int i=1; i<symtab_size/24; i++){
         SET_FP(symtab_off+24*i+4);
         unsigned char info=0;
@@ -199,6 +188,6 @@ void init_elf(const char *elf_file){
     Assert(fp, "Can not open '%s'", elf_file);
     elf_fp= fp;
 
-    get_shstrtab(elf_fp);
+    get_ftab(elf_fp);
 
 }

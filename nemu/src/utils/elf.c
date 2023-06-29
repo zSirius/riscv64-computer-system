@@ -170,6 +170,8 @@ void get_ftab(FILE *elf_fp){
     symtab_off = get_section_addr_by_name(".symtab", elf_fp, &symtab_size);
     strtab_off = get_section_addr_by_name(".strtab", elf_fp, &strtab_size);
 
+    printf("symtab:off=%lx,size=%lx ; strtab:off=%lx,size=%lx\n", symtab_off, symtab_size, strtab_off, strtab_size);
+
     // //construct strtab
     // cnt=0;
     // SET_FP(strtab_off);

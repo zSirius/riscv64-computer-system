@@ -11,7 +11,7 @@ struct log
 static int layer = 0;
 
 void add_elf_log(char *type, char *name, uint64_t pc, uint64_t addr){
-    if(strcmp("call", type))
+    if(strcmp("call", type)==0)
         sprintf(elf_log.log[elf_log.num++], "0x%8lx:%*s %s [%s @ 0x%8lx]", pc, layer, "", type, name, addr);
     else
         sprintf(elf_log.log[elf_log.num++], "0x%8lx:%*s %s [%s]", pc, layer, "", type, name);

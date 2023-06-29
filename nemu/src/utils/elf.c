@@ -53,7 +53,7 @@ void is_func_addr(uint64_t pc,uint64_t addr){
 
 void is_func_ret(uint64_t pc){
     for(int i=0; i<ftab_num; i++){
-        if(pc == ftab[i].start+ftab[i].size-1-4){
+        if(pc+4 == ftab[i].start+ftab[i].size-1){
             add_elf_log("ret", ftab[i].name, pc, 0);
             layer--;
             return;

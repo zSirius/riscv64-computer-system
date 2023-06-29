@@ -149,7 +149,11 @@ void is_func_addr(uint64_t pc,uint64_t addr);
   return 0;
 }
 
+void is_func_ret(uint64_t pc);
+
 int isa_exec_once(Decode *s) {
   s->isa.inst.val = inst_fetch(&s->snpc, 4);
+  if(s->isa.inst.val == 32871)
+    is_func_ret(s->pc);
   return decode_exec(s);
 }

@@ -172,20 +172,20 @@ void get_ftab(FILE *elf_fp){
 
     printf("symtab:off=%lx,size=%lx ; strtab:off=%lx,size=%lx\n", symtab_off, symtab_size, strtab_off, strtab_size);
 
-    // //construct strtab
-    // cnt=0;
-    // SET_FP(strtab_off);
-    // byte_read = fread(ch, sizeof(unsigned char), strtab_size, elf_fp);
-    // if(byte_read != 0){
-    //     for(int i=0; i<strtab_size; i++){
-    //         str[cnt++] = ch[i];
-    //         if(ch[i]=='\0'){
-    //             strcpy(strtab[strtab_num].str, str);
-    //             strtab[strtab_num++].idx = i-cnt+1;
-    //             cnt=0;
-    //         }
-    //     }
-    // }
+    //construct strtab
+    cnt=0;
+    SET_FP(strtab_off);
+    byte_read = fread(ch, sizeof(unsigned char), strtab_size, elf_fp);
+    if(byte_read != 0){
+        for(int i=0; i<strtab_size; i++){
+            str[cnt++] = ch[i];
+            if(ch[i]=='\0'){
+                strcpy(strtab[strtab_num].str, str);
+                strtab[strtab_num++].idx = i-cnt+1;
+                cnt=0;
+            }
+        }
+    }
     
     // //travel symtab to construct ftab
     // for(int i=1; i<symtab_size/24; i++){

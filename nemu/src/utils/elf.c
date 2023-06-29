@@ -181,6 +181,7 @@ void get_ftab(FILE *elf_fp){
             printf("i=%d, cnt=%d \n", i, cnt);
             str[cnt++] = ch[i];
             if(ch[i]=='\0'){
+                printf("str=%s\n", str);
                 strcpy(strtab[strtab_num].str, str);
                 strtab[strtab_num++].idx = i-cnt+1;
                 cnt=0;

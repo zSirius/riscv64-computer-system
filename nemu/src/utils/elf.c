@@ -221,6 +221,6 @@ void init_elf(const char *elf_file){
     Assert(fp, "Can not open '%s'", elf_file);
     elf_fp= fp;
 
-    get_ftab(elf_fp);
+    //get_ftab(elf_fp);
     fclose(elf_fp);
 }

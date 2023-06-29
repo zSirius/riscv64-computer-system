@@ -5,7 +5,7 @@
 
 struct log
 {
-    char log[2048][1024];
+    char log[4096][2045];
     int num;
 }elf_log = { .num=0 };
 static int layer = 0;

@@ -188,9 +188,9 @@ void get_ftab(FILE *elf_fp){
             }
         }
     }
-    // for(int i=0; i<strtab_size; i++){
-    //     printf("%s\n", strtab[i].str);
-    // }
+    for(int i=0; i<strtab_size; i++){
+        printf("%s\n", strtab[i].str);
+    }
     
     // //travel symtab to construct ftab
     // for(int i=1; i<symtab_size/24; i++){

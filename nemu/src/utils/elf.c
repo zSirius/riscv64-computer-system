@@ -3,6 +3,24 @@
 #define SET_FP(offset) fseek(elf_fp, (offset), SEEK_SET)
 #define ELF64_ST_TYPE(info)    ((info) & 0x0F)
 
+struct log
+{
+    char log[64][256];
+    int num;
+}elf_log = { .num=0 };
+
+
+void add_elf_log(char *type, char *name, uint64_t pc, uint64_t addr){
+    sprintf(elf_log.log[elf_log.num++], "0x%8lx: %s [%s @ 0x%8lx]", pc, type, name, addr);
+}
+
+void print_elf_log(){
+    for(int i=0; i<elf_log.num; i++){
+        printf("%s\n", elf_log.log[i]);
+    }
+}
+
+
 typedef struct{
     char name[64];
     uint64_t start;
@@ -17,6 +35,15 @@ void insert_ftab(char name[], uint64_t addr, uint64_t size){
     ftab[ftab_num].start = addr;
     ftab[ftab_num].size = size;
     ftab_num++;
+}
+
+void is_func_addr(uint64_t pc,uint64_t addr){
+    for(int i=0; i<ftab_num; i++){
+        if(addr == ftab[i].start){
+            add_elf_log("call", ftab[i].name, pc, addr);
+            return;
+        }
+    }
 }
 
 typedef struct

@@ -64,6 +64,8 @@ static int decode_exec(Decode *s) {
   decode_operand(s, &rd, &src1, &src2, &imm, concat(TYPE_, type)); \
   __VA_ARGS__ ; \
 }
+void is_func_addr(uint64_t pc,uint64_t addr);
+#define ADD_ELF_LOG_CALL   is_func_addr(s->pc, s->dnpc)
 
   INSTPAT_START();
   INSTPAT("??????? ????? ????? ??? ????? 00101 11", auipc  , U, R(rd) = s->pc + imm);

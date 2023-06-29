@@ -3,34 +3,13 @@
 #define SET_FP(offset) fseek(elf_fp, (offset), SEEK_SET)
 #define ELF64_ST_TYPE(info)    ((info) & 0x0F)
 
-struct log
-{
-    char log[4096][2045];
-    int num;
-}elf_log = { .num=0 };
-static int layer = 0;
-
-void add_elf_log(char *type, char *name, uint64_t pc, uint64_t addr){
-    if(strcmp("call", type)==0)
-        sprintf(elf_log.log[elf_log.num++], "0x%8lx:%*s %s [%s @ 0x%8lx]", pc, layer, "", type, name, addr);
-    else
-        sprintf(elf_log.log[elf_log.num++], "0x%8lx:%*s %s [%s]", pc, layer, "", type, name);
-}
-
-void print_elf_log(){
-    for(int i=0; i<elf_log.num; i++){
-        printf("%s\n", elf_log.log[i]);
-    }
-}
-
-
 typedef struct{
     char name[64];
     uint64_t start;
     uint64_t size;
 }FunctionTable;
 
-FunctionTable ftab[64];
+FunctionTable ftab[256];
 int ftab_num=0;
 
 void insert_ftab(char name[], uint64_t addr, uint64_t size){
@@ -38,6 +17,42 @@ void insert_ftab(char name[], uint64_t addr, uint64_t size){
     ftab[ftab_num].start = addr;
     ftab[ftab_num].size = size;
     ftab_num++;
+}
+
+struct log
+{
+    char log[4096][2048];
+    int num;
+}elf_log = { .num=0 };
+static int layer = 0;
+
+void add_elf_log(char *type, char *name, uint64_t pc, uint64_t addr){
+    static bool need_create_log = true;
+    FILE *log_fp = NULL;
+    if(need_create_log) {
+        log_fp = fopen("elf_log.txt", "w");
+        need_create_log = false;
+    }else{
+        log_fp = fopen("elf_log.txt", "a");
+        fseek(log_fp, 0, SEEK_END);
+    }
+    if(strcmp("call", type)==0)
+        fprintf(log_fp, "0x%8lx:%*s %s [%s @ 0x%8lx]\n", pc, layer, "", type, name, addr);
+    else
+        fprintf(log_fp, "0x%8lx:%*s %s [%s]\n", pc, layer, "", type, name);
+    fclose(log_fp);
+}
+
+void print_elf_log(){
+    char line[256];
+    FILE *log_fp = fopen("elf_log", "r");
+    // for(int i=0; i<elf_log.num; i++){
+    //     printf("%s\n", elf_log.log[i]);
+    // }
+    while(fgets(line, 256, log_fp)!=NULL){
+        printf("%s", line);
+    }
+    fclose(log_fp);
 }
 
 void is_func_addr(uint64_t pc,uint64_t addr){

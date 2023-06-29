@@ -33,9 +33,9 @@ enum {
 #define immU() do { *imm = SEXT(BITS(i, 31, 12), 20) << 12; } while(0)
 #define immS() do { *imm = (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); } while(0)
 #define immJ() do { *imm = SEXT((BITS(i, 30, 21) << 1) + (BITS(i, 20, 20) << 11) \
-  + (BITS(i, 19, 12) << 12) + (BITS(i, 31, 31) << 20), 20); } while(0)
+  + (BITS(i, 19, 12) << 12) + (BITS(i, 31, 31) << 20), 21); } while(0)
 #define immB() do { *imm = SEXT((BITS(i, 7, 7) << 11) + (BITS(i, 11, 8) << 1) \
-  + (BITS(i, 30, 25) << 5) + (BITS(i, 31, 31) << 12), 12);} while(0) 
+  + (BITS(i, 30, 25) << 5) + (BITS(i, 31, 31) << 12), 13);} while(0) 
 
 #define SHAMT (BITS(s->isa.inst.val, 25, 20)) 
 

@@ -178,7 +178,7 @@ void get_ftab(FILE *elf_fp){
     byte_read = fread(ch, sizeof(unsigned char), strtab_size, elf_fp);
     if(byte_read != 0){
         for(int i=0; i<strtab_size; i++){
-            printf("i=%d, strtab_size=%lu \n", i, strtab_size);
+            printf("i=%d, cnt=%d \n", i, cnt);
             str[cnt++] = ch[i];
             if(ch[i]=='\0'){
                 strcpy(strtab[strtab_num].str, str);

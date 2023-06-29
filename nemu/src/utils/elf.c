@@ -72,7 +72,7 @@ static uint64_t shoff;
 
 static uint64_t shstrtab_off;
 static uint64_t shstrtab_size;
-static StringTable shstrtab[64];
+static StringTable shstrtab[128];
 static int shstrtab_num=0;
 
 static uint64_t symtab_off;
@@ -80,7 +80,7 @@ static uint64_t symtab_size;
 
 static uint64_t strtab_off;
 static uint64_t strtab_size;
-static StringTable strtab[64];
+static StringTable strtab[128];
 static int strtab_num=0;
 
 

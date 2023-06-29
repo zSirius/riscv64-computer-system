@@ -212,6 +212,7 @@ void get_ftab(FILE *elf_fp){
         }
     }
 
+    printf("ftab_num = %d\n", ftab_num);
     for(int i=0; i<ftab_num; i++)
         printf("%s, 0x%lx, %lu\n", ftab[i].name, ftab[i].start, ftab[i].size);
 

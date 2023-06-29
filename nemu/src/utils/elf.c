@@ -11,9 +11,9 @@ struct log
 static int layer = 0;
 
 void add_elf_log(char *type, char *name, uint64_t pc, uint64_t addr){
-    if(strcmp("call", type)==0)
-        sprintf(elf_log.log[elf_log.num++], "0x%8lx:%*s %s [%s @ 0x%8lx]", pc, layer, "", type, name, addr);
-    else
+    // if(strcmp("call", type)==0)
+    //     sprintf(elf_log.log[elf_log.num++], "0x%8lx:%*s %s [%s @ 0x%8lx]", pc, layer, "", type, name, addr);
+    // else
         sprintf(elf_log.log[elf_log.num++], "0x%8lx:%*s %s [%s]", pc, layer, "", type, name);
 }
 
@@ -53,8 +53,8 @@ void is_func_addr(uint64_t pc,uint64_t addr){
 
 void is_func_ret(uint64_t pc){
     for(int i=0; i<ftab_num; i++){
+        printf("pc = 0x%lx, end = 0x%lx", pc, ftab[i].start+ftab[i].size-1-4);
         if(pc == ftab[i].start+ftab[i].size-1-4){
-            printf("this is ret\n");
             add_elf_log("ret", ftab[i].name, pc, 0);
             layer--;
             return;

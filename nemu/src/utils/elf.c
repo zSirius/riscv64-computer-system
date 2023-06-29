@@ -2,6 +2,7 @@
 
 #define SET_FP(offset) fseek(elf_fp, (offset), SEEK_SET)
 #define ELF64_ST_TYPE(info)    ((info) & 0x0F)
+#define LOG_PWD "/home/sirius/ics2022/nemu/src/utils/elf_log.txt"
 
 typedef struct{
     char name[64];
@@ -30,10 +31,11 @@ void add_elf_log(char *type, char *name, uint64_t pc, uint64_t addr){
     static bool need_create_log = true;
     FILE *log_fp = NULL;
     if(need_create_log) {
-        log_fp = fopen("elf_log.txt", "w");
+        
+        log_fp = fopen(LOG_PWD, "w");
         need_create_log = false;
     }else{
-        log_fp = fopen("elf_log.txt", "a");
+        log_fp = fopen(LOG_PWD, "a");
         fseek(log_fp, 0, SEEK_END);
     }
     if(strcmp("call", type)==0)
@@ -45,10 +47,7 @@ void add_elf_log(char *type, char *name, uint64_t pc, uint64_t addr){
 
 void print_elf_log(){
     char line[256];
-    FILE *log_fp = fopen("elf_log", "r");
-    // for(int i=0; i<elf_log.num; i++){
-    //     printf("%s\n", elf_log.log[i]);
-    // }
+    FILE *log_fp = fopen(LOG_PWD, "r");
     while(fgets(line, 256, log_fp)!=NULL){
         printf("%s", line);
     }

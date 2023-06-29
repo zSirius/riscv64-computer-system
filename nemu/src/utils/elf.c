@@ -42,14 +42,6 @@ static StringTable strtab[64];
 static int strtab_num=0;
 
 
-void get_shoff(FILE *elf_fp){
-    
-    SET_FP(40);
-    size_t byte_read = fread(&shoff, sizeof(shoff), 1, elf_fp);
-    if(byte_read!=0)
-        printf("shoff = %lu\n", shoff);
-}
-
 uint64_t get_section_addr_by_name(char *name, FILE *elf_fp, uint64_t *size){
     int dst_idx=0;
     uint64_t offset;
@@ -181,7 +173,6 @@ void get_ftab(FILE *elf_fp){
 
 void init_elf(const char *elf_file){
     if(elf_file == NULL) return;
-    printf("elf_file = %s\n",elf_file);
     
     FILE *elf_fp;
     FILE *fp = fopen(elf_file, "r");
@@ -189,5 +180,5 @@ void init_elf(const char *elf_file){
     elf_fp= fp;
 
     get_ftab(elf_fp);
-
+fclose(elf_fp);
 }

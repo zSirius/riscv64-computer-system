@@ -5,7 +5,7 @@
 
 struct log
 {
-    char log[64][256];
+    char log[2048][512];
     int num;
 }elf_log = { .num=0 };
 

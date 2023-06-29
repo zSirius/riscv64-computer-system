@@ -154,7 +154,7 @@ void is_func_ret(uint64_t pc);
 int isa_exec_once(Decode *s) {
   s->isa.inst.val = inst_fetch(&s->snpc, 4);
   if(s->isa.inst.val == 32871){
-    printf("this ret\n");
+    printf("s->pc = 0x%lx \n", s->pc);
     is_func_ret(s->pc);
   }
   return decode_exec(s);

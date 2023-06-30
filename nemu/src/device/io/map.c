@@ -28,6 +28,7 @@ static uint8_t *p_space = NULL;
 void dtrace_display(){
   char line[32];
   FILE *log_fp = fopen(DTRACE_LOG_PWD, "r");
+  if(log_fp == NULL) return;
   while(fgets(line, sizeof(line), log_fp) != NULL){
     printf("%s", line);
   }

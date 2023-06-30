@@ -26,7 +26,6 @@ void add_elf_log(char *type, char *name, uint64_t pc, uint64_t addr){
     static bool need_create_log = true;
     FILE *log_fp = NULL;
     if(need_create_log) {
-        
         log_fp = fopen(LOG_PWD, "w");
         need_create_log = false;
     }else{
@@ -43,7 +42,7 @@ void add_elf_log(char *type, char *name, uint64_t pc, uint64_t addr){
 void print_elf_log(){
     char line[256];
     FILE *log_fp = fopen(LOG_PWD, "r");
-    while(fgets(line, 256, log_fp)!=NULL){
+    while(fgets(line, sizeof(line), log_fp)!=NULL){
         printf("%s", line);
     }
     fclose(log_fp);

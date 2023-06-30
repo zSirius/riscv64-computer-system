@@ -168,6 +168,11 @@ config MTRACE
   depends on TRACE
   default y
 
+config DTRACE
+  bool "Enable device tracer"
+  depends on TRACE
+  default y
+
 config WATCHPOINT
   bool "Enable Watchpoint"
   default y

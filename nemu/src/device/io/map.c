@@ -19,9 +19,36 @@
 #include <device/map.h>
 
 #define IO_SPACE_MAX (2 * 1024 * 1024)
+#define DTRACE_LOG_PWD "/home/sirius/ics2022/nemu/src/device/dtrace_log.txt"
 
 static uint8_t *io_space = NULL;
 static uint8_t *p_space = NULL;
+
+#ifdef CONFIG_DTRACE
+void dtrace_display(){
+  char line[32];
+  FILE *log_fp = fopen(DTRACE_LOG_PWD, "r");
+  while(fgets(line, sizeof(line), log_fp) != NULL){
+    printf("%s", line);
+  }
+  fclose(log_fp);
+}
+
+void add_dtrace(const char *type, const char *name, word_t data){
+  static bool need_create_log = true;
+  FILE *log_fp;
+  if(need_create_log){
+    log_fp = fopen(DTRACE_LOG_PWD, "w");
+    need_create_log = false;
+  }else{
+    log_fp = fopen(DTRACE_LOG_PWD, "a");
+    fseek(log_fp, 0, SEEK_END);
+  }
+  fprintf(log_fp, "[%s]: %s %lu\n", name, type, data);
+  fclose(log_fp);
+}
+#endif
+
 
 uint8_t* new_space(int size) {
   uint8_t *p = p_space;
@@ -58,6 +85,9 @@ word_t map_read(paddr_t addr, int len, IOMap *map) {
   paddr_t offset = addr - map->low;
   invoke_callback(map->callback, offset, len, false); // prepare data to read
   word_t ret = host_read(map->space + offset, len);
+#ifdef CONFIG_DTRACE
+  add_dtrace("read", map->name, ret);
+#endif
   return ret;
 }
 
@@ -67,4 +97,7 @@ void map_write(paddr_t addr, int len, word_t data, IOMap *map) {
   paddr_t offset = addr - map->low;
   host_write(map->space + offset, len, data);
   invoke_callback(map->callback, offset, len, true);
+#ifdef CONFIG_DTRACE
+  add_dtrace("write", map->name, data);
+#endif
 }

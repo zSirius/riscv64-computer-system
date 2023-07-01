@@ -11,6 +11,7 @@ size_t strlen(const char *s) {
   return len;
 }
 
+//The  strcpy() function copies the string pointed to by src, including the terminating null byte ('\0'), to the buffer pointed to by dest.
 char *strcpy(char *dst, const char *src) {
   size_t i;
   for(i=0; src[i] != '\0'; i++)
@@ -19,6 +20,7 @@ char *strcpy(char *dst, const char *src) {
   return dst;
 }
 
+//Warning: If there is no null byte among the first n bytes of src, the string placed in dest will not be null-terminated.
 char *strncpy(char *dst, const char *src, size_t n) {
   size_t i;
   for(i=0; i<n && src[i] != '\0'; i++)
@@ -28,6 +30,7 @@ char *strncpy(char *dst, const char *src, size_t n) {
   return dst;
 }
 
+//The  strcat() function appends the src string to the dest string, overwriting the terminating null byte ('\0') at the end of dest, and then adds a terminating null byte.
 char *strcat(char *dst, const char *src) {
   size_t dest_len = strlen(dst);
   size_t i;
@@ -57,6 +60,7 @@ int strncmp(const char *s1, const char *s2, size_t n) {
   else return -1;
 }
 
+//The memset() function fills the first n bytes of the memory area pointed to by s with the constant byte c.
 void *memset(void *s, int c, size_t n) {
   size_t i;
   for(i=0; i<n; i++)
@@ -64,6 +68,8 @@ void *memset(void *s, int c, size_t n) {
   return s;
 }
 
+//  The  memcpy()  function  copies  n  bytes from memory area src to memory area dest.  The memory areas must not
+//  overlap.  Use memmove(3) if the memory areas do overlap.
 void *memcpy(void *out, const void *in, size_t n) {
   size_t i;
   for(i=0; i<n; i++)
@@ -76,13 +82,14 @@ void *memmove(void *dst, const void *src, size_t n) {
   const unsigned char* s = (const unsigned char *)src;
   if( (d > s && d - s > n) || s >= d)
     return memcpy(dst, src, n);
-  size_t i;
+  int i;
   for(i=n-1; i>=0; i--){
     *(d+i) = *(s+i);
   }
   return dst;
 }
 
+//The  memcmp()  function  compares the first n bytes (each interpreted as unsigned char) of the memory areas s1 and s2.
 int memcmp(const void *s1, const void *s2, size_t n) {
   size_t i;
   for(i=0; i<n; i++){

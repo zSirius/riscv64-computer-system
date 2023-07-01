@@ -57,6 +57,9 @@ IMAGE_REL = build/$(NAME)-$(ARCH)
 IMAGE     = $(abspath $(IMAGE_REL))
 ARCHIVE   = $(WORK_DIR)/build/$(NAME)-$(ARCH).a
 
+#调试
+$(info IMAGE = $(IMAGE))
+
 ### Collect the files to be linked: object files (`.o`) and libraries (`.a`)
 OBJS      = $(addprefix $(DST_DIR)/, $(addsuffix .o, $(basename $(SRCS))))
 

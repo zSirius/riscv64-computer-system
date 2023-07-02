@@ -5,9 +5,37 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-#define DEFINE_VAR va_list ap; size_t i=0; int d; char *s
+#define DEFINE_VAR va_list ap; size_t i=0; int d; char *s; 
 #define PUT_STR(str) for(int j=0; j<len; j++) putch(str[j]); i += len
 #define GET_INT char str[64]; d = va_arg(ap, int); itoa(str, d)
+#define GET_POINTER char str[64]; u64 = va_arg(ap, uint64_t); dec2hex(str, u64)
+
+void dec2hex(char hex[], uint64_t dec){
+  if(dec==0){
+    hex[0] = '0';
+    hex[1] = '\0';
+    return;
+  }
+  size_t num_len=0;
+  uint64_t t = dec;
+  while(t!=0){
+    num_len++;
+    t/=16;
+  }
+  int i=num_len-1;
+
+  while(dec){
+    int t = dec % 16;
+    if(t>=0 && t<=9){
+      hex[i]=t+'0';
+    }else{
+      hex[i]=t%10+'a';
+    }
+    dec /= 16;
+    i--;
+  }
+  hex[num_len] = '\0';
+}
 
 void itoa(char str[], int d){
   size_t num_len = 0;
@@ -42,6 +70,11 @@ int printf(const char *fmt, ...) {
         s = va_arg(ap, char *);
         len = strlen(s);
         PUT_STR(s);
+      }else if(*fmt == 'p'){
+        uint64_t u64;
+        GET_POINTER;
+        len = strlen(str);
+        PUT_STR(str);
       }
       fmt++;
       total_ch += len + 1;

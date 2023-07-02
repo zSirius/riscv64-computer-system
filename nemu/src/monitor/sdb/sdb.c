@@ -43,6 +43,7 @@ void iringbuf_display(){
 
 void mtrace_display();
 void dtrace_display();
+void etrace_display();
 
 void init_regex();
 void init_wp_pool();
@@ -120,6 +121,12 @@ static int cmd_info(char *args){
     dtrace_display();
   #else
     fprintf(stderr, "Error: Please enable dtrace!\n");
+  #endif
+  }else if(strcmp(args,"etrace")==0){
+  #ifdef CONFIG_ETRACE
+    etrace_display();
+  #else
+    fprintf(stderr, "Error: Please enable etrace!\n");
   #endif
   }else if(strcmp(args, "w")==0){
   #ifdef CONFIG_WATCHPOINT

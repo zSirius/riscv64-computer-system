@@ -173,6 +173,11 @@ config DTRACE
   depends on TRACE
   default y
 
+config ETRACE
+  bool "Enable exception tracer"
+  depends on TRACE
+  default y
+
 config WATCHPOINT
   bool "Enable Watchpoint"
   default y

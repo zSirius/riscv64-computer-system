@@ -4,6 +4,7 @@
 
 static Context* (*user_handler)(Event, Context*) = NULL;
 
+//interrupt request handle
 Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};

@@ -22,6 +22,20 @@
 #define Mr vaddr_read
 #define Mw vaddr_write
 
+#define ECALL(dnpc) { bool success; dnpc = (isa_raise_intr( isa_reg_str2val("a7", &success), s->pc)); }
+#define CSR(i) (*csr_register(i))
+static vaddr_t *csr_register(word_t imm){
+  switch (imm)
+  {
+  case 0x341: return &(cpu.csr.mepc);
+  case 0x342: return &(cpu.csr.mcause);
+  case 0x300: return &(cpu.csr.mstatus);
+  case 0x305: return &(cpu.csr.mtvec);
+  default: panic("Unknown csr");
+    break;
+  }
+}
+
 enum {
   TYPE_I, TYPE_U, TYPE_S, TYPE_J, TYPE_R, TYPE_B,
   TYPE_N, // none
@@ -144,7 +158,13 @@ void is_func_addr(uint64_t pc,uint64_t addr);
   INSTPAT("000000 ?????? ????? 001 ????? 00100 11", slli   , I, R(rd) = src1 << SHAMT);
   INSTPAT("000000 ?????? ????? 001 ????? 00110 11", slliw  , I, R(rd) = SEXT((uint32_t)(src1 << SHAMT), 32));
 
+  //csr
+  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , I, R(rd) = CSR(imm); CSR(imm) = src1);
+  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , I, R(rd) = CSR(imm); CSR(imm) |= src1);
+  INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , I, R(rd) = CSR(imm); CSR(imm) &= ~src1);
+
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, ECALL(s->dnpc));
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
   INSTPAT_END();
 

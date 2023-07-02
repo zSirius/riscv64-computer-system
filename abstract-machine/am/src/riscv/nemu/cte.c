@@ -6,16 +6,6 @@ static Context* (*user_handler)(Event, Context*) = NULL;
 
 //interrupt request handle
 Context* __am_irq_handle(Context *c) {
-  printf("c addr = %d \n", c);
-  //test Context
-  // printf("pdir = %lu \n", *(uint64_t *)(c->pdir));
-  // for(int i=0; i<32; i++){
-  //   printf("gpr[%d] = %lu\n",i, *(uint64_t *)(c->gpr[i]));
-  // }
-  // printf("mcause=%lu, mstatus=%lu, mepc=%lu\n",*(uint64_t *)(c->mcause), *(uint64_t *)(c->mstatus), *(uint64_t *)(c->mepc));
-
-  //end
-
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {

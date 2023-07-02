@@ -6,7 +6,7 @@ static Context* (*user_handler)(Event, Context*) = NULL;
 
 //interrupt request handle
 Context* __am_irq_handle(Context *c) {
-  printf("c addr = %lu\n", c);
+  printf("c addr = 0x%lx\n", c);
   //test Context
   // printf("pdir = %lu \n", *(uint64_t *)(c->pdir));
   // for(int i=0; i<32; i++){

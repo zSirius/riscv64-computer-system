@@ -25,6 +25,7 @@
 #define ECALL(dnpc) { bool success; dnpc = (isa_raise_intr( isa_reg_str2val("a7", &success), s->pc)); }
 #define CSR(i) (*csr_register(i))
 #define MCASUSE 0x342
+#define MEPC 0X341
 static vaddr_t *csr_register(word_t imm){
   switch (imm)
   {
@@ -166,7 +167,8 @@ void is_func_addr(uint64_t pc,uint64_t addr);
 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, ECALL(s->dnpc));
-  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , R, s->dnpc = CSR(MCASUSE));
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , R, s->dnpc = CSR(MEPC));
+  
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
   INSTPAT_END();
 

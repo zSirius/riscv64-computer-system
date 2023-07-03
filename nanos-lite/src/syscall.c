@@ -23,6 +23,7 @@ void do_syscall(Context *c) {
 }
 
 int write(int fd, const void *buf, size_t count){
+  printf("this write: fd = %d\n",fd);
   int cnt, ret=-1;
   if(fd == 1 || fd == 2){
     for(cnt=0; cnt<count; cnt++)

@@ -18,6 +18,7 @@ void do_syscall(Context *c) {
     case SYS_exit: halt(a[1]); break;
     case SYS_yield: yield(); RET(0); break;
     case SYS_write: ret = write(a[1], (void *)a[2], a[3]); RET(ret); break;
+    case SYS_brk: RET(0); break; //just keep success now.
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }

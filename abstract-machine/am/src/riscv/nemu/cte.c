@@ -11,7 +11,7 @@ Context* __am_irq_handle(Context *c) {
     switch (c->mcause) {
       case -1: ev.event = EVENT_YIELD; break;
       default: 
-        if(c->mcause >= 0){
+        if(c->mcause >= 0 && c->mcause <= 19){
           ev.event = EVENT_SYSCALL;
         }else{
           ev.event = EVENT_ERROR; 

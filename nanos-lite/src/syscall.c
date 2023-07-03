@@ -27,7 +27,7 @@ int write(int fd, const void *buf, size_t count){
   int cnt, ret=-1;
   if(fd == 1 || fd == 2){
     for(cnt=0; cnt<count; cnt++)
-      putch((*(char *)buf + cnt));
+      putch(*((char *)buf + cnt));
     ret = cnt;
   }
   return ret;

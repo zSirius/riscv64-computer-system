@@ -33,7 +33,29 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write, 0},
   [FD_STDOUT] = {"stdout", 0, 0, invalid_read, invalid_write, 0},
   [FD_STDERR] = {"stderr", 0, 0, invalid_read, invalid_write, 0},
-#include "files.h"
+//#include "files.h"
+  {"/bin/file-test", 51888, 0, NULL, NULL, 0},
+  {"/bin/hello", 36792, 51888, NULL, NULL, 0},
+  {"/bin/dummy", 33048, 88680, NULL, NULL, 0},
+  {"/bin/dummy.txt", 248665, 121728, NULL, NULL, 0},
+  {"/share/music/little-star.ogg", 140946, 370393, NULL, NULL, 0},
+  {"/share/music/rhythm/Do.ogg", 6473, 511339, NULL, NULL, 0},
+  {"/share/music/rhythm/empty.ogg", 4071, 517812, NULL, NULL, 0},
+  {"/share/music/rhythm/Re.ogg", 6503, 521883, NULL, NULL, 0},
+  {"/share/music/rhythm/Mi.ogg", 6611, 528386, NULL, NULL, 0},
+  {"/share/music/rhythm/Si.ogg", 6647, 534997, NULL, NULL, 0},
+  {"/share/music/rhythm/Fa.ogg", 6625, 541644, NULL, NULL, 0},
+  {"/share/music/rhythm/La.ogg", 6542, 548269, NULL, NULL, 0},
+  {"/share/music/rhythm/So.ogg", 6538, 554811, NULL, NULL, 0},
+  {"/share/pictures/projectn.bmp", 49290, 561349, NULL, NULL, 0},
+  {"/share/files/num", 5000, 610639, NULL, NULL, 0},
+  {"/share/fonts/Courier-7.bdf", 19567, 615639, NULL, NULL, 0},
+  {"/share/fonts/Courier-11.bdf", 23272, 635206, NULL, NULL, 0},
+  {"/share/fonts/Courier-12.bdf", 24339, 658478, NULL, NULL, 0},
+  {"/share/fonts/Courier-9.bdf", 20488, 682817, NULL, NULL, 0},
+  {"/share/fonts/Courier-8.bdf", 20114, 703305, NULL, NULL, 0},
+  {"/share/fonts/Courier-13.bdf", 25677, 723419, NULL, NULL, 0},
+  {"/share/fonts/Courier-10.bdf", 21440, 749096, NULL, NULL, 0},
 };
 
 void init_fs() {

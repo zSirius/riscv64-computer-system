@@ -12,6 +12,7 @@ Context* __am_irq_handle(Context *c) {
       case -1: ev.event = EVENT_YIELD; break;
       default: 
         if(c->mcause >= 0 && c->mcause <= 19){
+          printf("c->mcause = %d\n" ,c->mcause);
           ev.event = EVENT_SYSCALL;
         }else{
           ev.event = EVENT_ERROR; 

@@ -112,7 +112,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
 }
 
 size_t fs_lseek(int fd, size_t offset, int whence){
-  //printf("this is fs_lseek(), whence = %d\n", whence);
+  printf("this is fs_lseek(), fd = %d, offset = %d, whence = %d\n", fd, offset, whence);
   if(fd==0 || fd==1 || fd==2) return 0;
   Finfo *file = &file_table[fd];
   size_t cur_offset;

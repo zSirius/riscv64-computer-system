@@ -13,17 +13,11 @@ int main() {
   assert(size == 5000);
 
   fseek(fp, 500 * 5, SEEK_SET);
-  // int i, n;
-  // char str[16];
-  int n;
-  fscanf(fp, "%d", &n);
-  // sprintf(str, "%d", n);
-  // _write(1, str, 16);
-  // for (i = 500; i < 1000; i ++) {
-  //   fscanf(fp, "%d", &n);
-    //_write(1, &n, 4);
+  int i, n;
+  for (i = 500; i < 1000; i ++) {
+    fscanf(fp, "%d", &n);
     //assert(n == i + 1);
-  //}
+  }
   // printf("\n");
   // printf("n=%d\n",n);
 

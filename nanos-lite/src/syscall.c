@@ -13,7 +13,7 @@ void do_syscall(Context *c) {
   a[2] = c->GPR3;
   a[3] = c->GPR4;
 
-  if((int)a[0] == SYS_read)
+  //if((int)a[0] == SYS_read)
     printf("this is do_syscall, call num = %d\n", (int)a[0]);
   int ret;
 
@@ -28,7 +28,7 @@ void do_syscall(Context *c) {
     case SYS_brk: RET(0); break; //just keep success now.
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
-  
+
 }
 
 // int open(const char *pathname, int flags, int mode){

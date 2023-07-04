@@ -16,8 +16,8 @@ int main() {
   int i, n;
   char str[16];
   fscanf(fp, "%d", &n);
-  sprintf(str, "%d", n);
-  _write(1, str, 16);
+  // sprintf(str, "%d", n);
+  // _write(1, str, 16);
   // for (i = 500; i < 1000; i ++) {
   //   fscanf(fp, "%d", &n);
     //_write(1, &n, 4);

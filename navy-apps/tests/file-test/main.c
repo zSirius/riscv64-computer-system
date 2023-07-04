@@ -3,8 +3,9 @@
 
 int main() {
   FILE *fp = fopen("/share/files/num", "r+");
-  //assert(fp);
+  assert(fp);
 
+  printf(" ");
   // fseek(fp, 0, SEEK_END);
   // long size = ftell(fp);
   // assert(size == 5000);
@@ -15,8 +16,8 @@ int main() {
     fscanf(fp, "%d", &n);
     //assert(n == i + 1);
   }
-  printf("\n");
-  printf("n=%d\n",n);
+  // printf("\n");
+  // printf("n=%d\n",n);
 
   // fseek(fp, 0, SEEK_SET);
   // for (i = 0; i < 500; i ++) {

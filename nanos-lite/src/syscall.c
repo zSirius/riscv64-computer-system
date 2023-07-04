@@ -28,6 +28,7 @@ void do_syscall(Context *c) {
     case SYS_brk: RET(0); break; //just keep success now.
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
+  
 }
 
 // int open(const char *pathname, int flags, int mode){

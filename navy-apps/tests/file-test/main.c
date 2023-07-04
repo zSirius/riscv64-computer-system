@@ -13,8 +13,9 @@ int main() {
   assert(size == 5000);
 
   fseek(fp, 500 * 5, SEEK_SET);
-  int i, n;
-  char str[16];
+  // int i, n;
+  // char str[16];
+  int n;
   fscanf(fp, "%d", &n);
   // sprintf(str, "%d", n);
   // _write(1, str, 16);

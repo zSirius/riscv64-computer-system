@@ -15,11 +15,12 @@ int main() {
   char str[16];
   fseek(fp, 500 * 5, SEEK_SET);
   int i, n;
+
   fscanf(fp, "%d", &n);
 
-  fflush(fp);
+  
   sprintf(str, "hello!");
-
+fflush(fp);
 
   // assert( n == 500);
   // fscanf(fp, "%d", &n);

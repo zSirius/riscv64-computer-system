@@ -122,5 +122,6 @@ size_t fs_lseek(int fd, size_t offset, int whence){
     panic("Error argument: whence\n");
   }
   if(cur_offset > file->size || cur_offset < 0) return -1;
+  file->open_offset = cur_offset;
   return cur_offset;
 }

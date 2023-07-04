@@ -63,11 +63,11 @@ void init_fs() {
 }
 
 int fs_open(const char *pathname, int flags, int mode){
-  //printf("this is open , file tab size = %d, pathname = %s\n ", FILE_NUM,pathname);
+  printf("this is open , file tab size = %d, pathname = %s\n ", FILE_NUM,pathname);
   int idx;
   for(idx=3; idx<=FILE_NUM; idx++){
     if(strcmp(pathname, file_table[idx].name) == 0){
-      //printf("find file: fd = %d\n", idx);
+      printf("find file: fd = %d\n", idx);
       return idx;
     }
   }

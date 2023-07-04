@@ -12,7 +12,7 @@ int main() {
   // long size = ftell(fp);
   // assert(size == 5000);
 
-  //char str[16];
+  char str[16];
   fseek(fp, 500 * 5, SEEK_SET);
   int i, n;
 
@@ -23,8 +23,9 @@ int main() {
 
 
   // assert( n == 500);
-  fscanf(fp, "%d", &n);
-
+  // fscanf(fp, "%d", &n);
+  
+  printf("shufuf");
 
 
   // for (i = 500; i < 1000; i ++) {

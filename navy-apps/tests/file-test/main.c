@@ -15,7 +15,7 @@ int main() {
   fseek(fp, 500 * 5, SEEK_SET);
   int i, n=0;
 
-  fscanf(fp, "%d", &n);
+  //fscanf(fp, "%d", &n);
   _write(1, &n, 4);
 
 

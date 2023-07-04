@@ -23,9 +23,9 @@ int main() {
 
 
   // assert( n == 500);
-  // fscanf(fp, "%d", &n);
+  fscanf(fp, "%d", &n);
   
-  printf("%d", n);
+  printf("%d\n", n);
 
 
   // for (i = 500; i < 1000; i ++) {

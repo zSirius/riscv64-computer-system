@@ -123,6 +123,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
     break;
   case SEEK_END:
     cur_offset = file->size + offset;
+    break;
   default:
     panic("Error argument: whence\n");
   }

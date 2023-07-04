@@ -3,6 +3,8 @@
 
 #define INC_PC c->mepc += 4
 
+void do_syscall(Context *c);
+
 static Context* do_event(Event e, Context* c) {
   //printf("EVENT NO: %d\n", e.event);
   switch (e.event) {

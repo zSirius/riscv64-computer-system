@@ -79,7 +79,7 @@ int fs_close(int fd){
 }
 
 size_t fs_read(int fd, void *buf, size_t len){
-  printf("this is fs_read(), fd = %d", fd);
+  //printf("this is fs_read(), fd = %d\n", fd);
   if(fd==0 || fd==1 || fd ==2) return 0;
   Finfo *file = &file_table[fd];
   if(file->open_offset >= file->size) return 0;

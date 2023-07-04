@@ -1,5 +1,6 @@
 #include <common.h>
 #include "syscall.h"
+#include "fs.h"
 
 #define RET(ret) c->GPRx = ret;
 
@@ -17,8 +18,8 @@ void do_syscall(Context *c) {
   switch (a[0]) {
     case SYS_exit: halt(a[1]); break;
     case SYS_yield: yield(); RET(0); break;
-    // case SYS_open: ;;break;
-    // case SYS_read:  ;;break;
+    case SYS_open: ;;break;
+    case SYS_read:  ;;break;
     case SYS_write: ret = write(a[1], (void *)a[2], a[3]); RET(ret); break;
     case SYS_brk: RET(0); break; //just keep success now.
     default: panic("Unhandled syscall ID = %d", a[0]);

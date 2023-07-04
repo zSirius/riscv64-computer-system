@@ -63,11 +63,11 @@ void init_fs() {
 }
 
 int fs_open(const char *pathname, int flags, int mode){
-  printf("this is open , file tab size = %d, pathname = %s\n ", FILE_NUM,pathname);
+  //printf("this is open , file tab size = %d, pathname = %s\n ", FILE_NUM,pathname);
   int idx;
   for(idx=3; idx<=FILE_NUM; idx++){
     if(strcmp(pathname, file_table[idx].name) == 0){
-      printf("find file: fd = %d\n", idx);
+      //printf("find file: fd = %d\n", idx);
       return idx;
     }
   }
@@ -82,7 +82,7 @@ size_t fs_read(int fd, void *buf, size_t len){
   Finfo *file = &file_table[fd];
   if(file->open_offset >= file->size) return 0;
   size_t real_len = len > file->size - file->open_offset ? file->size - file->open_offset : len;
-  printf("this is fs_read: fd = %d, len=%d, real_len=%d, disk_offset=%d, open_offset=%d\n", fd, len, real_len, file->disk_offset, file->open_offset);
+  //printf("this is fs_read: fd = %d, len=%d, real_len=%d, disk_offset=%d, open_offset=%d\n", fd, len, real_len, file->disk_offset, file->open_offset);
   ramdisk_read(buf, file->disk_offset + file->open_offset, real_len);
   file->open_offset += real_len;
   return real_len;

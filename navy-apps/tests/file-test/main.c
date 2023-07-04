@@ -8,28 +8,28 @@ int main() {
   assert(fp);
 
   
-  fseek(fp, 0, SEEK_END);
-  long size = ftell(fp);
-  assert(size == 5000);
+  // fseek(fp, 0, SEEK_END);
+  // long size = ftell(fp);
+  // assert(size == 5000);
 
-  fseek(fp, 500 * 5, SEEK_SET);
-  int i, n;
+  // fseek(fp, 500 * 5, SEEK_SET);
+  // int i, n;
 
   //char c = 'a';
 
   //fscanf(fp, "%d", &n);
-  _write(1, &n, 1);
+  //_write(1, &n, 1);
 
 
   // assert( n == 500);
   
 
 
-  for (i = 500; i < 1000; i ++) {
-    fscanf(fp, "%d", &n);
-    _write(1, &n, 1);
-    // assert(n == i + 1);
-  }
+  // for (i = 500; i < 1000; i ++) {
+  //   fscanf(fp, "%d", &n);
+  //   _write(1, &n, 1);
+  //   // assert(n == i + 1);
+  // }
   // printf("\n");
   // printf("n=%d\n",n);
 

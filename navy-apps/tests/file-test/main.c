@@ -12,20 +12,15 @@ int main() {
   // long size = ftell(fp);
   // assert(size == 5000);
 
-  char str[16];
   fseek(fp, 500 * 5, SEEK_SET);
   int i, n=0;
 
-  // fscanf(fp, "%d", &n);
-
-  
-  sprintf(str, "hello!");
+  fscanf(fp, "%d", &n);
+  _write(1, &n, 4);
 
 
   // assert( n == 500);
-  //fscanf(fp, "%d", &n);
   
-  printf("%s\n", str);
 
 
   // for (i = 500; i < 1000; i ++) {

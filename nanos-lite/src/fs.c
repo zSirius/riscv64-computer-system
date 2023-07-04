@@ -91,7 +91,6 @@ size_t fs_read(int fd, void *buf, size_t len){
 }
 
 size_t fs_write(int fd, const void *buf, size_t len){
-  printf("this is fs_write(), len = %d\n", len);
   //stdout,stderr.
   if(fd==1 || fd==2){
     size_t cnt;
@@ -106,7 +105,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
   size_t real_len = len > file->size - file->open_offset ? file->size - file->open_offset : len;
   ramdisk_write(buf, file->disk_offset + file->open_offset, real_len);
   file->open_offset += real_len;
-  printf("real_len = %d\n", real_len);
+  printf("this is fs_write(), len = %d, real_len = %d\n", len ,real_len);
   return real_len;
 }
 

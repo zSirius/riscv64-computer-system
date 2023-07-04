@@ -32,6 +32,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       fs_read(fd, (void *)ph_entry.p_vaddr, ph_entry.p_memsz);
       //ramdisk_read((void *)ph_entry.p_vaddr, ph_entry.p_offset, ph_entry.p_memsz);
       memset((void *)(ph_entry.p_vaddr + ph_entry.p_filesz), 0, ph_entry.p_memsz - ph_entry.p_filesz);
+      printf("end load\n");
     }
   }
 

@@ -15,8 +15,10 @@ int main() {
   fseek(fp, 500 * 5, SEEK_SET);
   int i, n=0;
 
+  char c = 'a';
+
   //fscanf(fp, "%d", &n);
-  _write(1, &n, 4);
+  _write(1, &c, 1);
 
 
   // assert( n == 500);

@@ -71,7 +71,7 @@ int fs_open(const char *pathname, int flags, int mode){
       return idx;
     }
   }
-  panic("File pathname is error\n");
+  return -1;
 }
 
 int fs_close(int fd){

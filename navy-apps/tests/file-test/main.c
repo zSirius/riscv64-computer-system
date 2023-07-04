@@ -13,6 +13,8 @@ int main() {
   assert(size == 5000);
 
   fseek(fp, 500 * 5, SEEK_SET);
+  long size2 = ftell(fp);
+  assert(size == 2500);
   // int i, n;
 
   //char c = 'a';

@@ -27,12 +27,12 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     fs_read(fd, &ph_entry, sizeof(ph_entry));
     //ramdisk_read(&ph_entry, elf_header.e_phoff + i * elf_header.e_phentsize, sizeof(ph_entry));
     if(ph_entry.p_type == PT_LOAD){
-      //printf("this is LOAD\n");
+      printf("this is LOAD\n");
       fs_lseek(fd, ph_entry.p_offset, SEEK_SET);
       fs_read(fd, (void *)ph_entry.p_vaddr, ph_entry.p_memsz);
       //ramdisk_read((void *)ph_entry.p_vaddr, ph_entry.p_offset, ph_entry.p_memsz);
       memset((void *)(ph_entry.p_vaddr + ph_entry.p_filesz), 0, ph_entry.p_memsz - ph_entry.p_filesz);
-      //printf("end load\n");
+      printf("end load\n");
     }
   }
 

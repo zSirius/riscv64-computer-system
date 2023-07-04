@@ -21,9 +21,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   assert(*(uint32_t *)elf_header.e_ident == 0x464c457f);
   assert(elf_header.e_machine == EM_RISCV);
   
-  fs_lseek(fd, elf_header.e_phoff, SEEK_SET);
   for(int i=0; i<elf_header.e_phnum; i++){
     Elf_Phdr ph_entry;
+    fs_lseek(fd, elf_header.e_phoff + i * elf_header.e_phentsize, SEEK_SET);
     fs_read(fd, &ph_entry, sizeof(ph_entry));
     //ramdisk_read(&ph_entry, elf_header.e_phoff + i * elf_header.e_phentsize, sizeof(ph_entry));
     if(ph_entry.p_type == PT_LOAD){

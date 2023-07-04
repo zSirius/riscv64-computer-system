@@ -19,9 +19,12 @@ int main() {
 
   fflush(fp);
   sprintf(str, "hello!");
-  _write(1, str, sizeof(str));
+
+
   // assert( n == 500);
   // fscanf(fp, "%d", &n);
+
+
 
   // for (i = 500; i < 1000; i ++) {
   //   fscanf(fp, "%d", &n);

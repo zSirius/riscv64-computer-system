@@ -16,6 +16,7 @@ int main() {
   //fseek(fp, 500 * 5, SEEK_SET);
   fseek(fp, 500 * 5, 0);
   long size2 = ftell(fp);
+  printf("size2 = %d\n", size2);
   //assert(size == 2500);
  
 

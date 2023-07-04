@@ -17,6 +17,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
   Elf64_Ehdr elf_header;
   fs_read(fd, &elf_header, sizeof(elf_header));
+  printf("elf_header.e_ident=%d\n",*(uint32_t *)elf_header.e_ident);
   //ramdisk_read(&elf_header, 0, sizeof(elf_header));
   assert(*(uint32_t *)elf_header.e_ident == 0x464c457f);
   assert(elf_header.e_machine == EM_RISCV);

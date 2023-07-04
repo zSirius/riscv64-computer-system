@@ -13,8 +13,7 @@ int main() {
   printf("size = %d\n", size);
   assert(size == 5000);
 
-  //fseek(fp, 500 * 5, SEEK_SET);
-  fseek(fp, 500 * 5, 0);
+  fseek(fp, 500 * 5, SEEK_SET);
   long size2 = ftell(fp);
   printf("size2 = %d\n", size2);
   assert(size2 == 2500);

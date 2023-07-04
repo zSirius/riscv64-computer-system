@@ -18,9 +18,11 @@ void do_syscall(Context *c) {
   switch (a[0]) {
     case SYS_exit: halt(a[1]); break;
     case SYS_yield: yield(); RET(0); break;
-    case SYS_open: ;;break;
-    case SYS_read:  ;;break;
-    case SYS_write: ret = write(a[1], (void *)a[2], a[3]); RET(ret); break;
+    case SYS_open: ret = fs_open((char *)a[1], a[2], a[3]); RET(ret);break;
+    case SYS_read: ret = fs_read(a[1], (void *)a[2], a[3]) ; RET(ret);break;
+    case SYS_write: ret = fs_write(a[1], (void *)a[2], a[3]); RET(ret); break;
+    case SYS_close: ret = fs_close(a[1]); RET(ret); break;
+    case SYS_lseek: ret = fs_lseek(a[1], a[2], a[3]); RET(ret); break;
     case SYS_brk: RET(0); break; //just keep success now.
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
@@ -30,13 +32,13 @@ void do_syscall(Context *c) {
 
 // }
 
-int write(int fd, const void *buf, size_t count){
-  //printf("this write: fd = %d, buf = %s, count = %d \n",fd, (char *)buf , count);
-  int cnt, ret=-1;
-  if(fd == 1 || fd == 2){
-    for(cnt=0; cnt<count; cnt++)
-      putch(*((char *)buf + cnt));
-    ret = cnt;
-  }
-  return ret;
-}
+// int write(int fd, const void *buf, size_t count){
+//   //printf("this write: fd = %d, buf = %s, count = %d \n",fd, (char *)buf , count);
+//   int cnt, ret=-1;
+//   if(fd == 1 || fd == 2){
+//     for(cnt=0; cnt<count; cnt++)
+//       putch(*((char *)buf + cnt));
+//     ret = cnt;
+//   }
+//   return ret;
+// }

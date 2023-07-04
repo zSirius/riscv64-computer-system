@@ -15,24 +15,16 @@ int main() {
   //fseek(fp, 500 * 5, SEEK_SET);
   fseek(fp, 500 * 5, 0);
   long size2 = ftell(fp);
-  assert(size == 2500);
-  // int i, n;
-
-  //char c = 'a';
-
-  //fscanf(fp, "%d", &n);
-  //_write(1, &n, 1);
+  //assert(size == 2500);
+ 
+  int i, n;
 
 
-  // assert( n == 500);
+  for (i = 500; i < 1000; i ++) {
+    fscanf(fp, "%d", &n);
+    // assert(n == i + 1);
+  }
   
-
-
-  // for (i = 500; i < 1000; i ++) {
-  //   fscanf(fp, "%d", &n);
-  //   _write(1, &n, 1);
-  //   // assert(n == i + 1);
-  // }
   // printf("\n");
   // printf("n=%d\n",n);
 

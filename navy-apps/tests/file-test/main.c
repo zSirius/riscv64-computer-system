@@ -5,7 +5,7 @@ int _write(int fd, void *buf, size_t count);
 
 int main() {
   FILE *fp = fopen("/share/files/num", "r+");
-  assert(fp);
+  //assert(fp);
 
   
   // fseek(fp, 0, SEEK_END);
@@ -25,7 +25,7 @@ int main() {
   // assert( n == 500);
   fscanf(fp, "%d", &n);
   
-  printf("%d\n", n);
+  //printf("%d\n", n);
 
 
   // for (i = 500; i < 1000; i ++) {

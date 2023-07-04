@@ -16,7 +16,7 @@ int main() {
   fseek(fp, 500 * 5, SEEK_SET);
   int i, n;
   fscanf(fp, "%d", &n);
-  sprintf(str, "hello!");
+  //sprintf(str, "hello!");
   // _write(1, str, sizeof(str));
   // assert( n == 500);
   // fscanf(fp, "%d", &n);

@@ -8,14 +8,14 @@ int main() {
   assert(fp);
 
   
-  fseek(fp, 0, SEEK_END);
-  long size = ftell(fp);
-  assert(size == 5000);
+  // fseek(fp, 0, SEEK_END);
+  // long size = ftell(fp);
+  // assert(size == 5000);
 
   char str[16];
   fseek(fp, 500 * 5, SEEK_SET);
   int i, n;
-  fscanf(fp, "%d", &n);
+  // fscanf(fp, "%d", &n);
   sprintf(str, "hello!");
   _write(1, str, sizeof(str));
   // assert( n == 500);

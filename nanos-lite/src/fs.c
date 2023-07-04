@@ -1,5 +1,7 @@
 #include <fs.h>
 
+#define FILE_NUM sizeof(file_table)/sizeof(file_table[0])
+
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
@@ -40,7 +42,7 @@ void init_fs() {
 
 int fs_open(const char *pathname, int flags, int mode){
   int idx;
-  for(idx=3; idx<=22; idx++){
+  for(idx=3; idx<=FILE_NUM; idx++){
     if(strcmp(pathname, file_table[idx].name) == 0){
       return idx;
     }

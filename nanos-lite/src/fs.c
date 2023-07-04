@@ -67,7 +67,7 @@ int fs_open(const char *pathname, int flags, int mode){
   int idx;
   for(idx=3; idx<=FILE_NUM; idx++){
     if(strcmp(pathname, file_table[idx].name) == 0){
-      printf("find file: fd = %d", idx);
+      printf("find file: fd = %d\n", idx);
       return idx;
     }
   }

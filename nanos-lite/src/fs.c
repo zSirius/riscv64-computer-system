@@ -91,6 +91,7 @@ size_t fs_read(int fd, void *buf, size_t len){
 }
 
 size_t fs_write(int fd, const void *buf, size_t len){
+  printf("this is start of write, fd=%d\n", fd);
   //stdout,stderr.
   if(fd==1 || fd==2){
     size_t cnt;

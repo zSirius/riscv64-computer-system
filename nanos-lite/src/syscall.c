@@ -13,7 +13,8 @@ void do_syscall(Context *c) {
   a[2] = c->GPR3;
   a[3] = c->GPR4;
 
-  //printf("this is do_syscall, call num = %d\n", (int)a[0]);
+  // if((int)a[0] == SYS_write)
+  //   printf("this is do_syscall, call num = %d\n", (int)a[0]);
   int ret;
 
   switch (a[0]) {

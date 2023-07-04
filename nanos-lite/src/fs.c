@@ -65,7 +65,7 @@ void init_fs() {
 int fs_open(const char *pathname, int flags, int mode){
   printf("this is open , file tab size = %d, pathname = %s\n ", FILE_NUM,pathname);
   int idx;
-  for(idx=3; idx<=FILE_NUM; idx++){
+  for(idx=3; idx<FILE_NUM; idx++){
     if(strcmp(pathname, file_table[idx].name) == 0){
       printf("find file: fd = %d\n", idx);
       return idx;
@@ -130,7 +130,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
   default:
     panic("Error argument: whence\n");
   }
-  if(cur_offset > file->size || cur_offset < 0) return -1;
+  if(cur_offset > file->size || cur_offset < 0) return 0;
   file->open_offset = cur_offset;
   return cur_offset;
 }

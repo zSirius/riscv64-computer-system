@@ -3,15 +3,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/time.h>
+#include <sys/_timeval.h>
 
 static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 
+int _gettimeofday(struct timeval *tv, struct timezone *tz);
 uint32_t NDL_GetTicks() {
   struct timeval curTime;
   _gettimeofday(&curTime, NULL);
-  uint32_t ret = 1000 * curTime.sec; 
+  uint32_t ret = 1000 * curTime.tv_sec; 
   return ret;
 }
 

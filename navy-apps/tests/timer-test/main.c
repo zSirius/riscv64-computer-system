@@ -1,9 +1,10 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/_timeval.h>
+#include "../../libs/libndl/include/NDL.h"
 
-uint32_t NDL_GetTicks();
 int main(){
+    NDL_Init(1);
     uint32_t oldTime, curTime;
     oldTime = NDL_GetTicks();
     while(1){

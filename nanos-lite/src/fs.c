@@ -7,6 +7,8 @@ size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
 
+size_t serial_write(const void *buf, size_t offset, size_t len);
+
 typedef struct {
   char *name;
   size_t size;
@@ -31,8 +33,8 @@ size_t invalid_write(const void *buf, size_t offset, size_t len) {
 /* This is the information about all files in disk. */
 static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write, 0},
-  [FD_STDOUT] = {"stdout", 0, 0, invalid_read, invalid_write, 0},
-  [FD_STDERR] = {"stderr", 0, 0, invalid_read, invalid_write, 0},
+  [FD_STDOUT] = {"stdout", 0, 0, invalid_read, serial_write, 0},
+  [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write, 0},
 #include "files.h"
   // {"/bin/file-test", 51888, 0, NULL, NULL, 0},
   // {"/bin/hello", 36792, 51888, NULL, NULL, 0},
@@ -92,17 +94,10 @@ size_t fs_read(int fd, void *buf, size_t len){
 }
 
 size_t fs_write(int fd, const void *buf, size_t len){
-  //printf("this is start of write, fd=%d\n", fd);
-  //stdout,stderr.
-  if(fd==1 || fd==2){
-    size_t cnt;
-    for(cnt=0; cnt<len; cnt++)
-      putch(*((char *)buf + cnt));
-    return cnt;
-  }
-  if(fd==0) return 0;
-
   Finfo *file = &file_table[fd];
+  if(file->write != NULL){
+    return file->write(buf, 0, len);
+  }
   if(file->open_offset >= file->size) return 0;
   size_t real_len = len > file->size - file->open_offset ? file->size - file->open_offset : len;
   ramdisk_write(buf, file->disk_offset + file->open_offset, real_len);

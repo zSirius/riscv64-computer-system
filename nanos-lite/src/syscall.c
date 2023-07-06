@@ -4,7 +4,7 @@
 
 #define RET(ret) c->GPRx = ret;
 
-int write(int fd, const void *buf, size_t count);
+//int write(int fd, const void *buf, size_t count);
 
 void do_syscall(Context *c) {
   uintptr_t a[4];

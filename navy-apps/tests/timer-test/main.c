@@ -8,7 +8,7 @@ int main(){
     while(1){
         _gettimeofday(&curTime, NULL);
         if(curTime.tv_sec - oldTime.tv_sec >=5){
-            printf("Time has gone 5 seconds.\n");
+            printf("sec = %ld. Time has gone 5 seconds.\n", old.tv_sec);
             oldTime.tv_sec = curTime.tv_sec;
             oldTime.tv_usec = curTime.tv_usec;
         }

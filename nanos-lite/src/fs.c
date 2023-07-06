@@ -65,11 +65,9 @@ void init_fs() {
 }
 
 int fs_open(const char *pathname, int flags, int mode){
-  printf("this is open , file tab size = %d, pathname = %s\n ", FILE_NUM,pathname);
   int idx;
   for(idx=3; idx<FILE_NUM; idx++){
     if(strcmp(pathname, file_table[idx].name) == 0){
-      printf("find file: fd = %d\n", idx);
       return idx;
     }
   }
@@ -81,15 +79,12 @@ int fs_close(int fd){
 }
 
 size_t fs_read(int fd, void *buf, size_t len){
-  //printf("this is fs_read(), fd = %d\n", fd);
   if(fd==0 || fd==1 || fd ==2) return 0;
   Finfo *file = &file_table[fd];
   if(file->open_offset >= file->size) return 0;
   size_t real_len = len > file->size - file->open_offset ? file->size - file->open_offset : len;
-  printf("this is fs_read: fd = %d, len=%d, real_len=%d, disk_offset=%d, open_offset=%d\n", fd, len, real_len, file->disk_offset, file->open_offset);
-  size_t ret =  ramdisk_read(buf, file->disk_offset + file->open_offset, real_len);
+  ramdisk_read(buf, file->disk_offset + file->open_offset, real_len);
   file->open_offset += real_len;
-  printf("real_len = %d, ret = %d, open_offset = %d\n", real_len,ret, file->open_offset);
   return real_len;
 }
 
@@ -102,12 +97,10 @@ size_t fs_write(int fd, const void *buf, size_t len){
   size_t real_len = len > file->size - file->open_offset ? file->size - file->open_offset : len;
   ramdisk_write(buf, file->disk_offset + file->open_offset, real_len);
   file->open_offset += real_len;
-  //printf("this is fs_write(), len = %d, real_len = %d\n", len ,real_len);
   return real_len;
 }
 
 size_t fs_lseek(int fd, size_t offset, int whence){
-  printf("this is fs_lseek(), fd = %d, offset = %d, whence = %d\n", fd, offset, whence);
   if(fd==0 || fd==1 || fd==2) return 0;
   Finfo *file = &file_table[fd];
   size_t cur_offset;

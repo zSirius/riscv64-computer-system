@@ -3,14 +3,13 @@
 #include <sys/_timeval.h>
 
 int main(){
-    struct timeval oldTime, curTime;
-    _gettimeofday(&oldTime, NULL);
+    uint32_t oldTime, curTime;
+    oldTime = NDL_GetTicks();
     while(1){
-        _gettimeofday(&curTime, NULL);
-        if(curTime.tv_sec - oldTime.tv_sec >=5){
-            printf("sec = %ld. Time has gone 5 seconds.\n", oldTime.tv_sec);
-            oldTime.tv_sec = curTime.tv_sec;
-            oldTime.tv_usec = curTime.tv_usec;
+        curTime = NDL_GetTicks();
+        if(curTime - oldTime >=500){
+            printf("msec = %ld. Time has gone 5 seconds.\n", oldTime.tv_sec);
+            oldTime = curTime;
         }
     }
 

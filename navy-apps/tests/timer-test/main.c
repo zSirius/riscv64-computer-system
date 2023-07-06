@@ -10,7 +10,7 @@ int main(){
     while(1){
         curTime = NDL_GetTicks();
         if(curTime - oldTime >=500){
-            printf("msec = %d. Time has gone 5 seconds.\n", oldTime);
+            printf("Time has gone %d seconds.\n", curTime);
             oldTime = curTime;
         }
     }

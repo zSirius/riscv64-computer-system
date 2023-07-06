@@ -45,7 +45,7 @@ void do_syscall(Context *c) {
 int gettimeofday(struct timeval *tv, struct timezone *tz){
   //tz = NULL
   uint64_t us = io_read(AM_TIMER_UPTIME).us;
-  tv->tv_sec = us/1000;
+  tv->tv_sec = us/1000000;
   tv->tv_usec = us;
   return 0;
 }

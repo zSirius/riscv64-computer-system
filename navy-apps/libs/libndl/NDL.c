@@ -14,7 +14,7 @@ int _gettimeofday(struct timeval *tv, struct timezone *tz);
 uint32_t NDL_GetTicks() {
   struct timeval curTime;
   _gettimeofday(&curTime, NULL);
-  uint32_t ret = 1000 * curTime.tv_sec; 
+  uint32_t ret = curTime.tv_usec / 1000; 
   return ret;
 }
 

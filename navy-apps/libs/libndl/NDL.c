@@ -11,6 +11,9 @@ static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 
 int _gettimeofday(struct timeval *tv, struct timezone *tz);
+int _write(int fd, void *buf, size_t count);
+int _read(int fd, void *buf, size_t count);
+
 uint32_t NDL_GetTicks() {
   struct timeval curTime;
   _gettimeofday(&curTime, NULL);

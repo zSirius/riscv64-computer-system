@@ -75,7 +75,7 @@ size_t fs_read(int fd, void *buf, size_t len){
   if(fd==0 || fd==1 || fd ==2) return 0;
   Finfo *file = &file_table[fd];
   if(file->read != NULL){
-    return file->read(buf, 0, len);
+    return file->read(buf, file->open_offset, len);
   }
   if(file->open_offset >= file->size) return 0;
   size_t real_len = len > file->size - file->open_offset ? file->size - file->open_offset : len;

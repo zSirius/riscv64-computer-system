@@ -42,7 +42,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   size_t i = 0;
   while(i != len){
     //ex. io_write(AM_GPU_FBDRAW, x * w, y * h, color_buf, w, h, false);
-    io_write(AM_GPU_FBDRAW, offset/screen_w, offset%screen_w, (uint32_t *)buf+i, screen_w-offset%screen_w, 1, false);
+    io_write(AM_GPU_FBDRAW, offset%screen_w, offset/screen_w, (uint32_t *)buf+i, screen_w-offset%screen_w, 1, false);
     i += screen_w - offset%screen_w;
     offset += screen_w - offset%screen_w;
   }

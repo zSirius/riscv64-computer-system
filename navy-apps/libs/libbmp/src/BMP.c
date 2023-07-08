@@ -46,10 +46,10 @@ void* BMP_Load(const char *filename, int *width, int *height) {
       pixels[w * i + j] = (r << 16) | (g << 8) | b;
     }
   }
-
+  printf("tag5\n");
   fclose(fp);
   if (width) *width = w;
   if (height) *height = h;
-  
+  printf("tag6\n");
   return pixels;
 }

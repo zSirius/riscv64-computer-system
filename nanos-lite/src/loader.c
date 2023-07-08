@@ -13,7 +13,6 @@
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  printf("LOAD...\n");
   int fd = fs_open(filename, 0, 0);
 
   Elf64_Ehdr elf_header;
@@ -34,8 +33,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       memset((void *)(ph_entry.p_vaddr + ph_entry.p_filesz), 0, ph_entry.p_memsz - ph_entry.p_filesz);
     }
   }
-
-  printf("END LOAD...\n");
   fs_close(fd);
   return elf_header.e_entry;
 }

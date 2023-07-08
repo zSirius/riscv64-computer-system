@@ -58,8 +58,9 @@ void init_fs() {
 }
 
 int fs_open(const char *pathname, int flags, int mode){
+  printf("this is open, name=%s\n", pathname);
   int idx;
-  for(idx=3; idx<FILE_NUM; idx++){
+  for(idx=0; idx<FILE_NUM; idx++){
     if(strcmp(pathname, file_table[idx].name) == 0){
       return idx;
     }

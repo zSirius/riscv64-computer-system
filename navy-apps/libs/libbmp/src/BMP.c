@@ -22,7 +22,7 @@ struct BitmapHeader {
 void* BMP_Load(const char *filename, int *width, int *height) {
   printf("start...\n");
   FILE *fp = fopen(filename, "r");
-  printf("tag1..\n");
+  printf("tag1..filename = %s\n", filename);
   if (!fp) return NULL;
 
   struct BitmapHeader hdr;

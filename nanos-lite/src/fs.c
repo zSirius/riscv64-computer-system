@@ -50,11 +50,11 @@ void init_fs() {
   file_table[FD_FB].size = screen_w * screen_h *sizeof(uint32_t);
 
   // initialize the normal files.
-  // for(int i=6; i<FILE_NUM; i++){
-  //   file_table[i].read = NULL;
-  //   file_table[i].write = NULL;
-  //   file_table[i].open_offset =0;
-  // }
+  for(int i=6; i<FILE_NUM; i++){
+    file_table[i].read = NULL;
+    file_table[i].write = NULL;
+    file_table[i].open_offset =0;
+  }
 }
 
 int fs_open(const char *pathname, int flags, int mode){

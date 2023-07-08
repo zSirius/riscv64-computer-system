@@ -31,11 +31,23 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  return 0;
+  //lseek is not supposed, so ignore offset
+  AM_GPU_CONFIG_T gpuconfig = io_read(AM_GPU_CONFIG);
+  size_t ret = snprintf((char *)buf, len, "[WIDTH]:%d\n[HEIGHT]:%d\n", gpuconfig.width, gpuconfig.height);
+  return ret;
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  return 0;
+  int screen_w = io_read(AM_GPU_CONFIG).width;
+  size_t i = 0;
+  while(i != len){
+    //ex. io_write(AM_GPU_FBDRAW, x * w, y * h, color_buf, w, h, false);
+    io_write(AM_GPU_FBDRAW, offset/screen_w, offset%screen_w, (uint32_t *)buf+i, screen_w-offset%screen_w, 1, false);
+    i += screen_w - offset%screen_w;
+    offset += screen_w - offset%screen_w;
+  }
+  io_write(AM_GPU_FBDRAW, 0, 0, NULL, 0, 0, true);
+  return len;
 }
 
 void init_device() {

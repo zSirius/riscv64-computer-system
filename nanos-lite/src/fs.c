@@ -9,6 +9,8 @@ typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
 
 size_t serial_write(const void *buf, size_t offset, size_t len);
 size_t events_read(void *buf, size_t offset, size_t len);
+size_t dispinfo_read(void *buf, size_t offset, size_t len);
+size_t fb_write(const void *buf, size_t offset, size_t len);
 
 typedef struct {
   char *name;
@@ -19,7 +21,7 @@ typedef struct {
   size_t open_offset;
 } Finfo;
 
-enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENTS, FD_FB};
+enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENTS, FD_FB, FD_DISPLAYINFO};
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
@@ -36,12 +38,23 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write, 0},
   [FD_STDOUT] = {"stdout", 0, 0, invalid_read, serial_write, 0},
   [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write, 0},
-  [FD_EVENTS] = {"dev/event", 0, 0, events_read, invalid_write, 0},
+  [FD_EVENTS] = {"/dev/event", 0, 0, events_read, invalid_write, 0},
+  [FD_FB] = {"/dev/fb", 0, 0, invalid_read, fb_write, 0},
+  [FD_DISPLAYINFO] = {"/proc/dispinfo", 0, 0, dispinfo_read, invalid_write, 0},
 #include "files.h"
 };
 
 void init_fs() {
-  // TODO: initialize the size of /dev/fb
+  // initialize the size of /dev/fb
+  int screen_w = io_read(AM_GPU_CONFIG).width, screen_h = io_read(AM_GPU_CONFIG).height;
+  file_table[FD_FB].size = screen_w * screen_h *sizeof(uint32_t);
+
+  // initialize the normal files.
+  for(int i=6; i<FILE_NUM; i++){
+    file_table[i].read = NULL;
+    file_table[i].write = NULL;
+    file_table[i].open_offset =0;
+  }
 }
 
 int fs_open(const char *pathname, int flags, int mode){
@@ -74,7 +87,7 @@ size_t fs_read(int fd, void *buf, size_t len){
 size_t fs_write(int fd, const void *buf, size_t len){
   Finfo *file = &file_table[fd];
   if(file->write != NULL){
-    return file->write(buf, 0, len);
+    return file->write(buf, file->open_offset, len);
   }
   if(file->open_offset >= file->size) return 0;
   size_t real_len = len > file->size - file->open_offset ? file->size - file->open_offset : len;

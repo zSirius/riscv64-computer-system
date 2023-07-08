@@ -38,10 +38,10 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
+  printf("this is fb_write\n");
   int screen_w = io_read(AM_GPU_CONFIG).width;
   size_t i = 0;
   while(i != len){
-    //ex. io_write(AM_GPU_FBDRAW, x * w, y * h, color_buf, w, h, false);
     io_write(AM_GPU_FBDRAW, offset%screen_w, offset/screen_w, (uint32_t *)buf+i, screen_w-offset%screen_w, 1, false);
     i += screen_w - offset%screen_w;
     offset += screen_w - offset%screen_w;

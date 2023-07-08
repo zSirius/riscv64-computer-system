@@ -24,17 +24,17 @@ void* BMP_Load(const char *filename, int *width, int *height) {
   FILE *fp = fopen(filename, "r");
   printf("tag1..filename = %s\n", filename);
   if (!fp) return NULL;
-
+  printf("tag2\n");
   struct BitmapHeader hdr;
   assert(sizeof(hdr) == 54);
   assert(1 == fread(&hdr, sizeof(struct BitmapHeader), 1, fp));
-  
+  printf("tag3\n");
   if (hdr.bitcount != 24) return NULL;
   if (hdr.compression != 0) return NULL;
   int w = hdr.width;
   int h = hdr.height;
   uint32_t *pixels = malloc(w * h * sizeof(uint32_t));
-
+  printf("tag4\n");
   int line_off = (w * 3 + 3) & ~0x3;
   for (int i = 0; i < h; i ++) {
     fseek(fp, hdr.offset + (h - 1 - i) * line_off, SEEK_SET);
@@ -50,6 +50,6 @@ void* BMP_Load(const char *filename, int *width, int *height) {
   fclose(fp);
   if (width) *width = w;
   if (height) *height = h;
-  printf("end\n");
+  
   return pixels;
 }

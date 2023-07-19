@@ -33,7 +33,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   //lseek is not supposed, so ignore offset
   AM_GPU_CONFIG_T gpuconfig = io_read(AM_GPU_CONFIG);
-  size_t ret = snprintf((char *)buf, len, "[WIDTH]:%d\n[HEIGHT]:%d\n", gpuconfig.width, gpuconfig.height);
+  size_t ret = snprintf((char *)buf, len, "[WIDTH]:%d  [HEIGHT]:%d\n", gpuconfig.width, gpuconfig.height);
   return ret;
 }
 

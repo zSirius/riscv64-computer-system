@@ -45,17 +45,17 @@ void NDL_OpenCanvas(int *w, int *h) {
     }
     close(fbctl);
   }
-  // char buf[64];
-  // int width, height;
-  // _read(5 ,buf, sizeof(buf));
-  // sscanf(buf, "[WIDTH]:%d\n[HEIGHT]:%d/n", &width, &height);
-  // if(*w==0 && *h==0){
-  //   *w=width;
-  //   *h=height;
-  // }
-  // if(*w > width) *w=width;
-  // if(*h > height) *h=height;
-  // printf("w=%d, h=%d\n",*w,*h);
+  char buf[64];
+  int width, height;
+  _read(5 ,buf, sizeof(buf));
+  sscanf(buf, "[WIDTH]:%d  [HEIGHT]:%d/n", &width, &height);
+  if(*w==0 && *h==0){
+    *w=width;
+    *h=height;
+  }
+  if(*w > width) *w=width;
+  if(*h > height) *h=height;
+  printf("w=%d, h=%d\n",*w,*h);
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {

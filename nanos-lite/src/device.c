@@ -39,7 +39,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
   printf("this is fb_write\n");
-  printf("init offset =%d\n",offset);
+  printf("init offset =%d, len=%d\n",offset,len);
   int screen_w = io_read(AM_GPU_CONFIG).width;
   size_t i = 0;
   while(i != len){

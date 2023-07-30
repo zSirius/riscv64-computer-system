@@ -41,11 +41,12 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   printf("this is fb_write\n");
   printf("init offset =%d, len=%d\n",offset,len);
   int screen_w = io_read(AM_GPU_CONFIG).width;
-  size_t i = 0;
+  size_t i = 0; //had written bytes
   while(i != len){
-    io_write(AM_GPU_FBDRAW, offset%screen_w, offset/screen_w, (uint32_t *)buf+i, screen_w-offset%screen_w, 1, false);
-    i += (screen_w - offset%screen_w);
-    offset += (screen_w - offset%screen_w);
+    int incr = ((screen_w-offset%screen_w) < (len - i) ? (screen_w-offset%screen_w) : (len - i));
+    io_write(AM_GPU_FBDRAW, offset%screen_w, offset/screen_w, (uint32_t *)buf+i, incr, 1, false);
+    i += incr;
+    offset += incr;
     printf("i=%d\n", i);
   }
   io_write(AM_GPU_FBDRAW, 0, 0, NULL, 0, 0, true);

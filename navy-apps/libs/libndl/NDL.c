@@ -64,10 +64,11 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   int width, height;
   _read(5 ,buf, sizeof(buf));
   sscanf(buf, "[WIDTH]:%d [HEIGHT]:%d/n", &width, &height);
-  printf("x=%d, y=%d, w=%d, h=%d, width=%d, height=%d\n",x,y,w,h,width,height);
+  //printf("x=%d, y=%d, w=%d, h=%d, width=%d, height=%d\n",x,y,w,h,width,height);
+  //center the canvas
+  x += (width - w)/2;
+  y += (height - h)/2;
   for(int i=0; i<h; i++){
-  // for(int i=0; i<1; i++){ //debug
-    // printf("(y+i)*width = %d\n",(y+i)*width);
     _lseek(4, (y+i)*width, 0);
     _write(4, pixels+w*i, w);
   }

@@ -20,19 +20,20 @@ struct BitmapHeader {
 } __attribute__((packed));
 
 void* BMP_Load(const char *filename, int *width, int *height) {
-  printf("start...\n");
+  //printf("start...\n");
   FILE *fp = fopen(filename, "r");
-  printf("tag1..filename = %s\n", filename);
+  //printf("tag1..filename = %s\n", filename);
   if (!fp) return NULL;
-  printf("tag2\n");
+  //printf("tag2\n");
   struct BitmapHeader hdr;
   assert(sizeof(hdr) == 54);
   assert(1 == fread(&hdr, sizeof(struct BitmapHeader), 1, fp));
-  printf("tag3\n");
+  //printf("tag3\n");
   if (hdr.bitcount != 24) return NULL;
   if (hdr.compression != 0) return NULL;
   int w = hdr.width;
   int h = hdr.height;
+  printf("BMP: w = %d, h= %d\n", w, h);
   uint32_t *pixels = malloc(w * h * sizeof(uint32_t));
   printf("tag4\n");
   int line_off = (w * 3 + 3) & ~0x3;

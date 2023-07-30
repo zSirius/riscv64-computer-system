@@ -69,6 +69,7 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
+  printf("this is _sbrk, increment = %d\n", increment);
   extern char end;
   static uint64_t pbrk = &end;
   uint64_t old_brk = pbrk;

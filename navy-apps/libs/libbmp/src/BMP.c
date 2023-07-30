@@ -20,7 +20,6 @@ struct BitmapHeader {
 } __attribute__((packed));
 
 void* BMP_Load(const char *filename, int *width, int *height) {
-  //printf("start...\n");
   FILE *fp = fopen(filename, "r");
   if (!fp) return NULL;
   struct BitmapHeader hdr;
@@ -42,10 +41,8 @@ void* BMP_Load(const char *filename, int *width, int *height) {
       pixels[w * i + j] = (r << 16) | (g << 8) | b;
     }
   }
-  printf("tag5\n");
   fclose(fp);
   if (width) *width = w;
   if (height) *height = h;
-  printf("tag6\n");
   return pixels;
 }

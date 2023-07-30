@@ -63,7 +63,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   char buf[64];
   int width, height;
   _read(5 ,buf, sizeof(buf));
-  sscanf(buf, "[WIDTH]:%d\n[HEIGHT]:%d/n", &width, &height);
+  sscanf(buf, "[WIDTH]:%d [HEIGHT]:%d/n", &width, &height);
   //for(int i=0; i<h; i++){
   for(int i=0; i<1; i++){ //debug
     printf("(y+i)*width = %d\n",(y+i)*width);

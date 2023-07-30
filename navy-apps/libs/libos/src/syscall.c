@@ -69,15 +69,13 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
-  char buf[256];
-  buf[0] = '1';
-  buf[1] = '\n';
-  _write(1, buf, sizeof(buf));
   extern char end;
-  static uint64_t pbrk = &end;
-  uint64_t old_brk = pbrk;
-  uint64_t new_brk = old_brk + (uint64_t)increment;
-  if(_syscall_(SYS_brk, new_brk, 0, 0) == 0) return (void *)new_brk;
+  static char *cur_end = &end;
+  if(_syscall_(SYS_brk, increment, 0, 0) == 0) {
+    void *ret = cur_end;
+    cur_end += increment;
+    return (void *)ret;
+  }
   else return (void *)-1;
 }
 

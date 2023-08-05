@@ -150,7 +150,7 @@ static inline fixedpt fixedpt_div(fixedpt A, fixedpt B) {
 
 static inline fixedpt fixedpt_abs(fixedpt A) {
 	int sign = fixedpt_sign(A);
-	if(A == 1){
+	if(sign == 1){
 		return (~A + 1);
 	}else{
 		return A;
@@ -159,10 +159,10 @@ static inline fixedpt fixedpt_abs(fixedpt A) {
 
 static inline fixedpt fixedpt_floor(fixedpt A) {
 	int sign = fixedpt_sign(A);
-	if(A == 1){
+	if(sign == 1){
 		int frac = fixedpt_fracpart(A);
 		if(frac == 0) return (fixedpt_sign_integer(A));
-		else return (fixedpt_sign_integer(A) - FIXEDPT_ONE);
+		else return (~(fixedpt_sign_integer(fixedpt_abs(A)) + FIXEDPT_ONE)+1);
 	}else{
 		return (fixedpt_sign_integer(A));
 	}
@@ -170,12 +170,12 @@ static inline fixedpt fixedpt_floor(fixedpt A) {
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {
 	int sign = fixedpt_sign(A);
-	if(A == 1){
-		return (fixedpt_sign_integer(A));
+	if(sign == 1){
+		return (~fixedpt_sign_integer(fixedpt_abs(A)) + 1);
 	}else{
 		int frac = fixedpt_fracpart(A);
 		if(frac == 0) return (fixedpt_sign_integer(A));
-		else return (fixedpt_sign_integer(A) + FIXEDPT_ONE)
+		else return (fixedpt_sign_integer(A) + FIXEDPT_ONE);
 	}
 }
 

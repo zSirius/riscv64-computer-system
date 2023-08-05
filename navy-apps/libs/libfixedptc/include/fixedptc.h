@@ -111,6 +111,8 @@ typedef	__uint128_t fixedptud;
 #define fixedpt_add(A,B) ((A) + (B))
 #define fixedpt_sub(A,B) ((A) - (B))
 #define fixedpt_fracpart(A) ((fixedpt)(A) & FIXEDPT_FMASK)
+#define fixedpt_sign(A) (!!(A & (0x80000000)))
+#define fixedpt_sign_integer(A) ((fixedpt)(A) & (~FIXEDPT_FMASK))
 
 #define FIXEDPT_ONE	((fixedpt)((fixedpt)1 << FIXEDPT_FBITS))
 #define FIXEDPT_ONE_HALF (FIXEDPT_ONE >> 1)
@@ -127,35 +129,54 @@ typedef	__uint128_t fixedptud;
 
 /* Multiplies a fixedpt number with an integer, returns the result. */
 static inline fixedpt fixedpt_muli(fixedpt A, int B) {
-	return 0;
+	return fixedpt_mul(A, fixedpt_fromint(B));
 }
 
 /* Divides a fixedpt number with an integer, returns the result. */
 static inline fixedpt fixedpt_divi(fixedpt A, int B) {
-	return 0;
+	return fixedpt_div(A, fixedpt_fromint(B));
 }
 
 /* Multiplies two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_mul(fixedpt A, fixedpt B) {
-	return 0;
+	return (fixedpt)(A * B / FIXEDPT_ONE);
 }
 
 
 /* Divides two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_div(fixedpt A, fixedpt B) {
-	return 0;
+	return (fixedpt)(A / B * FIXEDPT_ONE);
 }
 
 static inline fixedpt fixedpt_abs(fixedpt A) {
-	return 0;
+	int sign = fixedpt_sign(A);
+	if(A == 1){
+		return (~A + 1);
+	}else{
+		return A;
+	}
 }
 
 static inline fixedpt fixedpt_floor(fixedpt A) {
-	return 0;
+	int sign = fixedpt_sign(A);
+	if(A == 1){
+		int frac = fixedpt_fracpart(A);
+		if(frac == 0) return (fixedpt_sign_integer(A));
+		else return (fixedpt_sign_integer(A) - FIXEDPT_ONE);
+	}else{
+		return (fixedpt_sign_integer(A));
+	}
 }
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {
-	return 0;
+	int sign = fixedpt_sign(A);
+	if(A == 1){
+		return (fixedpt_sign_integer(A));
+	}else{
+		int frac = fixedpt_fracpart(A);
+		if(frac == 0) return (fixedpt_sign_integer(A));
+		else return (fixedpt_sign_integer(A) + FIXEDPT_ONE)
+	}
 }
 
 /*

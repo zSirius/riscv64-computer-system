@@ -30,6 +30,7 @@ int SDL_WaitEvent(SDL_Event *event) {
     for(int i=0; ; i++){
       if(strcnmp(buf+3, keyname[i], strlen(buf)-3-1) == 0){
         event->key.keysym.sym = i;
+        printf("keycode=%d\n", i);
         break;
       }
     }

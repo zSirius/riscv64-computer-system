@@ -24,14 +24,11 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     //ignore dstrect`s w and h;
   }
 
-  printf("src_x=%d, src_y=%d, dst_x = %d, dst_y = %d, w=%d, h=%d\n", src_x, src_y,dst_x, dst_y,w,h);
+  // printf("src_x=%d, src_y=%d, dst_x = %d, dst_y = %d, w=%d, h=%d\n", src_x, src_y,dst_x, dst_y,w,h);
 
   //init offset in bytes
   // int src_init_off = (src_y*src->w + src_x) * src->pitch / src->w;
   // int dst_init_off = (dst_y*dst->w + dst_x) * dst->pitch / dst->w;
-
-  int src_init_off = (src_y*src->w + src_x);
-  int dst_init_off = (dst_y*dst->w + dst_x);
 
   // for(int i=0; i<h; i++){
   //   for(int j=0; j<(w * src->pitch / src->w); j++){
@@ -39,6 +36,9 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   //     *(src->pixels + src_init_off + i * src->pitch + j * src->pitch / src->w);
   //   }
   // }
+
+  int src_init_off = (src_y*src->w + src_x);
+  int dst_init_off = (dst_y*dst->w + dst_x);
 
   for(int i=0; i<h; i++){
     for(int j=0; j<w; j++){

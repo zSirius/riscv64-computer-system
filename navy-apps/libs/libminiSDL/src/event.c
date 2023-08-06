@@ -29,8 +29,9 @@ int SDL_PollEvent(SDL_Event *event) {
         break;
       }
     }
+    return 1;
   }
-  return 1;
+  return 0;
 }
 
 int SDL_WaitEvent(SDL_Event *event) {

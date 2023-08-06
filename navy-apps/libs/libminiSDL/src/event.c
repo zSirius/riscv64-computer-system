@@ -20,17 +20,18 @@ int SDL_PollEvent(SDL_Event *ev) {
 int SDL_WaitEvent(SDL_Event *event) {
   char buf[64];
   if(NDL_PollEvent(buf, sizeof(buf))){
-    printf("%s\n",buf);
+    //printf("%s\n",buf);
     if(strncmp(buf, "kd", 2) == 0){
       event->type = SDL_KEYDOWN;
     }else{
       event->type = SDL_KEYUP;
     }
     printf("keytype=%d, buf+3=%s\n",event->type,buf+3);
+
     for(int i=0; ; i++){
       if(strcnmp(buf+3, keyname[i], strlen(buf)-3-1) == 0){
         event->key.keysym.sym = i;
-        printf("keycode=%d\n", i);
+        //printf("keycode=%d\n", i);
         break;
       }
     }

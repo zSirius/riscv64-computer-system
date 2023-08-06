@@ -29,7 +29,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   int dst_init_off = (dst_y*dst->w + dst_x) * dst->pitch / dst->w;
 
   for(int i=0; i<h; i++){
-    for(int j=0; j<(w * dst->pitch / dst->w); j++){
+    for(int j=0; j<(w * src->pitch / src->w); j++){
       *(dst->pixels + dst_init_off + i * dst->pitch + j * dst->pitch / dst->w) = 
       *(src->pixels + src_init_off + i * src->pitch + j * src->pitch / src->w);
     }
@@ -46,6 +46,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
     x = dstrect->x, y = dstrect->y;
     w = dstrect->w, h = dstrect->h;
   }
+  printf("%d\n", dst->pitch / dst->w);
 
   int init_offset = y * (dst->w) + x;
   for(int i=0; i<h; i++){

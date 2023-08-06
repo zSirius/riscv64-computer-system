@@ -54,6 +54,7 @@ int main() {
 
   while (1) {
     SDL_Event e;
+    printf("1");
     SDL_WaitEvent(&e);
 
     if (e.type == SDL_KEYDOWN) {

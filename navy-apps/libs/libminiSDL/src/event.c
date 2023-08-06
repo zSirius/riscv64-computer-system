@@ -20,17 +20,19 @@ int SDL_PollEvent(SDL_Event *ev) {
 int SDL_WaitEvent(SDL_Event *event) {
   char buf[64];
   if(NDL_PollEvent(buf, sizeof(buf))){
+    printf("%s\n",buf);
     if(strncmp(buf, "kd", 2) == 0){
       event->type = SDL_KEYDOWN;
     }else{
       event->type = SDL_KEYUP;
     }
-    for(int i=0; ; i++){
-      if(strcmp(buf+3, keyname[i]) == 0){
-        event->key.keysym.sym = i;
-        break;
-      }
-    }
+    printf("keytype=%d\n",event->type);
+    // for(int i=0; ; i++){
+    //   if(strcmp(buf+3, keyname[i]) == 0){
+    //     event->key.keysym.sym = i;
+    //     break;
+    //   }
+    // }
   }
   return 1;
 }

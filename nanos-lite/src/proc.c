@@ -22,7 +22,7 @@ void hello_fun(void *arg) {
 void naive_uload(PCB *pcb, const char *filename);
 
 void init_proc() {
-  naive_uload(NULL, "/bin/bird");
+  naive_uload(NULL, "/bin/menu");
   switch_boot_pcb();
 
   Log("Initializing processes...");

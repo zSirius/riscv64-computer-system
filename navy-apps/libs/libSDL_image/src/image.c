@@ -18,15 +18,15 @@ SDL_Surface* IMG_Load(const char *filename) {
   if(fp == NULL) return NULL;
 
   fseek(fp, 0, SEEK_END);
-  int fsize = ftell(fp);
+  long fsize = ftell(fp);
 
-  char *buf = (char *)malloc(sizeof(fsize));
-  fread(buf, fsize, 1, fp);
+  unsigned char *buf = (unsigned char *)malloc(sizeof(unsigned char) * fsize);
+  fread(buf, 1, fsize, fp);
 
   SDL_Surface *ret = STBIMG_LoadFromMemory(buf, fsize);
   fclose(fp);
   free(buf);
-  printf("this is load end, success\n");
+  printf("this is load end, ret = %p\n", ret);
   return ret;
 }
 

@@ -43,7 +43,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   // }
 
 
-    int bytes_per_pixel_src = src->format->BytesPerPixel;
+  int bytes_per_pixel_src = src->format->BytesPerPixel;
   int bytes_per_pixel_dst = dst->format->BytesPerPixel;
 
   int src_init_off_in_bytes = (src_y*src->w + src_x) * bytes_per_pixel_src;

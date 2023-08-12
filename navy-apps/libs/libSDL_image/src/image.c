@@ -16,7 +16,7 @@ SDL_Surface* IMG_Load(const char *filename) {
   FILE *fp = fopen(filename, "r");
   printf("fp = %p\n", fp);
   if(fp == NULL) return NULL;
-  
+
   fseek(fp, 0, SEEK_END);
   int fsize = ftell(fp);
 
@@ -26,6 +26,7 @@ SDL_Surface* IMG_Load(const char *filename) {
   SDL_Surface *ret = STBIMG_LoadFromMemory(buf, fsize);
   fclose(fp);
   free(buf);
+  printf("this is load end, success\n");
   return ret;
 }
 

@@ -67,12 +67,17 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
     x = dstrect->x, y = dstrect->y;
     w = dstrect->w, h = dstrect->h;
   }
-  printf("%d\n", dst->pitch / dst->w);
 
-  int init_offset = y * (dst->w) + x;
+  printf("%d\n", dst->pitch / dst->w);
+  int bytes_per_pixels = dst->format->BytesPerPixel;
+  int init_offset_in_bytes = (y * (dst->w) + x) * bytes_per_pixels;
   for(int i=0; i<h; i++){
     for(int j=0; j<w; j++){
-      *(uint32_t *)(dst->pixels + (init_offset + j + i * (dst->w)) * (dst->pitch/dst->w)) = color;
+      uint32_t t_color = color;
+      for(int b=0; b<bytes_per_pixels; b++){
+        *(dst->pixels + init_offset_in_bytes + i * dst->pitch + (j * bytes_per_pixels + b)) = t_color &(0xff);
+        t_color >>= 8;
+      }
     }
   }
 }

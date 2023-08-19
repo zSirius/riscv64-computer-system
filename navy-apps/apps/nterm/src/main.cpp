@@ -31,10 +31,10 @@ int main(int argc, char *argv[]) {
 static void draw_ch(int x, int y, char ch, uint32_t fg, uint32_t bg) {
   SDL_Surface *s = BDF_CreateSurface(font, ch, fg, bg);
   SDL_Rect dstrect = { .x = x, .y = y };
-  printf("In draw_ch, Before call SDL_BlitSurface; ch = %d\n", ch);
-  printf(" dstrect.x = %d, .y = %d\n", dstrect.x, dstrect.y);
-  printf("s = %p, s->format->BytesPerPixel = %d\n", s, s->format->BytesPerPixel);
-  printf("screen = %p, screen->format->BytesPerPixel = %d, screen->w = %d, screen->h = %d\n",screen , screen->format->BytesPerPixel, screen->w, screen->h);
+  // printf("In draw_ch, Before call SDL_BlitSurface; ch = %d\n", ch);
+  // printf(" dstrect.x = %d, .y = %d\n", dstrect.x, dstrect.y);
+  // printf("s = %p, s->format->BytesPerPixel = %d\n", s, s->format->BytesPerPixel);
+  // printf("screen = %p, screen->format->BytesPerPixel = %d, screen->w = %d, screen->h = %d\n",screen , screen->format->BytesPerPixel, screen->w, screen->h);
   SDL_BlitSurface(s, NULL, screen, &dstrect);
   SDL_FreeSurface(s);
 }

@@ -43,11 +43,11 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   // }
 
 
-  int bytes_per_pixel_src = src->format->BytesPerPixel;
-  int bytes_per_pixel_dst = dst->format->BytesPerPixel;
+  uint32_t bytes_per_pixel_src = src->format->BytesPerPixel;
+  uint32_t bytes_per_pixel_dst = dst->format->BytesPerPixel;
 
-  int src_init_off_in_bytes = (src_y*src->w + src_x) * bytes_per_pixel_src;
-  int dst_init_off_in_bytes = (dst_y*dst->w + dst_x) * bytes_per_pixel_dst;
+  int src_init_off_in_bytes = ((int)src_y*src->w + src_x) * (int)bytes_per_pixel_src;
+  int dst_init_off_in_bytes = ((int)dst_y*dst->w + dst_x) * (int)bytes_per_pixel_dst;
 
   for(int i=0; i<h; i++){
     for(int j=0; j<w; j++){

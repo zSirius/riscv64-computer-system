@@ -8,8 +8,8 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
 
-  int16_t src_x, src_y, dst_x, dst_y;
-  uint16_t w, h;
+  int src_x, src_y, dst_x, dst_y;
+  int w, h;
   if(srcrect == NULL){
     src_x = 0, src_y = 0;
     w = src->w, h = src->h;

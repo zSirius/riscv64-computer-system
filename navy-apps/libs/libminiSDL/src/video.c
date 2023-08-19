@@ -47,7 +47,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   for(int i=0; i<h; i++){
     for(int j=0; j<w; j++){
       for(int b=0; b<bytes_per_pixel_src; b++) {
-        printf("In for\n");
+        printf("In for, i = %d, j=%d,b=%d\n",i,j,b);
         *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = 
         *(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
         printf("result: dst-- %p ; src--%p \n", dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b), src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));

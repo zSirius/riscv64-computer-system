@@ -33,7 +33,7 @@ static void draw_ch(int x, int y, char ch, uint32_t fg, uint32_t bg) {
   SDL_Rect dstrect = { .x = x, .y = y };
   printf("In draw_ch, Before call SDL_BlitSurface\n" );
   printf(" dstrect.x = %d, .y = %d\n", dstrect.x, dstrect.y);
-  printf("s = %p, s->format->BytesPerPixel = %d", s, s->format->BytesPerPixel);
+  printf("s = %p, s->format->BytesPerPixel = %d\n", s, s->format->BytesPerPixel);
   printf("screen = %p, screen->format->BytesPerPixel = %d\n",screen , screen->format->BytesPerPixel);
   SDL_BlitSurface(s, NULL, screen, &dstrect);
   SDL_FreeSurface(s);

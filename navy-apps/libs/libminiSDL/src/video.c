@@ -38,6 +38,8 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 
   int src_init_off_in_bytes = ((int)src_y*src->w + src_x) * (int)bytes_per_pixel_src;
   int dst_init_off_in_bytes = ((int)dst_y*dst->w + dst_x) * (int)bytes_per_pixel_dst;
+  
+  printf("src_init_off_in_bytes = %d, dst_init_off_in_bytes = %d \n", src_init_off_in_bytes, dst_init_off_in_bytes);
 
   for(int i=0; i<h; i++){
     for(int j=0; j<w; j++){

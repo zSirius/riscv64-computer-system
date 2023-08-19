@@ -8,6 +8,8 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
 
+  printf("In SDL_BlitSurface\n");
+
   int src_x, src_y, dst_x, dst_y;
   int w, h;
   if(srcrect == NULL){
@@ -25,26 +27,14 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     //ignore dstrect`s w and h;
   }
 
-  // printf("src_x=%d, src_y=%d, dst_x = %d, dst_y = %d, w=%d, h=%d\n", src_x, src_y,dst_x, dst_y,w,h);
-
-  //init offset in bytes
-
-  // int bytes_per_pixel_src = src->pitch / src->w;
-  // int bytes_per_pixel_dst = dst->pitch / dst->w;
-
-  // int src_init_off_in_bytes = (src_y*src->w + src_x) * bytes_per_pixel_src;
-  // int dst_init_off_in_bytes = (dst_y*dst->w + dst_x) * bytes_per_pixel_dst;
-
-  // for(int i=0; i<h; i++){
-  //   for(int j=0; j<(w * bytes_per_pixel_src); j++){
-  //     *(dst->pixels + dst_init_off_in_bytes + i * dst->pitch + j * bytes_per_pixel_dst) = 
-  //     *(src->pixels + src_init_off_in_bytes + i * src->pitch + j * bytes_per_pixel_src);
-  //   }
-  // }
-
+  printf("srcrect = %p, dstrect = %p\n", srcrect, dstrect);
+  printf("src_x = %d, src_y = %d, w = %d, h = %d \n", src_x,src_y, w, h);
+  printf("dst_x = %d, dst_y = %d\n", dst_x, dst_y);
 
   uint32_t bytes_per_pixel_src = src->format->BytesPerPixel;
   uint32_t bytes_per_pixel_dst = dst->format->BytesPerPixel;
+
+  printf("bytes_per_pixel_src = %d ,bytes_per_pixel_dst = %d\n", bytes_per_pixel_src, bytes_per_pixel_dst);
 
   int src_init_off_in_bytes = ((int)src_y*src->w + src_x) * (int)bytes_per_pixel_src;
   int dst_init_off_in_bytes = ((int)dst_y*dst->w + dst_x) * (int)bytes_per_pixel_dst;
@@ -57,16 +47,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
       }
     }
   }
-
-  // int src_init_off = (src_y*src->w + src_x);
-  // int dst_init_off = (dst_y*dst->w + dst_x);
-
-  // for(int i=0; i<h; i++){
-  //   for(int j=0; j<w; j++){
-  //     *(uint32_t *)(dst->pixels + (dst_init_off + i * dst->w + j) * (dst->pitch/dst->w)) = 
-  //     *(uint32_t *)(src->pixels + (src_init_off + i * src->w + j) * (src->pitch/src->w));
-  //   }
-  // }
+  printf("return from SDL_BlitSurface\n\n");
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {

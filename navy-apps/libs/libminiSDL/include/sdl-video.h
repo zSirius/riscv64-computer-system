@@ -46,6 +46,7 @@ typedef struct {
 	int w, h;
 	uint16_t pitch;
 	uint8_t *pixels;
+	int locked;
 } SDL_Surface;
 
 SDL_Surface* SDL_CreateRGBSurfaceFrom(void *pixels, int width, int height, int depth,

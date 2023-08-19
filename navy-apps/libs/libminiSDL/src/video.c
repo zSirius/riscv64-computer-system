@@ -80,12 +80,6 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   //printf("In SDL_UpdateRect\n");
   if(x==0 && y==0 && w==0 && h==0){
-    // char buf[64];
-    // int screen_width, screen_height;
-    // _read(5 ,buf, sizeof(buf));
-    // sscanf(buf, "[WIDTH]:%d [HEIGHT]:%d/n", &screen_width, &screen_height);
-    // printf("screen_width = %d, screen_height = %d\n",screen_width,screen_height);
-    // NDL_DrawRect((uint32_t *)s->pixels,0,0,screen_width,screen_height);
     NDL_DrawRect((uint32_t *)s->pixels,0,0,s->w,s->h);
   }else{
     NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
@@ -140,6 +134,8 @@ SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int dep
     s->pixels = malloc(s->pitch * height);
     assert(s->pixels);
   }
+
+  s->locked = 0;
 
   return s;
 }
@@ -270,8 +266,11 @@ uint32_t SDL_MapRGBA(SDL_PixelFormat *fmt, uint8_t r, uint8_t g, uint8_t b, uint
 }
 
 int SDL_LockSurface(SDL_Surface *s) {
+  if(s->locked == 1) return -1;
+  s->locked = 1;
   return 0;
 }
 
 void SDL_UnlockSurface(SDL_Surface *s) {
+  s->locked = 0;
 }

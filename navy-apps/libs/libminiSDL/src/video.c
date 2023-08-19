@@ -41,13 +41,16 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   int dst_init_off_in_bytes = ((int)dst_y*dst->w + dst_x) * (int)bytes_per_pixel_dst;
   
   printf("src_init_off_in_bytes = %d, dst_init_off_in_bytes = %d \n", src_init_off_in_bytes, dst_init_off_in_bytes);
-  printf("src->pitch = %d, dst->picth=%d \n", dst->pitch, src->pitch);
+  printf("src->pitch = %d, dst->picth=%d \n", src->pitch, dst->pitch);
+  printf("src->pixels = %p, dst->pixels = %p\n", src->pixels, dst->pixels);
 
   for(int i=0; i<h; i++){
     for(int j=0; j<w; j++){
       for(int b=0; b<bytes_per_pixel_src; b++) {
+        printf("In for\n");
         *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = 
         *(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
+        printf("result: dst-- %p ; src--%p \n", dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b), src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
       }
     }
   }

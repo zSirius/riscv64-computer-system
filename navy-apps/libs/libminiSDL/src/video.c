@@ -78,7 +78,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
-  printf("In SDL_UpdateRect\n");
+  //printf("In SDL_UpdateRect\n");
   if(x==0 && y==0 && w==0 && h==0){
     // char buf[64];
     // int screen_width, screen_height;

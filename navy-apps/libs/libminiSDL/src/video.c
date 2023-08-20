@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
@@ -48,8 +49,14 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     for(int j=0; j<w; j++){
       for(int b=0; b<bytes_per_pixel_src; b++) {
         //printf("In for, i = %d, j=%d,b=%d\n",i,j,b);
-        *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = 
-        *(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
+        if(bytes_per_pixel_src == 4){
+          *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = 
+          *(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
+        }else if(bytes_per_pixel_src == 1){
+          dst->format->palette->colors[*(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b))].val = 
+          src->format->palette->colors[*(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b))].val;
+        }
+
         //printf("result: dst-- %p ; src--%p \n", dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b), src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
       }
     }
@@ -94,7 +101,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     h = s->h;
   }
   if(s->format->BitsPerPixel == 8){
-    printf("this is 8\n");
+    NDL_DrawRect(s->format->palette->colors, x, y, w, h);
   }else if(s->format->BitsPerPixel == 32){
     NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
   }

@@ -24,7 +24,7 @@ int SDL_PollEvent(SDL_Event *event) {
     }
 
     for(int i=0; ; i++){
-      if(strncmp(keyname[i], buf+3, strlen(keyname[i])) == 0){
+      if(strncmp(keyname[i], buf+3, strlen(keyname[i])) == 0 && (strlen(keyname[i] == strlen(buf)-4))){
         printf("keycode = %d\n", i);
         event->key.keysym.sym = i;
         break;
@@ -47,7 +47,7 @@ int SDL_WaitEvent(SDL_Event *event) {
       }
 
       for(int i=0; ; i++){
-        if(strncmp(keyname[i], buf+3, strlen(keyname[i])) == 0){
+        if(strncmp(keyname[i], buf+3, strlen(keyname[i])) == 0 && (strlen(keyname[i] == strlen(buf)-4))){
           printf("keycode = %d\n", i);
           event->key.keysym.sym = i;
           break;

@@ -58,6 +58,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+  printf("In SDL_FillRect\n");
   int16_t x, y;
   uint16_t w, h;
   if(dstrect == NULL){
@@ -67,19 +68,24 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
     x = dstrect->x, y = dstrect->y;
     w = dstrect->w, h = dstrect->h;
   }
+  printf("x=%d, y=%d, w=%d, h=%d, color=0x%x\n",x,y,w,h,color);
 
-  //printf("%d\n", dst->pitch / dst->w);
   int bytes_per_pixels = dst->format->BytesPerPixel;
   int init_offset_in_bytes = (y * (dst->w) + x) * bytes_per_pixels;
+  
+  printf("BytesPerPixel = %d, init_off = %d\n", bytes_per_pixels, init_offset_in_bytes);
+
   for(int i=0; i<h; i++){
     for(int j=0; j<w; j++){
       uint32_t t_color = color;
       for(int b=0; b<bytes_per_pixels; b++){
+        printf("i=%d, j=%d, b=%d\n", i, j, b);
         *(dst->pixels + init_offset_in_bytes + i * dst->pitch + (j * bytes_per_pixels + b)) = t_color &(0xff);
         t_color >>= 8;
       }
     }
   }
+  printf("end\n\n");
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {

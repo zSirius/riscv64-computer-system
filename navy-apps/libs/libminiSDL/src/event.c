@@ -24,8 +24,8 @@ int SDL_PollEvent(SDL_Event *event) {
     }
 
     for(int i=0; ; i++){
-      printf("keyname[i]=%s, len=%d, buf+3len=%d\n", keyname[i], strlen(keyname[i]), strlen(buf+3));
-      if(strncmp(keyname[i], buf+3, strlen(keyname[i])) == 0 && (strlen(keyname[i]) == strlen(buf+3))){
+      //printf("keyname[i]=%s, len=%d, buf+3len=%d\n", keyname[i], strlen(keyname[i]), strlen(buf+3));
+      if(strncmp(keyname[i], buf+3, strlen(keyname[i])) == 0 && (strlen(keyname[i]) == (strlen(buf)-3-1))){
         printf("keycode = %d\n", i);
         event->key.keysym.sym = i;
         break;
@@ -39,7 +39,7 @@ int SDL_PollEvent(SDL_Event *event) {
 int SDL_WaitEvent(SDL_Event *event) {
   char buf[64];
   while(1){
-    if(NDL_PollEvent(buf, sizeof(buf))){
+    if(NDL_PollEvent(buf, sizeof(buf))){ //last char is '/n'
       printf("Get Event:%s",buf);
       if(strncmp(buf, "kd", 2) == 0){
         event->type = SDL_KEYDOWN;
@@ -48,7 +48,7 @@ int SDL_WaitEvent(SDL_Event *event) {
       }
 
       for(int i=0; ; i++){
-        if(strncmp(keyname[i], buf+3, strlen(keyname[i])) == 0 && (strlen(keyname[i]) == strlen(buf+3))){
+        if(strncmp(keyname[i], buf+3, strlen(keyname[i])) == 0 && (strlen(keyname[i]) == (strlen(buf)-3-1))){
           printf("keycode = %d\n", i);
           event->key.keysym.sym = i;
           break;

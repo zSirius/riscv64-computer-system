@@ -13,9 +13,7 @@ int ColorDistance(SDL_Color color1, SDL_Color color2) {
 }
 
 // Function to map source color index to destination color index
-uint8_t MapColorIndex(uint8_t src_color_index, SDL_Palette *src_palette, SDL_Palette *dst_palette) {
-    SDL_Color src_color = src_palette->colors[src_color_index];
-    
+uint8_t MapColorIndex(SDL_Color src_color, SDL_Palette *dst_palette) {
     // Search for the closest color in the destination palette
     uint8_t dst_color_index = 0;
     int min_distance = ColorDistance(src_color, dst_palette->colors[0]);
@@ -80,7 +78,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
           *(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
         }else if(bytes_per_pixel_src == 1){
           uint8_t src_color_index = *((uint8_t *)src->pixels + src_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b));
-          uint8_t dst_color_index = MapColorIndex(src_color_index, src->format->palette, dst->format->palette);
+          uint8_t dst_color_index = MapColorIndex(src->format->palette->colors[src_color_index], dst->format->palette);
           *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = dst_color_index;
         }
         //printf("result: dst-- %p ; src--%p \n", dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b), src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
@@ -112,9 +110,14 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
     for(int j=0; j<w; j++){
       uint32_t t_color = color;
       for(int b=0; b<bytes_per_pixels; b++){
-        //printf("i=%d, j=%d, b=%d\n", i, j, b);
-        *(dst->pixels + init_offset_in_bytes + i * dst->pitch + (j * bytes_per_pixels + b)) = t_color &(0xff);
-        t_color >>= 8;
+        if(bytes_per_pixels == 4){
+          *(dst->pixels + init_offset_in_bytes + i * dst->pitch + (j * bytes_per_pixels + b)) = t_color &(0xff);
+          t_color >>= 8;          
+        }else if(bytes_per_pixels == 1){
+          SDL_Color t = {.val = color};
+          uint8_t dst_color_index = MapColorIndex(t, dst->format->palette);
+          *(dst->pixels + init_offset_in_bytes + i * dst->pitch + (j * bytes_per_pixels + b)) = dst_color_index;
+        }
       }
     }
   }

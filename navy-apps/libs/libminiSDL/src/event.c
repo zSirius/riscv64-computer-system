@@ -22,11 +22,11 @@ int SDL_PollEvent(SDL_Event *event) {
     }else if(strncmp(buf, "ku", 2) == 0){
       event->type = SDL_KEYUP;
     }
-    for(int i=0; <50; i++)
+    for(int i=0; i <50; i++)
       printf("%s\n", keyname[i]);
 
     for(int i=0; ; i++){
-      if(strcmp(buf+3, keyname[i]) == 0){
+      if(strncmp(buf+3, keyname[i], strlen(buf)-3-1) == 0){
         printf("str = %d, %s\n", strlen(buf), buf+3);
         printf("keycode = %d\n", i);
         event->key.keysym.sym = i;

@@ -49,13 +49,15 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     for(int j=0; j<w; j++){
       for(int b=0; b<bytes_per_pixel_src; b++) {
         //printf("In for, i = %d, j=%d,b=%d\n",i,j,b);
-        if(bytes_per_pixel_src == 4){
-          *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = 
-          *(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
-        }else if(bytes_per_pixel_src == 1){
-          dst->format->palette->colors[*(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b))].val = 
-          src->format->palette->colors[*(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b))].val;
-        }
+        // if(bytes_per_pixel_src == 4){
+        //   *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = 
+        //   *(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
+        // }else if(bytes_per_pixel_src == 1){
+        //   dst->format->palette->colors[*(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b))].val = 
+        //   src->format->palette->colors[*(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b))].val;
+        // }
+        *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = 
+        *(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
 
         //printf("result: dst-- %p ; src--%p \n", dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b), src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
       }

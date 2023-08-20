@@ -111,8 +111,11 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     // }
     printf("In Update\n");
     int n=20;
+    // for(int i=0; i<n; i++){
+    //   printf("%d: %u\n",i,  *(s->format->palette->colors+i));
+    // }
     for(int i=0; i<n; i++){
-      printf("%d: %u\n",i,  *(s->format->palette->colors+i));
+      printf("%d: %u\n", i, *(s->pixels));
     }
     printf("end\n\n");
   }else if(s->format->BitsPerPixel == 32){

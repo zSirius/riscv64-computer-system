@@ -22,6 +22,8 @@ int SDL_PollEvent(SDL_Event *event) {
     }else if(strncmp(buf, "ku", 2) == 0){
       event->type = SDL_KEYUP;
     }
+    for(int i=0; <50; i++)
+      printf("%s\n", keyname[i]);
 
     for(int i=0; ; i++){
       if(strcmp(buf+3, keyname[i]) == 0){

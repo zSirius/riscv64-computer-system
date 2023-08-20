@@ -4,6 +4,32 @@
 #include <string.h>
 #include <stdlib.h>
 
+// Function to calculate the distance between two colors
+int ColorDistance(SDL_Color color1, SDL_Color color2) {
+    int diff_r = color1.r - color2.r;
+    int diff_g = color1.g - color2.g;
+    int diff_b = color1.b - color2.b;
+    return diff_r * diff_r + diff_g * diff_g + diff_b * diff_b;
+}
+
+// Function to map source color index to destination color index
+uint8_t MapColorIndex(uint8_t src_color_index, SDL_Palette *src_palette, SDL_Palette *dst_palette) {
+    SDL_Color src_color = src_palette->colors[src_color_index];
+    
+    // Search for the closest color in the destination palette
+    uint8_t dst_color_index = 0;
+    int min_distance = ColorDistance(src_color, dst_palette->colors[0]);
+    
+    for (int i = 1; i < dst_palette->ncolors; i++) {
+        int distance = ColorDistance(src_color, dst_palette->colors[i]);
+        if (distance < min_distance) {
+            min_distance = distance;
+            dst_color_index = i;
+        }
+    }
+    
+    return dst_color_index;
+}
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
@@ -49,16 +75,14 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     for(int j=0; j<w; j++){
       for(int b=0; b<bytes_per_pixel_src; b++) {
         //printf("In for, i = %d, j=%d,b=%d\n",i,j,b);
-        // if(bytes_per_pixel_src == 4){
-        //   *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = 
-        //   *(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
-        // }else if(bytes_per_pixel_src == 1){
-        //   dst->format->palette->colors[*(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b))].val = 
-        //   src->format->palette->colors[*(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b))].val;
-        // }
-        *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = 
-        *(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
-
+        if(bytes_per_pixel_src == 4){
+          *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = 
+          *(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
+        }else if(bytes_per_pixel_src == 1){
+          uint8_t src_color_index = *((uint8_t *)src->pixels + src_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b));
+          uint8_t dst_color_index = MapColorIndex(src_color_index, src->format->palette, dst->format->palette);
+          *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = dst_color_index;
+        }
         //printf("result: dst-- %p ; src--%p \n", dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b), src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
       }
     }
@@ -103,21 +127,24 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     h = s->h;
   }
   if(s->format->BitsPerPixel == 8){
-    // uint8_t *init = s->pixels + y * s->w + x;
-    // for(int i=0; i<h; i++){
-    //   for(int j=0; j<w; j++){
-    //     NDL_DrawRect((uint32_t *)s->format->palette->colors + (*(init + i * w + j)), x+j, y+i, 1, 1); 
-    //   }
-    // }
-    printf("In Update\n");
-    int n=20;
-    // for(int i=0; i<n; i++){
-    //   printf("%d: %u\n",i,  *(s->format->palette->colors+i));
-    // }
-    for(int i=0; i<n; i++){
-      printf("%d: %u\n", i, *(s->pixels));
+    uint8_t *init_index_ptr = s->pixels + y * s->w + x;
+    uint32_t *pixels = malloc(sizeof(uint32_t) * 300 * 400);
+    for(int i=0; i<h; i++){
+      for(int j=0; j<w; j++){
+        pixels[(y+i) * s->w + (x + j)] = s->format->palette->colors[*(init_index_ptr + i * s->w + j)].val; 
+      }
+      NDL_DrawRect(pixels, x, y, w, h);
     }
-    printf("end\n\n");
+
+    // printf("In Update\n");
+    // int n=20;
+    // // for(int i=0; i<n; i++){
+    // //   printf("%d: %u\n",i,  *(s->format->palette->colors+i));
+    // // }
+    // for(int i=0; i<n; i++){
+    //   printf("%d: %u\n", i, *(s->pixels));
+    // }
+    // printf("end\n\n");
   }else if(s->format->BitsPerPixel == 32){
     NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
   }

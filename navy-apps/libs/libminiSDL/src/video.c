@@ -127,6 +127,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     h = s->h;
   }
   if(s->format->BitsPerPixel == 8){
+    printf("In Update 8\n");
     uint8_t *init_index_ptr = s->pixels + y * s->w + x;
     uint32_t *pixels = malloc(sizeof(uint32_t) * 300 * 400);
     for(int i=0; i<h; i++){
@@ -146,6 +147,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     // }
     // printf("end\n\n");
   }else if(s->format->BitsPerPixel == 32){
+    printf("In Update 32\n");
     NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
   }
 }

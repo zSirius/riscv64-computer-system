@@ -25,6 +25,7 @@ int SDL_PollEvent(SDL_Event *event) {
 
     for(int i=0; ; i++){
       if(strncmp(buf+3, keyname[i], strlen(buf)-3-1) == 0){
+        printf("keycode = %d\n", i);
         event->key.keysym.sym = i;
         break;
       }

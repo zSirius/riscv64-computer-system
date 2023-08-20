@@ -94,6 +94,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     h = s->h;
   }
   if(s->format->BitsPerPixel == 8){
+    printf("this is 8\n");
   }else if(s->format->BitsPerPixel == 32){
     NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
   }

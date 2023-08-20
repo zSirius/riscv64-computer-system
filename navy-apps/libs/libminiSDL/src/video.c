@@ -101,7 +101,13 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     h = s->h;
   }
   if(s->format->BitsPerPixel == 8){
-    NDL_DrawRect(s->format->palette->colors, x, y, w, h);
+    uint8_t *init = s->pixels + y * s->w + x;
+    for(int i=0; i<h; i++){
+      for(int j=0; j<w; j++){
+        NDL_DrawRect((uint32_t *)s->format->palette->colors + (*(init + i * w + j)), x+j, y+i, 1, 1); 
+      }
+    }
+    NDL_DrawRect((uint32_t *)s->format->palette->colors, x, y, w, h);
   }else if(s->format->BitsPerPixel == 32){
     NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
   }

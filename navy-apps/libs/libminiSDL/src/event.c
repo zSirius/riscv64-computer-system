@@ -3,6 +3,10 @@
 #include <string.h>
 
 #define keyname(k) #k,
+#define KEY_NUM 82
+
+
+uint8_t keystate[KEY_NUM];
 
 static const char *keyname[] = {
   "NONE",
@@ -15,7 +19,7 @@ int SDL_PushEvent(SDL_Event *ev) {
 
 int SDL_PollEvent(SDL_Event *event) {
   char buf[64];
-  if(NDL_PollEvent(buf, sizeof(buf))){
+  if(NDL_PollEvent(buf, sizeof(buf))){ //last char is '/n'
     printf("Get Event:%s",buf);
     if(strncmp(buf, "kd", 2) == 0){
       event->type = SDL_KEYDOWN;
@@ -24,9 +28,8 @@ int SDL_PollEvent(SDL_Event *event) {
     }
 
     for(int i=0; ; i++){
-      //printf("keyname[i]=%s, len=%d, buf+3len=%d\n", keyname[i], strlen(keyname[i]), strlen(buf+3));
       if(strncmp(keyname[i], buf+3, strlen(keyname[i])) == 0 && (strlen(keyname[i]) == (strlen(buf)-3-1))){
-        printf("keycode = %d\n", i);
+        keystate[i] = !event->type;
         event->key.keysym.sym = i;
         break;
       }
@@ -49,7 +52,7 @@ int SDL_WaitEvent(SDL_Event *event) {
 
       for(int i=0; ; i++){
         if(strncmp(keyname[i], buf+3, strlen(keyname[i])) == 0 && (strlen(keyname[i]) == (strlen(buf)-3-1))){
-          printf("keycode = %d\n", i);
+          keystate[i] = !event->type;
           event->key.keysym.sym = i;
           break;
         }
@@ -64,5 +67,6 @@ int SDL_PeepEvents(SDL_Event *ev, int numevents, int action, uint32_t mask) {
 }
 
 uint8_t* SDL_GetKeyState(int *numkeys) {
-  return NULL;
+  if(numkeys) *numkeys = KEY_NUM;
+  return keystate;
 }

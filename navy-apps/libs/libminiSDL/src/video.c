@@ -133,8 +133,8 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
       for(int j=0; j<w; j++){
         pixels[(y+i) * s->w + (x + j)] = s->format->palette->colors[*(init_index_ptr + i * s->w + j)].val; 
       }
-      NDL_DrawRect(pixels, x, y, w, h);
     }
+    NDL_DrawRect(pixels, x, y, w, h);
 
     // printf("In Update\n");
     // int n=20;

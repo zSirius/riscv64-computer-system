@@ -24,6 +24,7 @@ uint8_t MapColorIndex(SDL_Color src_color, SDL_Palette *dst_palette) {
             min_distance = distance;
             dst_color_index = i;
         }
+        if(min_distance == 0) break;
     }
     
     return dst_color_index;

@@ -34,10 +34,10 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
 
-  printf("In SDL_BlitSurface\n");
-  for(int i=0; i<src->format->palette->ncolors; i++){
-    printf("%d:src=%d,dst=%d\n",i, src->format->palette->colors[i].val, dst->format->palette->colors[i].val);
-  }
+  // printf("In SDL_BlitSurface\n");
+  // for(int i=0; i<src->format->palette->ncolors; i++){
+  //   printf("%d:src=%d,dst=%d\n",i, src->format->palette->colors[i].val, dst->format->palette->colors[i].val);
+  // }
 
   int src_x, src_y, dst_x, dst_y;
   int w, h;
@@ -81,15 +81,14 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
           *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = 
           *(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
         }else if(bytes_per_pixel_src == 1){
-          uint8_t src_color_index = *((uint8_t *)src->pixels + src_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b));
-          uint8_t dst_color_index = MapColorIndex(src->format->palette->colors[src_color_index], dst->format->palette);
-          *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = dst_color_index;
+          *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) =
+          *(src->pixels + src_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b));
         }
         //printf("result: dst-- %p ; src--%p \n", dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b), src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
       }
     }
   }
-  printf("return from SDL_BlitSurface\n\n");
+  // printf("return from SDL_BlitSurface\n\n");
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
@@ -110,6 +109,12 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   
   //printf("BytesPerPixel = %d, init_off = %d\n", bytes_per_pixels, init_offset_in_bytes);
 
+  uint8_t dst_color_index = 0;
+  if(bytes_per_pixels == 1){
+    SDL_Color t = {.val = color};
+    dst_color_index = MapColorIndex(t, dst->format->palette);
+  }
+
   for(int i=0; i<h; i++){
     for(int j=0; j<w; j++){
       uint32_t t_color = color;
@@ -118,8 +123,6 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
           *(dst->pixels + init_offset_in_bytes + i * dst->pitch + (j * bytes_per_pixels + b)) = t_color &(0xff);
           t_color >>= 8;          
         }else if(bytes_per_pixels == 1){
-          SDL_Color t = {.val = color};
-          uint8_t dst_color_index = MapColorIndex(t, dst->format->palette);
           *(dst->pixels + init_offset_in_bytes + i * dst->pitch + (j * bytes_per_pixels + b)) = dst_color_index;
         }
       }

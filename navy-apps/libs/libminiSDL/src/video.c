@@ -24,7 +24,7 @@ uint8_t MapColorIndex(SDL_Color src_color, SDL_Palette *dst_palette) {
             min_distance = distance;
             dst_color_index = i;
         }
-        if(min_distance == 0) break;
+        if(min_distance == 0 && min_distance <= 50) break;
     }
     
     return dst_color_index;
@@ -141,15 +141,6 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     }
     NDL_DrawRect(pixels, x, y, w, h);
 
-    // printf("In Update\n");
-    // int n=20;
-    // // for(int i=0; i<n; i++){
-    // //   printf("%d: %u\n",i,  *(s->format->palette->colors+i));
-    // // }
-    // for(int i=0; i<n; i++){
-    //   printf("%d: %u\n", i, *(s->pixels));
-    // }
-    // printf("end\n\n");
   }else if(s->format->BitsPerPixel == 32){
     printf("In Update 32\n");
     NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);

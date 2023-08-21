@@ -68,27 +68,27 @@ int _write(int fd, void *buf, size_t count) {
   //return 0;
 }
 
-// void *_sbrk(intptr_t increment) {
-//   extern char end;
-//   static char *cur_end = &end;
-//   if(_syscall_(SYS_brk, increment, 0, 0) == 0) {
-//     void *ret = cur_end;
-//     cur_end += increment;
-//     return (void *)ret;
-//   }
-//   else return (void *)-1;
-// }
-
-extern char end;
 void *_sbrk(intptr_t increment) {
-  static char *myend = &end;
-  if (_syscall_(SYS_brk, increment, 0, 0) == 0) {
-    void *ret = myend;
-    myend += increment;
-    return (void*)ret;
+  extern char end;
+  static char *cur_end = &end;
+  if(_syscall_(SYS_brk, increment, 0, 0) == 0) {
+    void *ret = cur_end;
+    cur_end += increment;
+    return (void *)ret;
   }
-  return (void*)-1;
+  else return (void *)-1;
 }
+
+// extern char end;
+// void *_sbrk(intptr_t increment) {
+//   static char *myend = &end;
+//   if (_syscall_(SYS_brk, increment, 0, 0) == 0) {
+//     void *ret = myend;
+//     myend += increment;
+//     return (void*)ret;
+//   }
+//   return (void*)-1;
+// }
 
 int _read(int fd, void *buf, size_t count) {
   return _syscall_(SYS_read, fd, buf, count);

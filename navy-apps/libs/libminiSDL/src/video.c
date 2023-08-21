@@ -144,8 +144,8 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
       for(int j=0; j<w; j++){
         pixels[(y+i) * s->w + (x + j)] = s->format->palette->colors[*(init_index_ptr + i * s->w + j)].val; 
       }
-      free(pixels);
     }
+    free(pixels);
     NDL_DrawRect(pixels, x, y, w, h);
 
   }else if(s->format->BitsPerPixel == 32){

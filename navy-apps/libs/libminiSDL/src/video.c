@@ -74,19 +74,22 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   // printf("src->pixels = %p, dst->pixels = %p\n", src->pixels, dst->pixels);
 
   for(int i=0; i<h; i++){
-    for(int j=0; j<w; j++){
-      for(int b=0; b<bytes_per_pixel_src; b++) {
-        //printf("In for, i = %d, j=%d,b=%d\n",i,j,b);
-        if(bytes_per_pixel_src == 4){
-          *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = 
-          *(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
-        }else if(bytes_per_pixel_src == 1){
-          *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) =
-          *(src->pixels + src_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b));
-        }
-        //printf("result: dst-- %p ; src--%p \n", dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b), src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
-      }
-    }
+    // for(int j=0; j<w; j++){
+    //   for(int b=0; b<bytes_per_pixel_src; b++) {
+    //     //printf("In for, i = %d, j=%d,b=%d\n",i,j,b);
+    //     if(bytes_per_pixel_src == 4){
+    //       *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) = 
+    //       *(src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
+    //     }else if(bytes_per_pixel_src == 1){
+    //       *(dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b)) =
+    //       *(src->pixels + src_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b));
+    //     }
+    //     //printf("result: dst-- %p ; src--%p \n", dst->pixels + dst_init_off_in_bytes + i * (int)dst->pitch + (j * bytes_per_pixel_dst + b), src->pixels + src_init_off_in_bytes + i * (int)src->pitch + (j * bytes_per_pixel_src + b));
+    //   }
+    // }
+    memcpy(dst->pixels + dst_init_off_in_bytes + i * dst->pitch, 
+           src->pixels + src_init_off_in_bytes + i * src->pitch,
+           w * bytes_per_pixel_src);
   }
   // printf("return from SDL_BlitSurface\n\n");
 }

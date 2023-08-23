@@ -1,6 +1,7 @@
 #include <common.h>
 #include "syscall.h"
 #include "fs.h"
+#include <proc.h>
 
 #define RET(ret) c->GPRx = ret;
 
@@ -16,6 +17,9 @@ struct timezone {
 	int	tz_dsttime;	/* type of dst correction */
 };
 int gettimeofday(struct timeval *tv, struct timezone *tz);
+int execve(const char *pathname, char *const argv[], char *const envp[]);
+void exit(int status);
+void naive_uload(PCB *pcb, const char *filename);
 
 
 void do_syscall(Context *c) {
@@ -28,7 +32,7 @@ void do_syscall(Context *c) {
   int ret;
 
   switch (a[0]) {
-    case SYS_exit: halt(a[1]); break;
+    case SYS_exit: exit(a[1]); break;
     case SYS_yield: yield(); RET(0); break;
     case SYS_open: ret = fs_open((char *)a[1], a[2], a[3]); RET(ret);break;
     case SYS_read: ret = fs_read(a[1], (void *)a[2], a[3]) ; RET(ret);break;
@@ -36,10 +40,17 @@ void do_syscall(Context *c) {
     case SYS_close: ret = fs_close(a[1]); RET(ret); break;
     case SYS_lseek: ret = fs_lseek(a[1], a[2], a[3]); RET(ret); break;
     case SYS_brk: RET(0); break; //just keep success now.
+    case SYS_execve: ret = execve((char *)a[1], (char *const *)a[2], (char *const *)a[3]); RET(ret); break;
     case SYS_gettimeofday: ret = gettimeofday((struct timeval *)a[1], (struct timezone *)a[2]); RET(ret); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
+}
+
+void exit(int status){
+  if(status != 0) halt(status);
+  int ret = execve("/bin/menu", NULL, NULL);
+  halt(ret);
 }
 
 int gettimeofday(struct timeval *tv, struct timezone *tz){
@@ -50,13 +61,7 @@ int gettimeofday(struct timeval *tv, struct timezone *tz){
   return 0;
 }
 
-// int write(int fd, const void *buf, size_t count){
-//   //printf("this write: fd = %d, buf = %s, count = %d \n",fd, (char *)buf , count);
-//   int cnt, ret=-1;
-//   if(fd == 1 || fd == 2){
-//     for(cnt=0; cnt<count; cnt++)
-//       putch(*((char *)buf + cnt));
-//     ret = cnt;
-//   }
-//   return ret;
-// }
+int execve(const char *pathname, char *const argv[], char *const envp[]){
+  naive_uload(NULL, pathname);
+  return -1;
+}

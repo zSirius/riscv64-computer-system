@@ -40,7 +40,7 @@ void do_syscall(Context *c) {
     case SYS_close: ret = fs_close(a[1]); RET(ret); break;
     case SYS_lseek: ret = fs_lseek(a[1], a[2], a[3]); RET(ret); break;
     case SYS_brk: RET(0); break; //just keep success now.
-    case SYS_execve: ret = execve((char *)a[1], (char *const *)a[2], (char *const *)a[3]); RET(ret); break;
+    case SYS_execve: ret = execve((char *)a[1], (char **)a[2], (char **)a[3]); RET(ret); break;
     case SYS_gettimeofday: ret = gettimeofday((struct timeval *)a[1], (struct timezone *)a[2]); RET(ret); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
@@ -63,5 +63,5 @@ int gettimeofday(struct timeval *tv, struct timezone *tz){
 
 int execve(const char *pathname, char *const argv[], char *const envp[]){
   naive_uload(NULL, pathname);
-  return -1;
+  return 0;
 }

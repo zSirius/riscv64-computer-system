@@ -24,7 +24,10 @@ static void sh_prompt() {
 
 static void sh_handle_cmd(const char *cmd) {
   printf("cmd = %s\n", cmd);
-  execve("/bin/pal", NULL, NULL);
+  for(int i=0; i<strlen(cmd); i++){
+    printf("%d\n", cmd[i]);
+  }
+  execve(cmd, NULL, NULL);
   return;
 }
 

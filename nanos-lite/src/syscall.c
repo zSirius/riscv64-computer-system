@@ -49,7 +49,7 @@ void do_syscall(Context *c) {
 
 void exit(int status){
   if(status != 0) halt(status);
-  int ret = execve("/bin/menu", NULL, NULL);
+  int ret = execve("/bin/nterm", NULL, NULL);
   halt(ret);
 }
 

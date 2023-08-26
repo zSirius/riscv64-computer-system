@@ -23,11 +23,10 @@ static void sh_prompt() {
 }
 
 static void sh_handle_cmd(const char *cmd) {
-  printf("cmd = %s\n", cmd);
-  for(int i=0; i<strlen(cmd); i++){
-    printf("%d\n", cmd[i]);
-  }
-  execve(cmd, NULL, NULL);
+  char *buf = (char *)malloc(sizeof(char)*(strlen(cmd)+1));
+  strcpy(buf, cmd);
+  buf[strlen(buf)-1] = '\0'; //change last char '\n' to '\0'
+  execve(buf, NULL, NULL);
   return;
 }
 

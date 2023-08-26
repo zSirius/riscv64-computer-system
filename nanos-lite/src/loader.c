@@ -13,7 +13,6 @@
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  printf("In loader: filename = %s\n", filename);
   int fd = fs_open(filename, 0, 0);
 
   Elf64_Ehdr elf_header;

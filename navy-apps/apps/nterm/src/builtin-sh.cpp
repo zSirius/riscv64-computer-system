@@ -26,7 +26,7 @@ static void sh_handle_cmd(const char *cmd) {
   setenv("PATH", "/bin/", 0);
   char *buf = (char *)malloc(sizeof(char)*(strlen(cmd)+1));
   strcpy(buf, cmd);
-  buf[strlen(buf)-1] = '\0'; //change last char '\n' to '\0'
+  buf[strlen(buf)-1] = '\0'; //change the last char '\n' to '\0'
   execvp(buf, NULL);
   return;
 }

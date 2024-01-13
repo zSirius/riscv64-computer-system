@@ -169,6 +169,10 @@ static int cmd_x(char *args){
 }
 
 static int cmd_p(char *args){
+  if(args == NULL){
+    ERROR("Please Input Your Expression!\n")
+    return 0;
+  }
   bool success;
   word_t res = expr(args, &success);
   if(!success){
@@ -232,9 +236,6 @@ static struct {
   { "p", "Expression evaluation", cmd_p},
   { "w", "Add watchpoint", cmd_w},
   { "d", "Delete watchpoint", cmd_d},
-
-  /* TODO: Add more commands */
-
 };
 
 #define NR_CMD ARRLEN(cmd_table)
@@ -304,9 +305,11 @@ void sdb_mainloop() {
   }
 }
 
+void expr_test();
 void init_sdb() {
   /* Compile the regular expressions. */
   init_regex();
+  //expr_test();
 
   /* Initialize the watchpoint pool. */
   init_wp_pool();

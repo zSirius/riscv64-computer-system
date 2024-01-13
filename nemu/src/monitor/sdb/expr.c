@@ -20,7 +20,7 @@
  */
 #include <regex.h>
 
-word_t eval(int p, int q, bool *success);
+sword_t eval(int p, int q, bool *success);
 word_t isa_reg_str2val(const char *s, bool *success);
 word_t vaddr_read(vaddr_t addr, int len);
 
@@ -56,6 +56,7 @@ static struct rule {
 
 };
 
+/* operator priority */
 static struct priority
 {
   int type;
@@ -69,7 +70,6 @@ static struct priority
   {TK_EQ, 4},
   {TK_NE, 4},
   {TK_AND, 5},
-
 };
 
 static int get_priority(int type){
@@ -79,7 +79,7 @@ static int get_priority(int type){
       return priorities[i].level;
     }
   }
-  fprintf(stderr, "Error: Invalid operator!\n");
+  ERROR("Invalid Operator!\n");
   return 0;
 }
 
@@ -113,6 +113,7 @@ typedef struct token {
 static Token tokens[4096] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
+/* Lexical analysis of the expression string e */
 static bool make_token(char *e) {
   nr_token=0;
   int position = 0;
@@ -138,7 +139,7 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
         if(substr_len>32){
-            fprintf(stderr,"Error: The number is too large!");
+            ERROR("The number is too large!\n");
             return false;
         }
 
@@ -177,23 +178,28 @@ static bool make_token(char *e) {
 
   return true;
 }
-
+/* Check expression`s parentheses validation
+ * return value: true is valid, false is invalid.
+ */
 bool check_parentheses_valid(int p, int q){
   int l=p, r=q;
   int top = -1;
   static char stack[16];
   while(l<=r){
     if(tokens[l].type=='(') stack[++top] = '(';
-     else if(tokens[l].type==')') {
-       if(top!=-1 && stack[top] == '(') top--;
-       else return false;
-     }
+    else if(tokens[l].type==')') {
+      if(top!=-1 && stack[top] == '(') top--;
+      else return false;
+    }
     l++;
   }
   if(top != -1) return false;
   else return true;
 }
 
+/* check whether the expression (index between p and q) 
+ * is surrounded by a matched pair of parentheses.
+ */
 bool check_parentheses(int p, int q){
   if(tokens[p].type!='(' || tokens[q].type!=')')
     return false;
@@ -202,7 +208,7 @@ bool check_parentheses(int p, int q){
 
 word_t expr(char *e, bool *success) {
   if(e == NULL){
-    fprintf(stderr, "Error: The expression cannot be empty!\n");
+    ERROR("The Expression Cannot Be Empty!\n");
     success = false;
     return 0;
   }
@@ -213,51 +219,52 @@ word_t expr(char *e, bool *success) {
 
   if(!check_parentheses_valid(0, nr_token-1)){
     *success = false;
-    fprintf(stderr, "Error: The parentheses do not match!\n");
+    ERROR("Expression`s Parentheses Do not Match!\n");
     return 0;
   }
 
   for(int i=0; i<nr_token; i++){
     //check TK_DEREF
     if(tokens[i].type == '*' && (i==0 || 
-      (tokens[i-1].type != TK_NUM && tokens[i-1].type != ')' && tokens[i-1].type != TK_HEX && tokens[i-1].type != TK_REG))){
+      (tokens[i-1].type != TK_NUM && tokens[i-1].type != ')' 
+      && tokens[i-1].type != TK_HEX && tokens[i-1].type != TK_REG))){
       tokens[i].type = TK_DEREF;
     }
+
     //check register name
     if(i<nr_token-1 && tokens[i].type == TK_REG && tokens[i+1].type == TK_NUM){
       *success = false;
-      fprintf(stderr, "Error: Register name is error!\n");
+      ERROR("Register Name is Valid!\n");
       return 0;
     }
   }
-
-  *success = true;
-  // word_t res = eval(0, nr_token-1, success);
-  // printf("res = %lu\n", res);
-  // return res;
-  return eval(0, nr_token-1, success);
+  return (word_t)eval(0, nr_token-1, success);
 }
 
 
-//return a is lower b
+/* index a and b of tokens is a operator
+ * return value: if priority of a is lower b, return false;
+ */
 bool is_lower(int a,int b){
   return  get_priority(tokens[a].type) >= get_priority(tokens[b].type);
 }
 
-
+/* find primary operator and return index in tokens */
 int find_primary_operator(int p, int q){
   int res=-1;
   int l=p;
-  int parent_flag = 0; 
+  int parent_flag = 0; //layer of parentheses
   while(l<q){
     if(tokens[l].type == '('){
       parent_flag++;
     }else if(tokens[l].type == ')'){
       parent_flag--;
     }else if(parent_flag || tokens[l].type == TK_NUM || tokens[l].type == TK_HEX || tokens[l].type == TK_REG){
+      //if in parentheses or not a operator, check next token
       l++;
       continue;
     }else if(res==-1 || is_lower(l, res)){
+      //current token is a fisrt operator or priority is lower than next token
       res = l;
     }
     l++;
@@ -265,6 +272,7 @@ int find_primary_operator(int p, int q){
   return res;
 }
 
+/* Converts a hexadecimal string to a decimal number */
 word_t htod(char str[]){
   word_t ans = 0;
   for(int i=0; str[i]!='\0'; i++){
@@ -275,6 +283,7 @@ word_t htod(char str[]){
   return ans;
 }
 
+/* Converts a string to a decimal number */
 word_t atow(char str[]){
   word_t ans = 0;
   for(int i=0; str[i]!='\0'; i++){
@@ -283,9 +292,9 @@ word_t atow(char str[]){
   return ans;
 }
 
-word_t eval(int p, int q, bool *success){
-  if((*success)==false) return 0;
-  if( p > q){
+sword_t eval(int p, int q, bool *success){
+  if((*success) == false) return 0;
+  if(p > q){
     fprintf(stderr, "Error: Bad expression!\n");
     *success = false;
     return 0;
@@ -309,6 +318,8 @@ word_t eval(int p, int q, bool *success){
     }
   }
   else if( check_parentheses(p,q) == true){
+    //if expression is surrounded by a pair of a matched
+    // pair of parentheses. evaluate this expression.
     return eval(p+1,q-1,success);
   }
   else{
@@ -317,8 +328,8 @@ word_t eval(int p, int q, bool *success){
       if(tokens[q].type == TK_NUM) return vaddr_read(atoi(tokens[q].str), 4);
       else return vaddr_read(htod(tokens[q].str), 4);
     }
-    word_t val1 = eval(p, op-1,success);
-    word_t val2 = eval(op+1, q,success);
+    sword_t val1 = eval(p, op-1,success);
+    sword_t val2 = eval(op+1, q,success);
     switch (tokens[op].type)
     {
     case '+': return val1 + val2;
@@ -326,7 +337,7 @@ word_t eval(int p, int q, bool *success){
     case '*': return val1 * val2;
     case '/': 
       if(val2 == 0){
-        fprintf(stderr, "Error: div-by-zero!\n");
+        ERROR("div-by-zero!\n");
         *success = false;
         return 0;
       }
@@ -335,9 +346,15 @@ word_t eval(int p, int q, bool *success){
     case TK_NE: return val1 != val2;
     case TK_AND: return val1 && val2;
     default: 
-      fprintf(stderr, "Error: Unexpected operator!\n");
+      ERROR("Unexpected Operator!\n");
       *success = false;
       return 0;
     }
   }
+}
+
+void expr_test(){
+  bool success;
+  int res = expr("(0-54)*12", &success);
+  printf("%d", res);
 }

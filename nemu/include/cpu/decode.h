@@ -20,8 +20,8 @@
 
 typedef struct Decode {
   vaddr_t pc;
-  vaddr_t snpc; // static next pc
-  vaddr_t dnpc; // dynamic next pc
+  vaddr_t snpc; // static next pc: next instruction in static code
+  vaddr_t dnpc; // dynamic next pc: actual next instruction that will be execute in run time
   ISADecodeInfo isa;
   IFDEF(CONFIG_ITRACE, char logbuf[128]);
 } Decode;
@@ -51,6 +51,20 @@ static inline void pattern_decode(const char *str, int len,
 #define macro32(i) macro16(i); macro16((i) + 16)
 #define macro64(i) macro32(i); macro32((i) + 32)
   macro64(0);
+  /*
+  macro64(0) is equivalent to:
+  for (int i = 0; i < 64; i++) {
+    if ((i) >= len) goto finish;
+    else {
+        char c = str[i];
+        if (c != ' ') {
+            __key = (__key << 1) | (c == '1' ? 1 : 0);
+            __mask = (__mask << 1) | (c == '?' ? 0 : 1);
+            __shift = (c == '?' ? __shift + 1 : 0);
+        }
+    }
+  }
+  */
   panic("pattern too long");
 #undef macro
 finish:

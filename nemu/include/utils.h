@@ -74,4 +74,8 @@ uint64_t get_time();
   } while (0)
 
 
+#define CONCAT_INTERNAL(a, b) a b
+#define CONCAT(a, b) CONCAT_INTERNAL(a, b)
+#define ERROR(msg) fprintf(stderr, ANSI_FMT(CONCAT("ERROR:", msg), ANSI_FG_RED));
+
 #endif

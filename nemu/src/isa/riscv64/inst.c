@@ -182,11 +182,12 @@ void is_func_addr(uint64_t pc,uint64_t addr);
 
 void is_func_ret(uint64_t pc);
 
+/* fetch -> decode -> execute */
 int isa_exec_once(Decode *s) {
-  s->isa.inst.val = inst_fetch(&s->snpc, 4);
+  s->isa.inst.val = inst_fetch(&s->snpc, 4); //IF
   if(s->isa.inst.val == 32871){
     //printf("s->pc = 0x%lx \n", s->pc);
     is_func_ret(s->pc);
   }
-  return decode_exec(s);
+  return decode_exec(s); //ID,EX
 }

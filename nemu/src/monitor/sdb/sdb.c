@@ -88,11 +88,11 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args){
   if(args == NULL){
-    fprintf(stderr,"Error: si need one argument!\n");
+    ERROR("si need one argument!\n");
     return 0;
   }
   if(!(strspn(args, "0123456789") == strlen(args))){
-    fprintf(stderr,"Error: argument must be a number!\n");
+    ERROR("argument must be a number!\n");
     return 0;
   }
   int steps = atoi(args);
@@ -108,31 +108,31 @@ static int cmd_info(char *args){
   #ifdef CONFIG_IRINGBUF
     iringbuf_display();
   #else
-    fprintf(stderr, "Error: Please enable iringbuf!\n");
+    ERROR("Please enable iringbuf!\n");
   #endif
   }else if(strcmp(args,"mtrace")==0){
   #ifdef CONFIG_MTRACE
     mtrace_display();
   #else
-    fprintf(stderr, "Error: Please enable mtrace!\n");
+    ERROR("Please enable mtrace!\n");
   #endif
   }else if(strcmp(args,"dtrace")==0){
   #ifdef CONFIG_DTRACE
     dtrace_display();
   #else
-    fprintf(stderr, "Error: Please enable dtrace!\n");
+    ERROR("Please enable dtrace!\n");
   #endif
   }else if(strcmp(args,"etrace")==0){
   #ifdef CONFIG_ETRACE
     etrace_display();
   #else
-    fprintf(stderr, "Error: Please enable etrace!\n");
+    ERROR("Please enable etrace!\n");
   #endif
   }else if(strcmp(args, "w")==0){
   #ifdef CONFIG_WATCHPOINT
     watchpoint_display();
   #else
-    fprintf(stderr, "Error: Please enable watchpoint!\n");
+    ERROR("Please enable watchpoint!\n");
   #endif
   }else if(strcmp(args, "elflog")==0){
     print_elf_log();
@@ -147,7 +147,7 @@ static int cmd_x(char *args){
   bool success;
 
   if(args == NULL){
-    fprintf(stderr, "Error: x need two arguments!\n");
+    ERROR("x need two arguments!\n");
     return 0;
   }
 
@@ -155,7 +155,7 @@ static int cmd_x(char *args){
   EXPR_vddr = expr(str, &success);
 
   if(!success){
-    fprintf(stderr, "Error: Please check your expression!\n");
+    ERROR("Please check your expression!\n");
     return 0;
   }
   //format print data
@@ -176,7 +176,7 @@ static int cmd_p(char *args){
   bool success;
   word_t res = expr(args, &success);
   if(!success){
-    fprintf(stderr, "Error: Please check your expression!\n");
+    ERROR("Please check your expression!\n");
   }else{
     printf("%lu\n", res);
   }
@@ -185,13 +185,13 @@ static int cmd_p(char *args){
 
 static int cmd_w(char *args){
 #ifndef CONFIG_WATCHPOINT
-  fprintf(stderr, "Error: Please enable watchpoint!\n");
+  ERROR("Please enable watchpoint!\n");
   return 0;
 #endif
   bool success;
   word_t val = expr(args, &success);
   if(!success){
-    fprintf(stderr, "Error: Please check your expression!\n");
+    ERROR("Please check your expression!\n");
     return 0;
   }
 
@@ -206,13 +206,13 @@ static int cmd_w(char *args){
 
 static int cmd_d(char *args){
 #ifndef CONFIG_WATCHPOINT
-  fprintf(stderr, "Error: Please enable watchpoint!\n");
+  ERROR("Please enable watchpoint!\n");
   return 0;
 #endif
   bool success;
   int NO = expr(args, &success);
   if(!success){
-    fprintf(stderr, "Error: Please check your expression!\n");
+    ERROR("Please check your expression!\n");
     return 0;
   }
   WP *wp = find_wp(NO);
